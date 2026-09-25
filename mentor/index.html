@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>UshaLiveAI — Mentor Studio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #05070d;
+      --panel: #0b1019;
+      --card: #101722;
+      --card2: #141c29;
+      --border: rgba(255,255,255,.08);
+
+      --text: #f5f7fb;
+      --muted: #8f99aa;
+
+      --accent: #7c5cff;
+      --accent2: #00d4ff;
+
+      --red: #ff5268;
+      --green: #35d98b;
+      --yellow: #ffc857;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      background:
+        radial-gradient(
+          circle at 75% 10%,
+          rgba(124,92,255,.12),
+          transparent 28%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 245px;
+      flex-shrink: 0;
+
+      background: rgba(8,11,18,.96);
+
+      border-right:
+        1px solid var(--border);
+
+      padding: 20px 15px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 5px 8px 27px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 19px;
+      font-weight: 800;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent2)
+        );
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .brand-text small {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 500;
+
+      margin-top: 2px;
+    }
+
+    .nav-label {
+      color: #5f697b;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      padding: 0 10px 9px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .nav button {
+      width: 100%;
+
+      border: 0;
+
+      background: transparent;
+
+      color: var(--muted);
+
+      border-radius: 11px;
+
+      padding: 12px;
+
+      text-align: left;
+
+      transition: .2s;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      color: white;
+
+      background:
+        rgba(124,92,255,.12);
+    }
+
+    .nav-icon {
+      display: inline-block;
+
+      width: 25px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+
+    .account {
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.025);
+
+      border-radius: 14px;
+
+      padding: 13px;
+
+      margin-bottom: 9px;
+    }
+
+    .account small {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      margin-bottom: 5px;
+    }
+
+    .account strong {
+      display: block;
+
+      font-size: 11px;
+
+      word-break: break-all;
+    }
+
+    .logout {
+      width: 100%;
+
+      border:
+        1px solid rgba(255,82,104,.18);
+
+      background:
+        rgba(255,82,104,.06);
+
+      color: #ff9baa;
+
+      border-radius: 11px;
+
+      padding: 11px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      flex: 1;
+
+      min-width: 0;
+
+      padding: 25px;
+    }
+
+    .topbar {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 20px;
+
+      margin-bottom: 22px;
+    }
+
+    .topbar h1 {
+      font-size: 27px;
+
+      letter-spacing: -.7px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+
+      font-size: 13px;
+
+      margin-top: 5px;
+    }
+
+    .mentor-status {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 9px 13px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 30px;
+
+      color: #adb6c6;
+
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 12px var(--green);
+    }
+
+    /* =========================
+       STUDIO GRID
+    ========================= */
+
+    .studio-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(280px, .75fr);
+
+      gap: 18px;
+    }
+
+    /* =========================
+       PREVIEW
+    ========================= */
+
+    .preview-card {
+      background: var(--panel);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 22px;
+
+      overflow: hidden;
+    }
+
+    .preview-header {
+      padding: 15px 17px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+    }
+
+    .preview-title {
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+    .preview-live {
+      color: #ff8796;
+
+      font-size: 11px;
+    }
+
+    .preview {
+      aspect-ratio: 16 / 9;
+
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(124,92,255,.15),
+          transparent 35%
+        ),
+        #030509;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+    .preview-placeholder {
+      text-align: center;
+
+      color: #697386;
+    }
+
+    .camera-icon {
+      width: 65px;
+      height: 65px;
+
+      border-radius: 19px;
+
+      background:
+        rgba(124,92,255,.10);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 29px;
+
+      margin:
+        0 auto 12px;
+    }
+
+    .preview-placeholder p {
+      font-size: 12px;
+    }
+
+    .preview video {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      display: none;
+    }
+
+    .preview-footer {
+      padding: 15px;
+
+      display: flex;
+
+      gap: 9px;
+
+      flex-wrap: wrap;
+    }
+
+    .studio-btn {
+      border: 1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.04);
+
+      color: white;
+
+      border-radius: 11px;
+
+      padding: 10px 14px;
+
+      font-size: 12px;
+    }
+
+    .studio-btn:hover {
+      background:
+        rgba(255,255,255,.08);
+    }
+
+    .studio-btn.primary {
+      border: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent),
+          #6250e8
+        );
+    }
+
+    .studio-btn.recording {
+      background:
+        var(--red);
+
+      border-color:
+        var(--red);
+    }
+
+    /* =========================
+       SETTINGS
+    ========================= */
+
+    .settings {
+      background: var(--panel);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 22px;
+
+      padding: 18px;
+    }
+
+    .settings h2 {
+      font-size: 16px;
+
+      margin-bottom: 17px;
+    }
+
+    .setting {
+      margin-bottom: 17px;
+    }
+
+    .setting label {
+      display: block;
+
+      color: #b7bfcd;
+
+      font-size: 11px;
+
+      margin-bottom: 7px;
+    }
+
+    .setting select,
+    .setting input {
+      width: 100%;
+
+      height: 43px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.035);
+
+      color: white;
+
+      border-radius: 10px;
+
+      padding: 0 11px;
+
+      outline: none;
+    }
+
+    .setting select:focus,
+    .setting input:focus {
+      border-color: var(--accent);
+    }
+
+    .setting select option {
+      background: #101722;
+    }
+
+    .toggle-row {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 10px 0;
+    }
+
+    .toggle-info strong {
+      display: block;
+
+      font-size: 12px;
+    }
+
+    .toggle-info span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      margin-top: 3px;
+    }
+
+    .toggle {
+      width: 43px;
+      height: 24px;
+
+      border: 0;
+
+      border-radius: 30px;
+
+      background:
+        #293140;
+
+      padding: 3px;
+
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: "";
+
+      display: block;
+
+      width: 18px;
+      height: 18px;
+
+      border-radius: 50%;
+
+      background: #fff;
+
+      transition: .2s;
+    }
+
+    .toggle.on {
+      background: var(--accent);
+    }
+
+    .toggle.on::after {
+      transform:
+        translateX(19px);
+    }
+
+    /* =========================
+       RECORD BAR
+    ========================= */
+
+    .record-bar {
+      margin-top: 18px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 12px;
+    }
+
+    .stat {
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.025);
+
+      border-radius: 15px;
+
+      padding: 14px;
+    }
+
+    .stat small {
+      color: var(--muted);
+
+      display: block;
+
+      font-size: 10px;
+
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: 16px;
+    }
+
+    /* =========================
+       BOTTOM
+    ========================= */
+
+    .bottom-section {
+      margin-top: 20px;
+    }
+
+    .bottom-title {
+      font-size: 16px;
+
+      margin-bottom: 12px;
+    }
+
+    .empty-recordings {
+      border:
+        1px dashed
+        rgba(255,255,255,.10);
+
+      border-radius: 17px;
+
+      padding: 27px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 950px) {
+
+      .studio-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .sidebar {
+        width: 68px;
+
+        padding:
+          18px 8px;
+      }
+
+      .brand {
+        justify-content: center;
+
+        padding-bottom: 22px;
+      }
+
+      .brand-text,
+      .nav-label,
+      .nav-text,
+      .account,
+      .logout {
+        display: none;
+      }
+
+      .nav button {
+        text-align: center;
+
+        padding: 13px 5px;
+      }
+
+      .nav-icon {
+        width: auto;
+      }
+
+      .main {
+        padding: 17px;
+      }
+
+    }
+
+    @media (max-width: 520px) {
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .mentor-status {
+        display: none;
+      }
+
+      .record-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-footer {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .studio-btn {
+        width: 100%;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="brand-logo">
+          U
+        </div>
+
+        <div class="brand-text">
+          UshaLiveAI
+
+          <small>
+            Mentor Studio
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="nav-label">
+        Studio
+      </div>
+
+
+      <nav class="nav">
+
+        <button class="active">
+          <span class="nav-icon">🎬</span>
+          <span class="nav-text">
+            Studio
+          </span>
+        </button>
+
+        <button>
+          <span class="nav-icon">📚</span>
+          <span class="nav-text">
+            Recordings
+          </span>
+        </button>
+
+        <button>
+          <span class="nav-icon">🎓</span>
+          <span class="nav-text">
+            Courses
+          </span>
+        </button>
+
+        <button>
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">
+            Settings
+          </span>
+        </button>
+
+      </nav>
+
+
+      <div class="sidebar-bottom">
+
+        <div class="account">
+
+          <small>
+            Mentor account
+          </small>
+
+          <strong id="userEmail">
+            Loading...
+          </strong>
+
+        </div>
+
+
+        <button
+          class="logout"
+          id="logoutBtn"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <header class="topbar">
+
+        <div>
+
+          <h1>
+            Mentor Studio
+          </h1>
+
+          <p>
+            Create classes, record lessons and manage your learning content.
+          </p>
+
+        </div>
+
+
+        <div class="mentor-status">
+
+          <span class="status-dot"></span>
+
+          Studio Ready
+
+        </div>
+
+      </header>
+
+
+      <!-- STUDIO -->
+
+      <section class="studio-grid">
+
+        <!-- PREVIEW -->
+
+        <div>
+
+          <div class="preview-card">
+
+            <div class="preview-header">
+
+              <div class="preview-title">
+                Camera Preview
+              </div>
+
+              <div
+                class="preview-live"
+                id="recordStatus"
+              >
+                ● Ready
+              </div>
+
+            </div>
+
+
+            <div class="preview">
+
+              <div
+                class="preview-placeholder"
+                id="previewPlaceholder"
+              >
+
+                <div class="camera-icon">
+                  🎥
+                </div>
+
+                <p>
+                  Camera preview will appear here
+                </p>
+
+              </div>
+
+
+              <video
+                id="cameraPreview"
+                autoplay
+                muted
+                playsinline
+              ></video>
+
+            </div>
+
+
+            <div class="preview-footer">
+
+              <button
+                class="studio-btn primary"
+                id="cameraBtn"
+              >
+                🎥 Start Camera
+              </button>
+
+              <button
+                class="studio-btn"
+                id="screenBtn"
+              >
+                🖥 Screen
+              </button>
+
+              <button
+                class="studio-btn"
+                id="micBtn"
+              >
+                🎙 Microphone
+              </button>
+
+              <button
+                class="studio-btn"
+                id="recordBtn"
+              >
+                🔴 Start Recording
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="record-bar">
+
+            <div class="stat">
+
+              <small>
+                Recording
+              </small>
+
+              <strong id="recordingTime">
+                00:00
+              </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+              <small>
+                Camera
+              </small>
+
+              <strong id="cameraState">
+                Off
+              </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+              <small>
+                Microphone
+              </small>
+
+              <strong id="micState">
+                Off
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <aside class="settings">
+
+          <h2>
+            Class Settings
+          </h2>
+
+
+          <div class="setting">
+
+            <label>
+              Class title
+            </label>
+
+            <input
+              id="classTitle"
+              type="text"
+              placeholder="My new class"
+            >
+
+          </div>
+
+
+          <div class="setting">
+
+            <label>
+              Video quality
+            </label>
+
+            <select id="quality">
+
+              <option value="720">
+                720p
+              </option>
+
+              <option value="1080">
+                1080p
+              </option>
+
+              <option value="480">
+                480p
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="setting">
+
+            <label>
+              Recording mode
+            </label>
+
+            <select id="recordMode">
+
+              <option>
+                Camera + Microphone
+              </option>
+
+              <option>
+                Screen + Microphone
+              </option>
+
+              <option>
+                Camera + Screen
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="toggle-row">
+
+            <div class="toggle-info">
+
+              <strong>
+                Camera
+              </strong>
+
+              <span>
+                Include camera
+              </span>
+
+            </div>
+
+            <button
+              class="toggle"
+              id="cameraToggle"
+              type="button"
+            ></button>
+
+          </div>
+
+
+          <div class="toggle-row">
+
+            <div class="toggle-info">
+
+              <strong>
+                Microphone
+              </strong>
+
+              <span>
+                Include voice
+              </span>
+
+            </div>
+
+            <button
+              class="toggle"
+              id="micToggle"
+              type="button"
+            ></button>
+
+          </div>
+
+
+          <div class="toggle-row">
+
+            <div class="toggle-info">
+
+              <strong>
+                Screen
+              </strong>
+
+              <span>
+                Record screen
+              </span>
+
+            </div>
+
+            <button
+              class="toggle"
+              id="screenToggle"
+              type="button"
+            ></button>
+
+          </div>
+
+        </aside>
+
+      </section>
+
+
+      <!-- RECORDINGS -->
+
+      <section class="bottom-section">
+
+        <h2 class="bottom-title">
+          Recent Recordings
+        </h2>
+
+
+        <div
+          class="empty-recordings"
+          id="recordingsList"
+        >
+          No recordings yet.
+          Your saved lessons will appear here.
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      auth
+    } from "../firebase.js";
+
+    import {
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+    const userEmail =
+      document.getElementById("userEmail");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const cameraBtn =
+      document.getElementById("cameraBtn");
+
+    const screenBtn =
+      document.getElementById("screenBtn");
+
+    const micBtn =
+      document.getElementById("micBtn");
+
+    const recordBtn =
+      document.getElementById("recordBtn");
+
+    const cameraPreview =
+      document.getElementById("cameraPreview");
+
+    const previewPlaceholder =
+      document.getElementById("previewPlaceholder");
+
+    const cameraState =
+      document.getElementById("cameraState");
+
+    const micState =
+      document.getElementById("micState");
+
+    const recordStatus =
+      document.getElementById("recordStatus");
+
+    const recordingTime =
+      document.getElementById("recordingTime");
+
+    const cameraToggle =
+      document.getElementById("cameraToggle");
+
+    const micToggle =
+      document.getElementById("micToggle");
+
+    const screenToggle =
+      document.getElementById("screenToggle");
+
+
+    let cameraStream = null;
+
+    let screenStream = null;
+
+    let microphoneStream = null;
+
+    let mediaRecorder = null;
+
+    let recordedChunks = [];
+
+    let recordingSeconds = 0;
+
+    let timer = null;
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    onAuthStateChanged(
+      auth,
+      (user) => {
+
+        if (!user) {
+
+          window.location.href =
+            "../login/";
+
+          return;
+
+        }
+
+        userEmail.textContent =
+          user.email || "Mentor";
+
+      }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          await signOut(auth);
+
+          window.location.href =
+            "../login/";
+
+        } catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       CAMERA
+    ========================= */
+
+    async function startCamera() {
+
+      try {
+
+        if (cameraStream) {
+
+          stopCamera();
+
+          return;
+
+        }
+
+
+        cameraStream =
+          await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+          });
+
+
+        cameraPreview.srcObject =
+          cameraStream;
+
+        cameraPreview.style.display =
+          "block";
+
+        previewPlaceholder.style.display =
+          "none";
+
+        cameraState.textContent =
+          "On";
+
+        cameraBtn.textContent =
+          "⏹ Stop Camera";
+
+        cameraBtn.classList.add(
+          "recording"
+        );
+
+        cameraToggle.classList.add(
+          "on"
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Camera error:",
+          error
+        );
+
+        alert(
+          "Camera permission was not allowed or camera is unavailable."
+        );
+
+      }
+
+    }
+
+
+    function stopCamera() {
+
+      if (cameraStream) {
+
+        cameraStream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
+        cameraStream = null;
+
+      }
+
+
+      cameraPreview.srcObject =
+        null;
+
+      cameraPreview.style.display =
+        "none";
+
+      previewPlaceholder.style.display =
+        "block";
+
+      cameraState.textContent =
+        "Off";
+
+      cameraBtn.textContent =
+        "🎥 Start Camera";
+
+      cameraBtn.classList.remove(
+        "recording"
+      );
+
+      cameraToggle.classList.remove(
+        "on"
+      );
+
+    }
+
+
+    cameraBtn.addEventListener(
+      "click",
+      startCamera
+    );
+
+
+    cameraToggle.addEventListener(
+      "click",
+      startCamera
+    );
+
+
+    /* =========================
+       MICROPHONE
+    ========================= */
+
+    async function toggleMicrophone() {
+
+      try {
+
+        if (microphoneStream) {
+
+          microphoneStream
+            .getTracks()
+            .forEach(
+              track => track.stop()
+            );
+
+          microphoneStream = null;
+
+          micState.textContent =
+            "Off";
+
+          micBtn.textContent =
+            "🎙 Microphone";
+
+          micToggle.classList.remove(
+            "on"
+          );
+
+          return;
+
+        }
+
+
+        microphoneStream =
+          await navigator.mediaDevices.getUserMedia({
+            audio: true
+          });
+
+
+        micState.textContent =
+          "On";
+
+        micBtn.textContent =
+          "🎙 Microphone On";
+
+        micToggle.classList.add(
+          "on"
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Microphone error:",
+          error
+        );
+
+        alert(
+          "Microphone permission was not allowed."
+        );
+
+      }
+
+    }
+
+
+    micBtn.addEventListener(
+      "click",
+      toggleMicrophone
+    );
+
+
+    micToggle.addEventListener(
+      "click",
+      toggleMicrophone
+    );
+
+
+    /* =========================
+       SCREEN
+    ========================= */
+
+    async function startScreen() {
+
+      try {
+
+        if (screenStream) {
+
+          screenStream
+            .getTracks()
+            .forEach(
+              track => track.stop()
+            );
+
+          screenStream = null;
+
+          screenBtn.textContent =
+            "🖥 Screen";
+
+          screenToggle.classList.remove(
+            "on"
+          );
+
+          return;
+
+        }
+
+
+        screenStream =
+          await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: true
+          });
+
+
+        screenBtn.textContent =
+          "⏹ Stop Screen";
+
+        screenToggle.classList.add(
+          "on"
+        );
+
+
+        screenStream
+          .getVideoTracks()[0]
+          .addEventListener(
+            "ended",
+            () => {
+
+              screenStream = null;
+
+              screenBtn.textContent =
+                "🖥 Screen";
+
+              screenToggle.classList.remove(
+                "on"
+              );
+
+            }
+          );
+
+      } catch (error) {
+
+        console.error(
+          "Screen sharing error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    screenBtn.addEventListener(
+      "click",
+      startScreen
+    );
+
+
+    screenToggle.addEventListener(
+      "click",
+      startScreen
+    );
+
+
+    /* =========================
+       RECORDING TIMER
+    ========================= */
+
+    function startTimer() {
+
+      recordingSeconds = 0;
+
+      recordingTime.textContent =
+        "00:00";
+
+
+      timer =
+        setInterval(
+          () => {
+
+            recordingSeconds++;
+
+            const minutes =
+              Math.floor(
+                recordingSeconds / 60
+              );
+
+            const seconds =
+              recordingSeconds % 60;
+
+
+            recordingTime.textContent =
+              String(minutes).padStart(
+                2,
+                "0"
+              )
+              +
+              ":"
+              +
+              String(seconds).padStart(
+                2,
+                "0"
+              );
+
+          },
+          1000
+        );
+
+    }
+
+
+    function stopTimer() {
+
+      if (timer) {
+
+        clearInterval(timer);
+
+        timer = null;
+
+      }
+
+    }
+
+
+    /* =========================
+       RECORDING
+    ========================= */
+
+    async function startRecording() {
+
+      try {
+
+        let stream;
+
+
+        if (cameraStream) {
+
+          stream = cameraStream;
+
+        } else {
+
+          stream =
+            await navigator.mediaDevices.getUserMedia({
+              video: true,
+              audio: true
+            });
+
+          cameraStream = stream;
+
+          cameraPreview.srcObject =
+            stream;
+
+          cameraPreview.style.display =
+            "block";
+
+          previewPlaceholder.style.display =
+            "none";
+
+          cameraState.textContent =
+            "On";
+
+        }
+
+
+        recordedChunks = [];
+
+
+        mediaRecorder =
+          new MediaRecorder(stream);
+
+
+        mediaRecorder.ondataavailable =
+          (event) => {
+
+            if (
+              event.data &&
+              event.data.size > 0
+            ) {
+
+              recordedChunks.push(
+                event.data
+              );
+
+            }
+
+          };
+
+
+        mediaRecorder.onstop =
+          saveRecording;
+
+
+        mediaRecorder.start();
+
+
+        recordBtn.textContent =
+          "⏹ Stop Recording";
+
+        recordBtn.classList.add(
+          "recording"
+        );
+
+        recordStatus.textContent =
+          "● Recording";
+
+        recordStatus.style.color =
+          "#ff5268";
+
+
+        startTimer();
+
+
+      } catch (error) {
+
+        console.error(
+          "Recording error:",
+          error
+        );
+
+        alert(
+          "Recording could not start. Please allow camera access."
+        );
+
+      }
+
+    }
+
+
+    function stopRecording() {
+
+      if (
+        mediaRecorder &&
+        mediaRecorder.state !== "inactive"
+      ) {
+
+        mediaRecorder.stop();
+
+      }
+
+
+      stopTimer();
+
+
+      recordBtn.textContent =
+        "🔴 Start Recording";
+
+      recordBtn.classList.remove(
+        "recording"
+      );
+
+      recordStatus.textContent =
+        "● Ready";
+
+      recordStatus.style.color =
+        "#ff8796";
+
+    }
+
+
+    function saveRecording() {
+
+      if (!recordedChunks.length) {
+        return;
+      }
+
+
+      const blob =
+        new Blob(
+          recordedChunks,
+          {
+            type: "video/webm"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(blob);
+
+
+      const classTitle =
+        document
+          .getElementById("classTitle")
+          .value
+          .trim()
+          ||
+        "UshaLiveAI Class";
+
+
+      const link =
+        document.createElement("a");
+
+      link.href = url;
+
+      link.download =
+        classTitle
+          .replace(
+            /[^a-z0-9]/gi,
+            "-"
+          )
+          +
+        ".webm";
+
+
+      link.click();
+
+
+      setTimeout(
+        () => {
+          URL.revokeObjectURL(url);
+        },
+        1000
+      );
+
+
+      alert(
+        "Recording finished. The video has been downloaded."
+      );
+
+    }
+
+
+    recordBtn.addEventListener(
+      "click",
+      () => {
+
+        if (
+          mediaRecorder &&
+          mediaRecorder.state === "recording"
+        ) {
+
+          stopRecording();
+
+        } else {
+
+          startRecording();
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
