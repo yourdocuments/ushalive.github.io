@@ -1,24 +1,20 @@
-// =========================================================
-// USHA LIVE
-// Firebase Configuration
-// =========================================================
+/* =========================================================
+   USHA LIVE AI
+   FIREBASE CONFIGURATION
+   ========================================================= */
 
-// Firebase Core
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-// Firebase Authentication
-import { getAuth } from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-// Firebase Firestore
-import { getFirestore } from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-
-// =========================================================
-// FIREBASE CONFIG
-// =========================================================
 
 const firebaseConfig = {
   apiKey: "AIzaSyDyY-R2rCliamC9cxJOAFATOnnDJ0t30dA",
@@ -31,26 +27,19 @@ const firebaseConfig = {
 };
 
 
-// =========================================================
-// INITIALIZE FIREBASE
-// =========================================================
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 
-// =========================================================
-// FIREBASE SERVICES
-// =========================================================
-
+// Firebase Authentication
 const auth = getAuth(app);
 
+
+// Firestore Database
 const db = getFirestore(app);
 
 
-// =========================================================
-// EXPORT
-// =========================================================
-
+// Export
 export {
   app,
   auth,
