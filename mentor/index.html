@@ -1,1401 +1,1277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <title>UshaLiveAI — Mentor Studio</title>
 
-  <meta
-    name="description"
-    content="UshaLiveAI Premium Mentor Studio"
-  />
-
   <style>
-    :root {
-      --bg: #05070b;
-      --bg-2: #080b12;
-      --panel: rgba(12, 16, 25, 0.92);
-      --panel-2: rgba(17, 22, 33, 0.88);
-      --glass: rgba(255, 255, 255, 0.055);
-      --glass-strong: rgba(255, 255, 255, 0.085);
-
-      --border: rgba(255, 255, 255, 0.09);
-      --border-soft: rgba(255, 255, 255, 0.055);
-
-      --text: #f7f9fc;
-      --muted: #8d96a8;
-      --muted-2: #697386;
-
-      --accent: #7c5cff;
-      --accent-2: #a78bfa;
-      --danger: #ff4567;
-      --success: #31d58a;
-      --warning: #ffb84d;
-      --blue: #4da3ff;
-
-      --stage: #020307;
-
-      --radius: 18px;
-      --radius-lg: 24px;
-
-      --shadow:
-        0 25px 70px rgba(0, 0, 0, 0.45);
-
-      --transition: 180ms ease;
+    :root{
+      --bg:#04060a;
+      --bg2:#080b12;
+      --panel:rgba(11,15,23,.94);
+      --panel2:rgba(17,22,32,.92);
+      --glass:rgba(255,255,255,.055);
+      --glass2:rgba(255,255,255,.09);
+      --border:rgba(255,255,255,.09);
+      --border2:rgba(255,255,255,.055);
+      --text:#f7f9fd;
+      --muted:#8b95a8;
+      --muted2:#687386;
+      --accent:#795cff;
+      --accent2:#a895ff;
+      --danger:#ff4668;
+      --success:#31d58a;
+      --warning:#ffb84d;
+      --blue:#4ca3ff;
+      --shadow:0 30px 100px rgba(0,0,0,.5);
+      --ease:180ms cubic-bezier(.2,.8,.2,1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--bg);
-      color: var(--text);
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+    html,body{
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
 
-    button,
-    input {
-      font: inherit;
+    button,input{
+      font:inherit;
     }
 
-    button {
-      border: 0;
-      cursor: pointer;
+    button{
+      border:0;
+      cursor:pointer;
     }
 
-    video {
-      display: block;
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.38;
     }
 
-    /* =========================================================
+    /* =====================================================
        APP
-    ========================================================= */
+    ===================================================== */
 
-    .studio {
-      width: 100%;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
+    .studio{
+      width:100%;
+      height:100dvh;
+      display:flex;
+      flex-direction:column;
       background:
-        radial-gradient(
-          circle at 50% -20%,
-          rgba(124, 92, 255, 0.13),
-          transparent 42%
-        ),
-        radial-gradient(
-          circle at 90% 90%,
-          rgba(55, 100, 255, 0.07),
-          transparent 30%
-        ),
+        radial-gradient(circle at 50% -30%,rgba(121,92,255,.15),transparent 42%),
+        radial-gradient(circle at 100% 100%,rgba(76,163,255,.06),transparent 30%),
         var(--bg);
     }
 
-    /* =========================================================
-       TOP BAR
-    ========================================================= */
+    /* =====================================================
+       TOPBAR
+    ===================================================== */
 
-    .topbar {
-      height: 68px;
-      min-height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 18px;
-      border-bottom: 1px solid var(--border-soft);
-      background: rgba(5, 7, 11, 0.84);
-      backdrop-filter: blur(24px);
-      position: relative;
-      z-index: 50;
+    .topbar{
+      height:68px;
+      min-height:68px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 18px;
+      border-bottom:1px solid var(--border2);
+      background:rgba(4,6,10,.86);
+      backdrop-filter:blur(24px);
+      position:relative;
+      z-index:100;
     }
 
-    .brand-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
+    .brand-area{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      min-width:0;
     }
 
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(124, 92, 255, 0.95),
-          rgba(83, 61, 210, 0.82)
-        );
+    .brand-mark{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:white;
+      font-weight:900;
+      background:linear-gradient(145deg,#8265ff,#4e38c7);
       box-shadow:
-        0 8px 25px rgba(124, 92, 255, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      font-weight: 900;
-      font-size: 17px;
+        0 10px 28px rgba(121,92,255,.28),
+        inset 0 1px 0 rgba(255,255,255,.22);
     }
 
-    .brand-text {
-      min-width: 0;
+    .brand-title{
+      font-size:14px;
+      font-weight:850;
     }
 
-    .brand-title {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
+    .brand-subtitle{
+      margin-top:2px;
+      font-size:10px;
+      color:var(--muted);
     }
 
-    .brand-subtitle {
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 2px;
+    .class-info{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      max-width:42%;
+      min-width:0;
     }
 
-    .class-info {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      min-width: 0;
-      max-width: 42%;
+    .class-name{
+      font-size:14px;
+      font-weight:800;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .class-name {
-      font-size: 14px;
-      font-weight: 750;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .live-line{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:7px;
+      margin-top:4px;
     }
 
-    .live-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      margin-top: 4px;
+    .live-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--danger);
+      box-shadow:0 0 13px rgba(255,70,104,.85);
+      animation:livePulse 1.4s infinite;
     }
 
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--danger);
-      box-shadow: 0 0 12px rgba(255, 69, 103, 0.8);
+    @keyframes livePulse{
+      0%,100%{opacity:1}
+      50%{opacity:.35}
     }
 
-    .live-text {
-      font-size: 9px;
-      color: #ff8298;
-      font-weight: 800;
-      letter-spacing: 1.3px;
+    .live-text{
+      font-size:9px;
+      font-weight:850;
+      letter-spacing:1.3px;
+      color:#ff839a;
     }
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:7px;
     }
 
-    .top-user {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 7px 10px;
-      border-radius: 12px;
-      background: var(--glass);
-      border: 1px solid var(--border-soft);
-      max-width: 230px;
+    .top-user{
+      max-width:220px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 9px;
+      border-radius:11px;
+      background:var(--glass);
+      border:1px solid var(--border2);
     }
 
-    .avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      background: linear-gradient(
-        145deg,
-        #7657ff,
-        #4534ad
-      );
-      font-size: 12px;
-      font-weight: 900;
+    .avatar{
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,#765aff,#4531b3);
+      font-size:11px;
+      font-weight:900;
     }
 
-    .user-email {
-      font-size: 11px;
-      color: #dce1eb;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .user-email{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:10px;
+      color:#d8deea;
     }
 
-    .top-btn {
-      min-width: 38px;
-      height: 38px;
-      padding: 0 11px;
-      border-radius: 11px;
-      color: #cbd2df;
-      background: var(--glass);
-      border: 1px solid var(--border-soft);
-      transition: var(--transition);
-      font-size: 12px;
-      font-weight: 700;
+    .top-btn{
+      width:38px;
+      height:38px;
+      border-radius:11px;
+      background:var(--glass);
+      border:1px solid var(--border2);
+      color:#c9d1df;
+      transition:var(--ease);
+      position:relative;
     }
 
-    .top-btn:hover {
-      background: var(--glass-strong);
-      border-color: var(--border);
-      color: white;
+    .top-btn:hover{
+      background:var(--glass2);
+      color:#fff;
+      border-color:var(--border);
+      transform:translateY(-1px);
     }
 
-    /* =========================================================
-       MAIN WORKSPACE
-    ========================================================= */
+    /* =====================================================
+       WORKSPACE
+    ===================================================== */
 
-    .workspace {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      overflow: hidden;
+    .workspace{
+      flex:1;
+      min-height:0;
+      display:flex;
+      overflow:hidden;
     }
 
-    .stage-area {
-      flex: 1;
-      min-width: 0;
-      min-height: 0;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .stage-area{
+      flex:1;
+      min-width:0;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      gap:11px;
+      padding:14px;
     }
 
-    /* =========================================================
+    /* =====================================================
        STAGE
-    ========================================================= */
+    ===================================================== */
 
-    .stage {
-      position: relative;
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-      border-radius: var(--radius-lg);
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(38, 47, 72, 0.18),
-          transparent 38%
-        ),
-        #010205;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    .stage{
+      position:relative;
+      flex:1;
+      min-height:0;
+      overflow:hidden;
+      border-radius:24px;
+      background:#010205;
+      border:1px solid rgba(255,255,255,.075);
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.015),
+        inset 0 0 0 1px rgba(255,255,255,.012),
         var(--shadow);
     }
 
-    .stage::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.15),
-          transparent 25%,
-          transparent 70%,
-          rgba(0, 0, 0, 0.48)
-        );
-      z-index: 5;
-    }
-
-    .stage-grid {
-      position: absolute;
-      inset: 0;
-      opacity: 0.025;
+    .stage-grid{
+      position:absolute;
+      inset:0;
+      opacity:.025;
+      pointer-events:none;
       background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.5) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.5) 1px,
-          transparent 1px
-        );
-      background-size: 40px 40px;
-      pointer-events: none;
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+      background-size:40px 40px;
     }
 
-    .stage-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000;
-      z-index: 2;
+    .stage-video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#000;
+      z-index:2;
     }
 
     #mainVideo,
-    #screenVideo {
-      display: none;
+    #screenVideo{
+      display:none;
     }
 
     #mainVideo.visible,
-    #screenVideo.visible {
-      display: block;
+    #screenVideo.visible{
+      display:block;
     }
 
-    .empty-stage {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      text-align: center;
-    }
-
-    .empty-stage.hidden {
-      display: none;
-    }
-
-    .empty-content {
-      width: min(420px, 90%);
-    }
-
-    .empty-icon {
-      width: 76px;
-      height: 76px;
-      margin: 0 auto 18px;
-      border-radius: 24px;
-      display: grid;
-      place-items: center;
-      font-size: 30px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(124, 92, 255, 0.18),
-          rgba(124, 92, 255, 0.04)
-        );
-      border: 1px solid rgba(124, 92, 255, 0.22);
-      box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.35);
-    }
-
-    .empty-content h2 {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-    }
-
-    .empty-content p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-      margin-top: 9px;
-    }
-
-    .empty-actions {
-      display: flex;
-      justify-content: center;
-      gap: 9px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .primary-action {
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 12px;
-      color: white;
-      font-size: 12px;
-      font-weight: 800;
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent),
-          #5740d2
-        );
-      box-shadow:
-        0 12px 28px rgba(124, 92, 255, 0.22);
-    }
-
-    .secondary-action {
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 12px;
-      color: #d8deea;
-      font-size: 12px;
-      font-weight: 750;
-      background: var(--glass);
-      border: 1px solid var(--border);
-    }
-
-    /* =========================================================
-       STAGE HEADER
-    ========================================================= */
-
-    .stage-meta {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      right: 16px;
-      z-index: 12;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      pointer-events: none;
-    }
-
-    .stage-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: rgba(0, 0, 0, 0.42);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #dbe1ec;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .stage-source-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--muted-2);
-    }
-
-    .stage-source-dot.active {
-      background: var(--success);
-      box-shadow: 0 0 10px rgba(49, 213, 138, 0.7);
-    }
-
-    .record-indicator {
-      display: none;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: rgba(255, 50, 80, 0.13);
-      border: 1px solid rgba(255, 69, 103, 0.25);
-      color: #ff8ca0;
-      font-size: 10px;
-      font-weight: 850;
-    }
-
-    .record-indicator.active {
-      display: flex;
-    }
-
-    .record-indicator span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--danger);
-      animation: pulseRecord 1.1s infinite;
-    }
-
-    @keyframes pulseRecord {
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.3;
-      }
-    }
-
-    /* =========================================================
-       MENTOR CAMERA PIP
-    ========================================================= */
-
-    .mentor-pip {
-      position: absolute;
-      right: 22px;
-      bottom: 22px;
-      width: 210px;
-      aspect-ratio: 16 / 10;
-      z-index: 20;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #090b10;
-      border: 2px solid rgba(255, 255, 255, 0.14);
-      box-shadow:
-        0 22px 55px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(0, 0, 0, 0.7);
-    }
-
-    .mentor-pip video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scaleX(-1);
-      background: #080a0f;
-    }
-
-    .pip-placeholder {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(124, 92, 255, 0.16),
-          transparent 55%
-        ),
-        #090b10;
-      color: #81899a;
-      font-size: 11px;
-      text-align: center;
-    }
-
-    .pip-placeholder.hidden {
-      display: none;
-    }
-
-    .pip-label {
-      position: absolute;
-      left: 8px;
-      bottom: 8px;
-      padding: 5px 7px;
-      border-radius: 7px;
-      background: rgba(0, 0, 0, 0.58);
-      backdrop-filter: blur(10px);
-      color: white;
-      font-size: 9px;
-      font-weight: 800;
-      z-index: 2;
-    }
-
-    /* =========================================================
-       VIDEO LIBRARY
-    ========================================================= */
-
-    .library {
-      height: 126px;
-      min-height: 126px;
-      border-radius: 16px;
-      border: 1px solid var(--border-soft);
-      background: rgba(10, 13, 20, 0.86);
-      backdrop-filter: blur(18px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .library-head {
-      height: 43px;
-      min-height: 43px;
-      padding: 0 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-soft);
-    }
-
-    .library-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .library-title strong {
-      font-size: 11px;
-      font-weight: 850;
-    }
-
-    .library-count {
-      min-width: 20px;
-      height: 20px;
-      padding: 0 6px;
-      display: grid;
-      place-items: center;
-      border-radius: 7px;
-      background: rgba(124, 92, 255, 0.13);
-      color: #bcaeff;
-      font-size: 9px;
-      font-weight: 850;
-    }
-
-    .library-add {
-      height: 29px;
-      padding: 0 10px;
-      border-radius: 8px;
-      background: rgba(124, 92, 255, 0.12);
-      border: 1px solid rgba(124, 92, 255, 0.18);
-      color: #c8bcff;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .library-list {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 8px 10px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-    }
-
-    .library-empty {
-      width: 100%;
-      text-align: center;
-      color: var(--muted-2);
-      font-size: 10px;
-    }
-
-    .video-card {
-      position: relative;
-      flex: 0 0 150px;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 7px;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.055);
-      transition: var(--transition);
-      cursor: pointer;
-    }
-
-    .video-card:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .video-card.active {
-      border-color: rgba(124, 92, 255, 0.55);
-      background: rgba(124, 92, 255, 0.09);
-    }
-
-    .video-thumb {
-      width: 72px;
-      height: 46px;
-      flex: 0 0 auto;
-      border-radius: 7px;
-      overflow: hidden;
-      background: #050609;
-      position: relative;
-    }
-
-    .video-thumb video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .video-thumb-icon {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: white;
-      background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.12),
-        rgba(0, 0, 0, 0.42)
-      );
-      font-size: 16px;
-    }
-
-    .video-details {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .video-name {
-      font-size: 9px;
-      color: #e6eaf2;
-      font-weight: 750;
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .video-size {
-      margin-top: 5px;
-      color: var(--muted-2);
-      font-size: 8px;
-    }
-
-    .video-remove {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: 20px;
-      height: 20px;
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.5);
-      color: #adb5c5;
-      font-size: 10px;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
-    .video-card:hover .video-remove {
-      opacity: 1;
-    }
-
-    /* =========================================================
-       RIGHT PANEL
-    ========================================================= */
-
-    .right-panel {
-      width: 285px;
-      min-width: 285px;
-      border-left: 1px solid var(--border-soft);
+    .stage-vignette{
+      position:absolute;
+      inset:0;
+      z-index:5;
+      pointer-events:none;
       background:
         linear-gradient(
           180deg,
-          rgba(10, 13, 20, 0.96),
-          rgba(7, 9, 14, 0.98)
+          rgba(0,0,0,.18),
+          transparent 26%,
+          transparent 67%,
+          rgba(0,0,0,.42)
         );
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
     }
 
-    .panel-head {
-      min-height: 62px;
-      padding: 0 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-soft);
+    .stage-meta{
+      position:absolute;
+      left:16px;
+      right:16px;
+      top:16px;
+      z-index:15;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:none;
+      transition:opacity 250ms ease,transform 250ms ease;
     }
 
-    .panel-title {
-      font-size: 13px;
-      font-weight: 850;
+    .stage-ui-hidden .stage-meta{
+      opacity:0;
+      transform:translateY(-8px);
     }
 
-    .participant-count {
-      padding: 5px 8px;
-      border-radius: 7px;
-      background: rgba(49, 213, 138, 0.09);
-      color: #6fe5ac;
-      font-size: 9px;
-      font-weight: 850;
+    .stage-label,
+    .record-indicator,
+    .record-timer{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:7px 10px;
+      border-radius:9px;
+      background:rgba(0,0,0,.43);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+      font-size:9px;
+      font-weight:800;
     }
 
-    .student-search {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border-soft);
+    .stage-source-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#626d80;
     }
 
-    .student-search input {
-      width: 100%;
-      height: 35px;
-      padding: 0 10px;
-      outline: none;
-      border-radius: 9px;
-      border: 1px solid var(--border-soft);
-      background: rgba(255, 255, 255, 0.035);
-      color: white;
-      font-size: 10px;
+    .stage-source-dot.active{
+      background:var(--success);
+      box-shadow:0 0 10px rgba(49,213,138,.75);
     }
 
-    .student-search input::placeholder {
-      color: var(--muted-2);
+    .record-status{
+      display:flex;
+      align-items:center;
+      gap:7px;
     }
 
-    .students {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 9px;
-      scrollbar-width: thin;
+    .record-indicator{
+      display:none;
+      color:#ff8ca0;
+      border-color:rgba(255,70,104,.2);
     }
 
-    .student {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px;
-      border-radius: 11px;
-      transition: var(--transition);
+    .record-indicator.active{
+      display:flex;
     }
 
-    .student:hover {
-      background: rgba(255, 255, 255, 0.035);
+    .record-indicator span{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--danger);
+      animation:recordPulse 1s infinite;
     }
 
-    .student-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
+    @keyframes recordPulse{
+      0%,100%{opacity:1}
+      50%{opacity:.25}
+    }
+
+    .record-timer{
+      display:none;
+      color:#fff;
+      min-width:74px;
+      justify-content:center;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .record-timer.active{
+      display:flex;
+    }
+
+    /* =====================================================
+       EMPTY STAGE
+    ===================================================== */
+
+    .empty-stage{
+      position:absolute;
+      inset:0;
+      z-index:7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:30px;
+      transition:opacity 220ms ease;
+    }
+
+    .empty-stage.hidden{
+      display:none;
+    }
+
+    .empty-content{
+      width:min(440px,90%);
+    }
+
+    .empty-icon{
+      width:78px;
+      height:78px;
+      margin:0 auto 17px;
+      border-radius:25px;
+      display:grid;
+      place-items:center;
+      font-size:30px;
+      background:linear-gradient(145deg,rgba(121,92,255,.17),rgba(121,92,255,.03));
+      border:1px solid rgba(121,92,255,.22);
+      box-shadow:0 25px 60px rgba(0,0,0,.4);
+    }
+
+    .empty-content h2{
+      font-size:22px;
+      font-weight:850;
+    }
+
+    .empty-content p{
+      margin-top:9px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .empty-actions{
+      margin-top:19px;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .primary-action,
+    .secondary-action{
+      min-height:41px;
+      padding:0 15px;
+      border-radius:11px;
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .primary-action{
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),#5439ce);
+      box-shadow:0 13px 30px rgba(121,92,255,.2);
+    }
+
+    .secondary-action{
+      color:#d9dfeb;
+      background:var(--glass);
+      border:1px solid var(--border);
+    }
+
+    /* =====================================================
+       MENTOR PIP
+    ===================================================== */
+
+    .mentor-pip{
+      position:absolute;
+      right:22px;
+      bottom:22px;
+      width:210px;
+      aspect-ratio:16/10;
+      z-index:20;
+      overflow:hidden;
+      border-radius:16px;
+      background:#080a0f;
+      border:2px solid rgba(255,255,255,.13);
+      box-shadow:0 24px 60px rgba(0,0,0,.58);
+      transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+    }
+
+    .stage-ui-hidden .mentor-pip{
+      opacity:.18;
+      transform:scale(.97);
+    }
+
+    .mentor-pip video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform:scaleX(-1);
+      background:#080a0f;
+    }
+
+    .pip-placeholder{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      color:#7e8798;
+      font-size:9px;
       background:
-        linear-gradient(
-          145deg,
-          rgba(124, 92, 255, 0.55),
-          rgba(70, 53, 164, 0.55)
-        );
-      color: white;
-      font-size: 11px;
-      font-weight: 900;
+        radial-gradient(circle at 50% 35%,rgba(121,92,255,.15),transparent 55%),
+        #080a0f;
     }
 
-    .student-info {
-      min-width: 0;
-      flex: 1;
+    .pip-placeholder.hidden{
+      display:none;
     }
 
-    .student-name {
-      font-size: 10px;
-      font-weight: 750;
-      color: #e7ebf3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .pip-label{
+      position:absolute;
+      left:8px;
+      bottom:8px;
+      padding:5px 7px;
+      border-radius:7px;
+      background:rgba(0,0,0,.58);
+      color:#fff;
+      font-size:8px;
+      font-weight:800;
     }
 
-    .student-status {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 4px;
-      color: var(--muted-2);
-      font-size: 8px;
+    /* =====================================================
+       LIBRARY
+    ===================================================== */
+
+    .library{
+      height:126px;
+      min-height:126px;
+      border-radius:16px;
+      overflow:hidden;
+      background:rgba(10,13,20,.88);
+      border:1px solid var(--border2);
+      backdrop-filter:blur(18px);
     }
 
-    .student-status-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--success);
+    .library-head{
+      height:43px;
+      padding:0 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--border2);
     }
 
-    .empty-students {
-      padding: 40px 15px;
-      text-align: center;
-      color: var(--muted-2);
-      font-size: 10px;
-      line-height: 1.6;
+    .library-title{
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
 
-    /* =========================================================
-       CONTROL BAR
-    ========================================================= */
-
-    .controls-area {
-      min-height: 88px;
-      padding: 10px 14px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top: 1px solid var(--border-soft);
-      background:
-        linear-gradient(
-          180deg,
-          rgba(6, 8, 13, 0.96),
-          rgba(5, 7, 11, 1)
-        );
-      position: relative;
-      z-index: 40;
+    .library-title strong{
+      font-size:11px;
+      font-weight:850;
     }
 
-    .controls {
-      width: min(100%, 1000px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .library-count{
+      min-width:20px;
+      height:20px;
+      padding:0 6px;
+      display:grid;
+      place-items:center;
+      border-radius:7px;
+      background:rgba(121,92,255,.12);
+      color:#bcaeff;
+      font-size:9px;
+      font-weight:850;
     }
 
-    .control-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .library-add{
+      height:29px;
+      padding:0 10px;
+      border-radius:8px;
+      background:rgba(121,92,255,.11);
+      border:1px solid rgba(121,92,255,.18);
+      color:#c8bcff;
+      font-size:9px;
+      font-weight:800;
     }
 
-    .control {
-      height: 50px;
-      min-width: 62px;
-      padding: 0 10px;
-      border-radius: 13px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      background: var(--glass);
-      border: 1px solid var(--border-soft);
-      color: #cbd2df;
-      transition: var(--transition);
-      font-size: 17px;
+    .library-list{
+      height:83px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      overflow-x:auto;
+      padding:8px 10px;
+      scrollbar-width:thin;
     }
 
-    .control span {
-      font-size: 8px;
-      font-weight: 750;
-      color: #858fa1;
-      white-space: nowrap;
+    .library-empty{
+      width:100%;
+      text-align:center;
+      color:var(--muted2);
+      font-size:10px;
     }
 
-    .control:hover {
-      background: var(--glass-strong);
-      color: white;
-      border-color: var(--border);
-      transform: translateY(-1px);
+    .video-card{
+      position:relative;
+      flex:0 0 150px;
+      height:62px;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:7px;
+      border-radius:11px;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.055);
+      cursor:pointer;
+      transition:var(--ease);
     }
 
-    .control.active {
-      color: white;
-      background: rgba(124, 92, 255, 0.15);
-      border-color: rgba(124, 92, 255, 0.32);
+    .video-card:hover{
+      background:rgba(255,255,255,.06);
+      transform:translateY(-1px);
     }
 
-    .control.active span {
-      color: #bbaeff;
+    .video-card.active{
+      background:rgba(121,92,255,.1);
+      border-color:rgba(121,92,255,.52);
+      box-shadow:0 0 0 1px rgba(121,92,255,.07);
     }
 
-    .control.record {
-      min-width: 74px;
-      background: rgba(255, 69, 103, 0.09);
-      border-color: rgba(255, 69, 103, 0.18);
-      color: #ff8ca0;
+    .video-thumb{
+      width:72px;
+      height:46px;
+      flex:0 0 auto;
+      overflow:hidden;
+      border-radius:7px;
+      background:#050609;
+      position:relative;
     }
 
-    .control.record.active {
-      background: rgba(255, 69, 103, 0.16);
-      border-color: rgba(255, 69, 103, 0.38);
-      box-shadow:
-        0 0 0 3px rgba(255, 69, 103, 0.05);
+    .video-thumb video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
-    .control.end {
-      min-width: 70px;
-      background: rgba(255, 69, 103, 0.12);
-      border-color: rgba(255, 69, 103, 0.2);
-      color: #ff718c;
+    .video-thumb-icon{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,rgba(0,0,0,.1),rgba(0,0,0,.4));
+      font-size:15px;
     }
 
-    .divider {
-      width: 1px;
-      height: 34px;
-      background: var(--border);
-      margin: 0 4px;
+    .video-details{
+      min-width:0;
+      flex:1;
     }
 
-    /* =========================================================
+    .video-name{
+      font-size:9px;
+      font-weight:750;
+      line-height:1.35;
+      color:#e7ebf3;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+
+    .video-size{
+      margin-top:5px;
+      color:var(--muted2);
+      font-size:8px;
+    }
+
+    .video-remove{
+      position:absolute;
+      top:4px;
+      right:4px;
+      width:20px;
+      height:20px;
+      border-radius:6px;
+      color:#b7bfcd;
+      background:rgba(0,0,0,.52);
+      opacity:0;
+      transition:var(--ease);
+    }
+
+    .video-card:hover .video-remove{
+      opacity:1;
+    }
+
+    /* =====================================================
+       STUDENT PANEL
+    ===================================================== */
+
+    .right-panel{
+      width:285px;
+      min-width:285px;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      background:linear-gradient(180deg,rgba(10,13,20,.97),rgba(6,8,13,.99));
+      border-left:1px solid var(--border2);
+    }
+
+    .panel-head{
+      min-height:62px;
+      padding:0 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--border2);
+    }
+
+    .panel-title{
+      font-size:13px;
+      font-weight:850;
+    }
+
+    .participant-count{
+      padding:5px 8px;
+      border-radius:7px;
+      background:rgba(49,213,138,.08);
+      color:#6fe5ac;
+      font-size:9px;
+      font-weight:850;
+    }
+
+    .student-search{
+      padding:10px 12px;
+      border-bottom:1px solid var(--border2);
+    }
+
+    .student-search input{
+      width:100%;
+      height:35px;
+      padding:0 10px;
+      outline:none;
+      border-radius:9px;
+      border:1px solid var(--border2);
+      background:rgba(255,255,255,.035);
+      color:#fff;
+      font-size:10px;
+    }
+
+    .student-search input::placeholder{
+      color:var(--muted2);
+    }
+
+    .students{
+      flex:1;
+      min-height:0;
+      overflow-y:auto;
+      padding:9px;
+    }
+
+    .student{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:9px;
+      border-radius:11px;
+      transition:var(--ease);
+    }
+
+    .student:hover{
+      background:rgba(255,255,255,.035);
+    }
+
+    .student-avatar{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,rgba(121,92,255,.55),rgba(69,52,163,.55));
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .student-info{
+      min-width:0;
+      flex:1;
+    }
+
+    .student-name{
+      font-size:10px;
+      font-weight:750;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .student-status{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      margin-top:4px;
+      color:var(--muted2);
+      font-size:8px;
+    }
+
+    .student-status-dot{
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:var(--success);
+    }
+
+    .empty-students{
+      padding:40px 15px;
+      text-align:center;
+      color:var(--muted2);
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    /* =====================================================
+       CONTROLS
+    ===================================================== */
+
+    .controls-area{
+      min-height:88px;
+      padding:10px 14px 14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      border-top:1px solid var(--border2);
+      background:linear-gradient(180deg,rgba(6,8,13,.96),#05070b);
+      z-index:50;
+    }
+
+    .controls{
+      width:min(100%,1050px);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:7px;
+    }
+
+    .control-group{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .control{
+      min-width:62px;
+      height:50px;
+      padding:0 10px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      border-radius:13px;
+      color:#cbd3e0;
+      background:var(--glass);
+      border:1px solid var(--border2);
+      transition:var(--ease);
+      position:relative;
+    }
+
+    .control:hover:not(:disabled){
+      color:#fff;
+      background:var(--glass2);
+      border-color:var(--border);
+      transform:translateY(-1px);
+    }
+
+    .control.active{
+      color:#fff;
+      background:rgba(121,92,255,.15);
+      border-color:rgba(121,92,255,.35);
+      box-shadow:inset 0 0 20px rgba(121,92,255,.04);
+    }
+
+    .control.active span{
+      color:#bbaeff;
+    }
+
+    .control-icon{
+      font-size:17px;
+      line-height:1;
+    }
+
+    .control span{
+      color:#808a9c;
+      font-size:7.5px;
+      font-weight:750;
+      white-space:nowrap;
+    }
+
+    .control.record{
+      min-width:76px;
+      color:#ff8298;
+      background:rgba(255,70,104,.08);
+      border-color:rgba(255,70,104,.18);
+    }
+
+    .control.record.active{
+      background:rgba(255,70,104,.15);
+      border-color:rgba(255,70,104,.38);
+      box-shadow:0 0 0 3px rgba(255,70,104,.04);
+    }
+
+    .control.end{
+      min-width:70px;
+      color:#ff718b;
+      background:rgba(255,70,104,.1);
+      border-color:rgba(255,70,104,.18);
+    }
+
+    .divider{
+      width:1px;
+      height:34px;
+      margin:0 4px;
+      background:var(--border);
+    }
+
+    /* =====================================================
        TOAST
-    ========================================================= */
+    ===================================================== */
 
-    .toast-wrap {
-      position: fixed;
-      right: 20px;
-      bottom: 105px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      pointer-events: none;
+    .toast-wrap{
+      position:fixed;
+      right:20px;
+      bottom:105px;
+      z-index:1000;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      pointer-events:none;
     }
 
-    .toast {
-      max-width: 340px;
-      padding: 11px 14px;
-      border-radius: 11px;
-      background: rgba(14, 18, 27, 0.95);
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(20px);
-      color: #e8ecf4;
-      font-size: 10px;
-      line-height: 1.5;
-      animation: toastIn 0.2s ease forwards;
+    .toast{
+      max-width:360px;
+      padding:11px 14px;
+      border-radius:11px;
+      background:rgba(14,18,27,.96);
+      border:1px solid var(--border);
+      color:#e8edf5;
+      box-shadow:0 22px 60px rgba(0,0,0,.45);
+      backdrop-filter:blur(20px);
+      font-size:10px;
+      line-height:1.5;
+      animation:toastIn .2s ease;
     }
 
-    @keyframes toastIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes toastIn{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
     }
 
-    /* =========================================================
+    /* =====================================================
        MODAL
-    ========================================================= */
+    ===================================================== */
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(18px);
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:500;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(0,0,0,.8);
+      backdrop-filter:blur(18px);
     }
 
-    .modal.show {
-      display: flex;
+    .modal.show{
+      display:flex;
     }
 
-    .modal-card {
-      width: min(820px, 100%);
-      max-height: 90vh;
-      overflow: hidden;
-      border-radius: 22px;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(18, 22, 33, 0.98),
-          rgba(8, 11, 17, 0.99)
-        );
-      border: 1px solid var(--border);
-      box-shadow:
-        0 40px 120px rgba(0, 0, 0, 0.7);
+    .modal-card{
+      width:min(820px,100%);
+      max-height:90vh;
+      overflow:hidden;
+      border-radius:22px;
+      background:linear-gradient(180deg,rgba(18,22,33,.98),rgba(7,10,16,.99));
+      border:1px solid var(--border);
+      box-shadow:0 45px 130px rgba(0,0,0,.72);
     }
 
-    .modal-head {
-      min-height: 60px;
-      padding: 0 16px 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-soft);
+    .modal-head{
+      min-height:60px;
+      padding:0 16px 0 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--border2);
     }
 
-    .modal-head strong {
-      font-size: 14px;
+    .modal-head strong{
+      font-size:14px;
     }
 
-    .modal-close {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: var(--glass);
-      color: #bdc5d4;
+    .modal-close{
+      width:34px;
+      height:34px;
+      border-radius:9px;
+      color:#c1c9d6;
+      background:var(--glass);
     }
 
-    .preview-area {
-      padding: 16px;
+    .preview-area{
+      padding:16px;
     }
 
-    .preview-video {
-      width: 100%;
-      max-height: 60vh;
-      border-radius: 14px;
-      background: #000;
-      object-fit: contain;
+    .preview-video{
+      width:100%;
+      max-height:60vh;
+      border-radius:14px;
+      background:#000;
+      object-fit:contain;
     }
 
-    .preview-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 12px;
+    .preview-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      margin-top:12px;
     }
 
-    .download-btn {
-      min-height: 40px;
-      padding: 0 15px;
-      border-radius: 10px;
-      color: white;
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent),
-          #5640cf
-        );
-      font-size: 11px;
-      font-weight: 800;
+    .download-btn{
+      min-height:40px;
+      padding:0 15px;
+      border-radius:10px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),#5439ce);
+      font-size:11px;
+      font-weight:800;
     }
 
-    /* =========================================================
+    /* =====================================================
        RESPONSIVE
-    ========================================================= */
+    ===================================================== */
 
-    @media (max-width: 1050px) {
-      .right-panel {
-        width: 250px;
-        min-width: 250px;
+    @media(max-width:1050px){
+
+      .right-panel{
+        width:250px;
+        min-width:250px;
       }
 
-      .control {
-        min-width: 55px;
+      .control{
+        min-width:55px;
       }
 
-      .control span {
-        font-size: 7px;
-      }
-
-      .top-user {
-        display: none;
+      .top-user{
+        display:none;
       }
     }
 
-    @media (max-width: 820px) {
-      html,
-      body {
-        overflow: hidden;
+    @media(max-width:820px){
+
+      .topbar{
+        height:60px;
+        min-height:60px;
+        padding:0 10px;
       }
 
-      .topbar {
-        height: 60px;
-        min-height: 60px;
-        padding: 0 10px;
+      .brand-mark{
+        width:34px;
+        height:34px;
+        border-radius:10px;
       }
 
-      .brand-subtitle {
-        display: none;
+      .brand-subtitle{
+        display:none;
       }
 
-      .brand-title {
-        font-size: 12px;
+      .brand-title{
+        font-size:12px;
       }
 
-      .brand-mark {
-        width: 34px;
-        height: 34px;
-        border-radius: 10px;
+      .class-info{
+        max-width:40%;
       }
 
-      .class-info {
-        max-width: 40%;
+      .class-name{
+        font-size:11px;
       }
 
-      .class-name {
-        font-size: 11px;
+      .stage-area{
+        padding:8px;
+        gap:8px;
       }
 
-      .workspace {
-        position: relative;
+      .right-panel{
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        width:min(320px,88vw);
+        min-width:0;
+        z-index:200;
+        transform:translateX(100%);
+        transition:transform 220ms ease;
+        box-shadow:-30px 0 80px rgba(0,0,0,.55);
       }
 
-      .stage-area {
-        padding: 8px;
-        gap: 8px;
+      .right-panel.mobile-open{
+        transform:translateX(0);
       }
 
-      .right-panel {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: min(320px, 88vw);
-        min-width: 0;
-        z-index: 100;
-        transform: translateX(100%);
-        transition: transform 220ms ease;
-        box-shadow: -25px 0 70px rgba(0, 0, 0, 0.5);
+      .library{
+        height:108px;
+        min-height:108px;
       }
 
-      .right-panel.mobile-open {
-        transform: translateX(0);
+      .library-list{
+        height:65px;
       }
 
-      .library {
-        height: 108px;
-        min-height: 108px;
+      .mentor-pip{
+        width:145px;
+        right:12px;
+        bottom:12px;
+        border-radius:12px;
       }
 
-      .mentor-pip {
-        width: 145px;
-        right: 12px;
-        bottom: 12px;
-        border-radius: 12px;
+      .controls-area{
+        min-height:78px;
+        padding:7px 6px 9px;
+        overflow-x:auto;
+        justify-content:flex-start;
       }
 
-      .controls-area {
-        min-height: 78px;
-        padding: 7px 6px 9px;
-        overflow-x: auto;
-        justify-content: flex-start;
+      .controls{
+        width:max-content;
+        min-width:max-content;
+        margin:auto;
       }
 
-      .controls {
-        min-width: max-content;
-        margin: auto;
+      .control{
+        min-width:53px;
+        height:47px;
       }
 
-      .control {
-        min-width: 53px;
-        height: 47px;
-        padding: 0 8px;
+      .control.record{
+        min-width:65px;
       }
 
-      .control.record {
-        min-width: 64px;
+      .control.end{
+        min-width:62px;
       }
 
-      .control.end {
-        min-width: 62px;
+      .toast-wrap{
+        left:10px;
+        right:10px;
+        bottom:92px;
       }
 
-      .divider {
-        height: 28px;
-      }
-
-      .toast-wrap {
-        left: 10px;
-        right: 10px;
-        bottom: 92px;
-      }
-
-      .toast {
-        max-width: none;
+      .toast{
+        max-width:none;
       }
     }
 
-    @media (max-width: 540px) {
-      .brand-area {
-        gap: 8px;
+    @media(max-width:540px){
+
+      .brand-title{
+        max-width:95px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
       }
 
-      .brand-title {
-        max-width: 100px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+      .class-info{
+        position:static;
+        transform:none;
+        max-width:34%;
+        margin-left:auto;
+        margin-right:auto;
       }
 
-      .class-info {
-        position: static;
-        transform: none;
-        max-width: 35%;
-        margin-left: auto;
-        margin-right: auto;
+      .top-btn{
+        width:34px;
+        height:34px;
+        padding:0;
       }
 
-      .top-actions {
-        gap: 4px;
+      .stage-area{
+        padding:6px;
       }
 
-      .top-btn {
-        min-width: 34px;
-        width: 34px;
-        padding: 0;
+      .stage{
+        border-radius:15px;
       }
 
-      .stage-area {
-        padding: 6px;
+      .stage-meta{
+        top:10px;
+        left:10px;
+        right:10px;
       }
 
-      .stage {
-        border-radius: 15px;
+      .stage-label,
+      .record-indicator,
+      .record-timer{
+        padding:6px 8px;
+        font-size:8px;
       }
 
-      .stage-meta {
-        top: 10px;
-        left: 10px;
-        right: 10px;
+      .mentor-pip{
+        width:118px;
       }
 
-      .stage-label {
-        font-size: 8px;
-        padding: 6px 8px;
+      .pip-label{
+        font-size:7px;
       }
 
-      .record-indicator {
-        font-size: 8px;
+      .empty-icon{
+        width:60px;
+        height:60px;
+        border-radius:18px;
+        font-size:24px;
       }
 
-      .mentor-pip {
-        width: 118px;
-        aspect-ratio: 16 / 10;
+      .empty-content h2{
+        font-size:17px;
       }
 
-      .pip-label {
-        font-size: 7px;
-        padding: 4px 5px;
-      }
-
-      .empty-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        font-size: 24px;
-      }
-
-      .empty-content h2 {
-        font-size: 17px;
-      }
-
-      .empty-content p {
-        font-size: 10px;
+      .empty-content p{
+        font-size:10px;
       }
 
       .primary-action,
-      .secondary-action {
-        min-height: 37px;
-        padding: 0 12px;
-        font-size: 10px;
+      .secondary-action{
+        min-height:37px;
+        padding:0 12px;
+        font-size:9px;
       }
 
-      .library-head {
-        padding: 0 9px;
+      .library-head{
+        padding:0 9px;
       }
 
-      .video-card {
-        flex-basis: 140px;
+      .video-card{
+        flex-basis:140px;
       }
 
-      .controls-area {
-        min-height: 72px;
+      .controls-area{
+        min-height:72px;
       }
 
-      .control {
-        min-width: 49px;
-        height: 44px;
-        border-radius: 11px;
-        font-size: 15px;
+      .control{
+        min-width:49px;
+        height:44px;
+        border-radius:11px;
+        padding:0 7px;
+        font-size:15px;
       }
 
-      .control span {
-        font-size: 6.5px;
+      .control span{
+        font-size:6.5px;
       }
 
-      .control.record {
-        min-width: 59px;
+      .control.record{
+        min-width:59px;
       }
 
-      .control.end {
-        min-width: 58px;
+      .control.end{
+        min-width:58px;
       }
     }
   </style>
@@ -1403,132 +1279,103 @@
 
 <body>
 
-  <div class="studio" id="studio">
+<div class="studio" id="studio">
 
-    <!-- =======================================================
-         TOP BAR
-    ======================================================== -->
+  <!-- =====================================================
+       TOPBAR
+  ====================================================== -->
 
-    <header class="topbar">
+  <header class="topbar">
 
-      <div class="brand-area">
+    <div class="brand-area">
 
-        <div class="brand-mark">
-          U
-        </div>
+      <div class="brand-mark">U</div>
 
-        <div class="brand-text">
-          <div class="brand-title">
-            UshaLiveAI
-          </div>
+      <div>
+        <div class="brand-title">UshaLiveAI</div>
+        <div class="brand-subtitle">Premium Mentor Studio</div>
+      </div>
 
-          <div class="brand-subtitle">
-            Premium Mentor Studio
-          </div>
+    </div>
+
+    <div class="class-info">
+
+      <div class="class-name" id="className">
+        Mentor Live Class
+      </div>
+
+      <div class="live-line">
+        <span class="live-dot"></span>
+        <span class="live-text">LIVE STUDIO</span>
+      </div>
+
+    </div>
+
+    <div class="top-actions">
+
+      <div class="top-user">
+
+        <div class="avatar" id="userAvatar">U</div>
+
+        <div class="user-email" id="userEmail">
+          Loading...
         </div>
 
       </div>
 
-      <div class="class-info">
+      <button class="top-btn" id="studentsTopBtn" title="Students">
+        👥
+      </button>
 
-        <div
-          class="class-name"
-          id="className"
-        >
-          Mentor Live Class
-        </div>
+      <button class="top-btn" id="settingsBtn" title="Settings">
+        ⚙
+      </button>
 
-        <div class="live-line">
-          <span class="live-dot"></span>
-          <span class="live-text">LIVE STUDIO</span>
-        </div>
+      <button class="top-btn" id="logoutBtn" title="Logout">
+        ↪
+      </button>
 
-      </div>
+    </div>
 
-      <div class="top-actions">
+  </header>
 
-        <div class="top-user">
 
-          <div
-            class="avatar"
-            id="userAvatar"
-          >
-            U
+  <!-- =====================================================
+       WORKSPACE
+  ====================================================== -->
+
+  <main class="workspace">
+
+    <section class="stage-area">
+
+      <!-- STAGE -->
+
+      <div class="stage" id="stage">
+
+        <div class="stage-grid"></div>
+
+        <div class="stage-vignette"></div>
+
+
+        <!-- STAGE META -->
+
+        <div class="stage-meta">
+
+          <div class="stage-label">
+
+            <span
+              class="stage-source-dot"
+              id="stageSourceDot"
+            ></span>
+
+            <span id="stageSourceLabel">
+              No source selected
+            </span>
+
           </div>
 
-          <div
-            class="user-email"
-            id="userEmail"
-          >
-            Loading...
-          </div>
 
-        </div>
-
-        <button
-          class="top-btn"
-          id="studentsTopBtn"
-          title="Students"
-        >
-          👥
-        </button>
-
-        <button
-          class="top-btn"
-          id="settingsBtn"
-          title="Settings"
-        >
-          ⚙
-        </button>
-
-        <button
-          class="top-btn"
-          id="logoutBtn"
-          title="Logout"
-        >
-          ↪
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <!-- =======================================================
-         WORKSPACE
-    ======================================================== -->
-
-    <main class="workspace">
-
-      <!-- =====================================================
-           STAGE AREA
-      ====================================================== -->
-
-      <section class="stage-area">
-
-        <div
-          class="stage"
-          id="stage"
-        >
-
-          <div class="stage-grid"></div>
-
-          <!-- Stage metadata -->
-
-          <div class="stage-meta">
-
-            <div class="stage-label">
-
-              <span
-                class="stage-source-dot"
-                id="stageSourceDot"
-              ></span>
-
-              <span id="stageSourceLabel">
-                No source selected
-              </span>
-
-            </div>
+          <div class="record-status">
 
             <div
               class="record-indicator"
@@ -1538,378 +1385,382 @@
               RECORDING
             </div>
 
+            <div
+              class="record-timer"
+              id="recordTimer"
+            >
+              00:00:00
+            </div>
+
           </div>
 
+        </div>
 
-          <!-- Main local video -->
+
+        <!-- MAIN VIDEO -->
+
+        <video
+          id="mainVideo"
+          class="stage-video"
+          playsinline
+          preload="metadata"
+        ></video>
+
+
+        <!-- SCREEN -->
+
+        <video
+          id="screenVideo"
+          class="stage-video"
+          playsinline
+          muted
+        ></video>
+
+
+        <!-- EMPTY -->
+
+        <div
+          class="empty-stage"
+          id="emptyStage"
+        >
+
+          <div class="empty-content">
+
+            <div class="empty-icon">🎬</div>
+
+            <h2>Your studio is ready</h2>
+
+            <p>
+              Select a local class video or share your screen.
+              Your mentor camera stays available as a floating preview.
+            </p>
+
+            <div class="empty-actions">
+
+              <button
+                class="primary-action"
+                id="emptyVideoBtn"
+              >
+                🎬 Select Main Video
+              </button>
+
+              <button
+                class="secondary-action"
+                id="emptyScreenBtn"
+              >
+                🖥 Share Screen
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CAMERA PIP -->
+
+        <div class="mentor-pip">
 
           <video
-            id="mainVideo"
-            class="stage-video"
-            playsinline
-            preload="metadata"
-          ></video>
-
-
-          <!-- Shared screen -->
-
-          <video
-            id="screenVideo"
-            class="stage-video"
+            id="cameraPreview"
+            autoplay
             playsinline
             muted
           ></video>
 
-
-          <!-- Empty stage -->
-
           <div
-            class="empty-stage"
-            id="emptyStage"
+            class="pip-placeholder"
+            id="pipPlaceholder"
           >
-
-            <div class="empty-content">
-
-              <div class="empty-icon">
-                🎬
-              </div>
-
-              <h2>
-                Your studio is ready
-              </h2>
-
-              <p>
-                Select a local class video or share your screen.
-                Your mentor camera will remain available as a floating preview.
-              </p>
-
-              <div class="empty-actions">
-
-                <button
-                  class="primary-action"
-                  id="emptyVideoBtn"
-                >
-                  🎬 Select Main Video
-                </button>
-
-                <button
-                  class="secondary-action"
-                  id="emptyScreenBtn"
-                >
-                  🖥 Share Screen
-                </button>
-
-              </div>
-
-            </div>
-
+            Camera is off
           </div>
 
-
-          <!-- Mentor Camera -->
-
-          <div
-            class="mentor-pip"
-            id="mentorPip"
-          >
-
-            <video
-              id="cameraPreview"
-              autoplay
-              playsinline
-              muted
-            ></video>
-
-            <div
-              class="pip-placeholder"
-              id="pipPlaceholder"
-            >
-              Camera is off
-            </div>
-
-            <div class="pip-label">
-              Mentor
-            </div>
-
+          <div class="pip-label">
+            Mentor
           </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             VIDEO LIBRARY
-        ====================================================== -->
-
-        <section class="library">
-
-          <div class="library-head">
-
-            <div class="library-title">
-
-              <strong>
-                Video Library
-              </strong>
-
-              <span
-                class="library-count"
-                id="libraryCount"
-              >
-                0
-              </span>
-
-            </div>
-
-            <button
-              class="library-add"
-              id="libraryAddBtn"
-            >
-              ＋ Add Video
-            </button>
-
-          </div>
-
-          <div
-            class="library-list"
-            id="libraryList"
-          >
-
-            <div class="library-empty">
-              No local videos selected yet.
-            </div>
-
-          </div>
-
-        </section>
-
-      </section>
-
-
-      <!-- =====================================================
-           STUDENTS PANEL
-      ====================================================== -->
-
-      <aside
-        class="right-panel"
-        id="rightPanel"
-      >
-
-        <div class="panel-head">
-
-          <div class="panel-title">
-            Students
-          </div>
-
-          <div
-            class="participant-count"
-            id="participantCount"
-          >
-            0 Online
-          </div>
-
-        </div>
-
-
-        <div class="student-search">
-
-          <input
-            type="search"
-            id="studentSearch"
-            placeholder="Search students..."
-            autocomplete="off"
-          />
-
-        </div>
-
-
-        <div
-          class="students"
-          id="studentsList"
-        >
-
-          <div class="empty-students">
-            Waiting for students to join this class...
-          </div>
-
-        </div>
-
-      </aside>
-
-    </main>
-
-
-    <!-- =======================================================
-         CONTROL BAR
-    ======================================================== -->
-
-    <footer class="controls-area">
-
-      <div class="controls">
-
-        <div class="control-group">
-
-          <button
-            class="control"
-            id="micBtn"
-            title="Microphone"
-          >
-            🎙
-            <span>Mic</span>
-          </button>
-
-          <button
-            class="control"
-            id="cameraBtn"
-            title="Camera"
-          >
-            📷
-            <span>Camera</span>
-          </button>
-
-          <button
-            class="control"
-            id="screenBtn"
-            title="Share Screen"
-          >
-            🖥
-            <span>Share Screen</span>
-          </button>
-
-          <button
-            class="control"
-            id="mainVideoBtn"
-            title="Select local video"
-          >
-            🎬
-            <span>Main Video</span>
-          </button>
-
-        </div>
-
-
-        <div class="divider"></div>
-
-
-        <div class="control-group">
-
-          <button
-            class="control"
-            id="studentsBtn"
-            title="Students"
-          >
-            👥
-            <span>Students</span>
-          </button>
-
-          <button
-            class="control record"
-            id="recordBtn"
-            title="Start recording"
-          >
-            🔴
-            <span>Record</span>
-          </button>
-
-          <button
-            class="control"
-            id="pauseBtn"
-            title="Pause recording"
-            disabled
-          >
-            ⏸
-            <span>Pause</span>
-          </button>
-
-          <button
-            class="control"
-            id="fullscreenBtn"
-            title="Fullscreen"
-          >
-            ⛶
-            <span>Fullscreen</span>
-          </button>
-
-          <button
-            class="control end"
-            id="endBtn"
-            title="End studio"
-          >
-            ⏹
-            <span>End</span>
-          </button>
 
         </div>
 
       </div>
 
-    </footer>
 
-  </div>
+      <!-- LIBRARY -->
+
+      <section class="library">
+
+        <div class="library-head">
+
+          <div class="library-title">
+
+            <strong>Video Library</strong>
+
+            <span
+              class="library-count"
+              id="libraryCount"
+            >
+              0
+            </span>
+
+          </div>
+
+          <button
+            class="library-add"
+            id="libraryAddBtn"
+          >
+            ＋ Add Video
+          </button>
+
+        </div>
+
+        <div
+          class="library-list"
+          id="libraryList"
+        >
+
+          <div class="library-empty">
+            No local videos selected yet.
+          </div>
+
+        </div>
+
+      </section>
+
+    </section>
 
 
-  <!-- =========================================================
-       HIDDEN FILE INPUT
-  ========================================================== -->
+    <!-- STUDENTS -->
 
-  <input
-    type="file"
-    id="mainVideoFile"
-    accept="video/*"
-    hidden
-  />
+    <aside
+      class="right-panel"
+      id="rightPanel"
+    >
+
+      <div class="panel-head">
+
+        <div class="panel-title">
+          Students
+        </div>
+
+        <div
+          class="participant-count"
+          id="participantCount"
+        >
+          0 Online
+        </div>
+
+      </div>
+
+      <div class="student-search">
+
+        <input
+          id="studentSearch"
+          type="search"
+          placeholder="Search students..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <div
+        class="students"
+        id="studentsList"
+      >
+
+        <div class="empty-students">
+          Waiting for students to join this class...
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
 
 
-  <!-- =========================================================
-       RECORDING PREVIEW MODAL
-  ========================================================== -->
+  <!-- =====================================================
+       CONTROLS
+  ====================================================== -->
 
-  <div
-    class="modal"
-    id="previewModal"
-  >
+  <footer class="controls-area">
 
-    <div class="modal-card">
+    <div class="controls">
 
-      <div class="modal-head">
-
-        <strong>
-          Recording Preview
-        </strong>
+      <div class="control-group">
 
         <button
-          class="modal-close"
-          id="closePreviewBtn"
+          class="control"
+          id="micBtn"
+          title="Microphone — M"
         >
-          ✕
+          <div class="control-icon">🎙</div>
+          <span>Mic</span>
+        </button>
+
+        <button
+          class="control"
+          id="cameraBtn"
+          title="Camera — C"
+        >
+          <div class="control-icon">📷</div>
+          <span>Camera</span>
+        </button>
+
+        <button
+          class="control"
+          id="screenBtn"
+          title="Share Screen — S"
+        >
+          <div class="control-icon">🖥</div>
+          <span>Share Screen</span>
+        </button>
+
+        <button
+          class="control"
+          id="mainVideoBtn"
+          title="Select Main Video"
+        >
+          <div class="control-icon">🎬</div>
+          <span>Main Video</span>
         </button>
 
       </div>
 
-      <div class="preview-area">
 
-        <video
-          class="preview-video"
-          id="previewVideo"
-          controls
-          playsinline
-        ></video>
+      <div class="divider"></div>
 
-        <div class="preview-actions">
 
-          <button
-            class="secondary-action"
-            id="closePreviewAction"
+      <div class="control-group">
+
+        <button
+          class="control"
+          id="studentsBtn"
+          title="Students"
+        >
+          <div class="control-icon">👥</div>
+          <span>Students</span>
+        </button>
+
+        <button
+          class="control record"
+          id="recordBtn"
+          title="Record — R"
+        >
+          <div
+            class="control-icon"
+            id="recordIcon"
           >
-            Close
-          </button>
+            🔴
+          </div>
+          <span id="recordText">Record</span>
+        </button>
 
-          <button
-            class="download-btn"
-            id="downloadBtn"
+        <button
+          class="control"
+          id="pauseBtn"
+          title="Pause / Resume — Space"
+          disabled
+        >
+          <div
+            class="control-icon"
+            id="pauseIcon"
           >
-            ⬇ Download Recording
-          </button>
+            ⏸
+          </div>
+          <span id="pauseText">Pause</span>
+        </button>
 
-        </div>
+        <button
+          class="control"
+          id="fullscreenBtn"
+          title="Fullscreen — F"
+        >
+          <div
+            class="control-icon"
+            id="fullscreenIcon"
+          >
+            ⛶
+          </div>
+          <span id="fullscreenText">Fullscreen</span>
+        </button>
+
+        <button
+          class="control end"
+          id="endBtn"
+          title="End Studio"
+        >
+          <div class="control-icon">⏹</div>
+          <span>End</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</div>
+
+
+<!-- HIDDEN FILE INPUT -->
+
+<input
+  type="file"
+  id="mainVideoFile"
+  accept="video/*"
+  multiple
+  hidden
+>
+
+
+<!-- PREVIEW -->
+
+<div
+  class="modal"
+  id="previewModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <strong>
+        Recording Preview
+      </strong>
+
+      <button
+        class="modal-close"
+        id="closePreviewBtn"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="preview-area">
+
+      <video
+        class="preview-video"
+        id="previewVideo"
+        controls
+        playsinline
+      ></video>
+
+      <div class="preview-actions">
+
+        <button
+          class="secondary-action"
+          id="closePreviewAction"
+        >
+          Close
+        </button>
+
+        <button
+          class="download-btn"
+          id="downloadBtn"
+        >
+          ⬇ Download Recording
+        </button>
 
       </div>
 
@@ -1917,3132 +1768,688 @@
 
   </div>
 
+</div>
 
-  <!-- =========================================================
-       TOAST
-  ========================================================== -->
 
-  <div
-    class="toast-wrap"
-    id="toastWrap"
-  ></div>
+<!-- TOAST -->
 
+<div
+  class="toast-wrap"
+  id="toastWrap"
+></div>
 
-  <!-- =========================================================
-       JAVASCRIPT
-  ========================================================== -->
 
-  <script type="module">
+<script type="module">
 
-    /* =========================================================
-       FIREBASE
-    ========================================================= */
+  /* =====================================================
+     FIREBASE
+  ====================================================== */
 
-    import {
-      auth,
-      db
-    } from "../firebase.js";
+  import {
+    auth,
+    db
+  } from "../firebase.js";
 
-    import {
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-    import {
-      collection,
-      onSnapshot,
-      query
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  import {
+    collection,
+    onSnapshot,
+    query
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-    /* =========================================================
-       DOM
-    ========================================================= */
+  /* =====================================================
+     DOM
+  ====================================================== */
 
-    const studio =
-      document.getElementById("studio");
+  const studio =
+    document.getElementById("studio");
 
-    const className =
-      document.getElementById("className");
+  const stage =
+    document.getElementById("stage");
 
-    const userEmail =
-      document.getElementById("userEmail");
+  const mainVideo =
+    document.getElementById("mainVideo");
 
-    const userAvatar =
-      document.getElementById("userAvatar");
+  const screenVideo =
+    document.getElementById("screenVideo");
 
-    const stage =
-      document.getElementById("stage");
+  const cameraPreview =
+    document.getElementById("cameraPreview");
 
-    const mainVideo =
-      document.getElementById("mainVideo");
+  const pipPlaceholder =
+    document.getElementById("pipPlaceholder");
 
-    const screenVideo =
-      document.getElementById("screenVideo");
+  const emptyStage =
+    document.getElementById("emptyStage");
 
-    const cameraPreview =
-      document.getElementById("cameraPreview");
+  const stageSourceLabel =
+    document.getElementById("stageSourceLabel");
 
-    const pipPlaceholder =
-      document.getElementById("pipPlaceholder");
+  const stageSourceDot =
+    document.getElementById("stageSourceDot");
 
-    const emptyStage =
-      document.getElementById("emptyStage");
+  const recordIndicator =
+    document.getElementById("recordIndicator");
 
-    const stageSourceLabel =
-      document.getElementById("stageSourceLabel");
+  const recordTimer =
+    document.getElementById("recordTimer");
 
-    const stageSourceDot =
-      document.getElementById("stageSourceDot");
+  const mainVideoFile =
+    document.getElementById("mainVideoFile");
 
-    const recordIndicator =
-      document.getElementById("recordIndicator");
+  const libraryList =
+    document.getElementById("libraryList");
 
-    const mainVideoFile =
-      document.getElementById("mainVideoFile");
+  const libraryCount =
+    document.getElementById("libraryCount");
 
-    const libraryList =
-      document.getElementById("libraryList");
+  const rightPanel =
+    document.getElementById("rightPanel");
 
-    const libraryCount =
-      document.getElementById("libraryCount");
+  const studentsList =
+    document.getElementById("studentsList");
 
-    const previewModal =
-      document.getElementById("previewModal");
+  const participantCount =
+    document.getElementById("participantCount");
 
-    const previewVideo =
-      document.getElementById("previewVideo");
+  const studentSearch =
+    document.getElementById("studentSearch");
 
-    const toastWrap =
-      document.getElementById("toastWrap");
+  const toastWrap =
+    document.getElementById("toastWrap");
 
-    const studentsList =
-      document.getElementById("studentsList");
+  const className =
+    document.getElementById("className");
 
-    const participantCount =
-      document.getElementById("participantCount");
+  const userEmail =
+    document.getElementById("userEmail");
 
-    const studentSearch =
-      document.getElementById("studentSearch");
+  const userAvatar =
+    document.getElementById("userAvatar");
 
-    const rightPanel =
-      document.getElementById("rightPanel");
+  const previewModal =
+    document.getElementById("previewModal");
 
+  const previewVideo =
+    document.getElementById("previewVideo");
 
-    /* =========================================================
-       BUTTONS
-    ========================================================= */
 
-    const mainVideoBtn =
-      document.getElementById("mainVideoBtn");
+  /* =====================================================
+     BUTTONS
+  ====================================================== */
 
-    const libraryAddBtn =
-      document.getElementById("libraryAddBtn");
+  const micBtn =
+    document.getElementById("micBtn");
 
-    const emptyVideoBtn =
-      document.getElementById("emptyVideoBtn");
+  const cameraBtn =
+    document.getElementById("cameraBtn");
 
-    const emptyScreenBtn =
-      document.getElementById("emptyScreenBtn");
+  const screenBtn =
+    document.getElementById("screenBtn");
 
-    const screenBtn =
-      document.getElementById("screenBtn");
+  const mainVideoBtn =
+    document.getElementById("mainVideoBtn");
 
-    const micBtn =
-      document.getElementById("micBtn");
+  const recordBtn =
+    document.getElementById("recordBtn");
 
-    const cameraBtn =
-      document.getElementById("cameraBtn");
+  const pauseBtn =
+    document.getElementById("pauseBtn");
 
-    const recordBtn =
-      document.getElementById("recordBtn");
+  const fullscreenBtn =
+    document.getElementById("fullscreenBtn");
 
-    const pauseBtn =
-      document.getElementById("pauseBtn");
+  const studentsBtn =
+    document.getElementById("studentsBtn");
 
-    const fullscreenBtn =
-      document.getElementById("fullscreenBtn");
+  const studentsTopBtn =
+    document.getElementById("studentsTopBtn");
 
-    const endBtn =
-      document.getElementById("endBtn");
+  const settingsBtn =
+    document.getElementById("settingsBtn");
 
-    const studentsBtn =
-      document.getElementById("studentsBtn");
+  const logoutBtn =
+    document.getElementById("logoutBtn");
 
-    const studentsTopBtn =
-      document.getElementById("studentsTopBtn");
+  const endBtn =
+    document.getElementById("endBtn");
 
-    const logoutBtn =
-      document.getElementById("logoutBtn");
+  const libraryAddBtn =
+    document.getElementById("libraryAddBtn");
 
-    const settingsBtn =
-      document.getElementById("settingsBtn");
+  const emptyVideoBtn =
+    document.getElementById("emptyVideoBtn");
 
-    const closePreviewBtn =
-      document.getElementById("closePreviewBtn");
+  const emptyScreenBtn =
+    document.getElementById("emptyScreenBtn");
 
-    const closePreviewAction =
-      document.getElementById("closePreviewAction");
+  const closePreviewBtn =
+    document.getElementById("closePreviewBtn");
 
-    const downloadBtn =
-      document.getElementById("downloadBtn");
+  const closePreviewAction =
+    document.getElementById("closePreviewAction");
 
+  const downloadBtn =
+    document.getElementById("downloadBtn");
 
-    /* =========================================================
-       STATE
-    ========================================================= */
+  const recordIcon =
+    document.getElementById("recordIcon");
 
-    let currentUser = null;
+  const recordText =
+    document.getElementById("recordText");
 
-    let cameraStream = null;
+  const pauseIcon =
+    document.getElementById("pauseIcon");
 
-    let microphoneStream = null;
+  const pauseText =
+    document.getElementById("pauseText");
 
-    let screenStream = null;
+  const fullscreenIcon =
+    document.getElementById("fullscreenIcon");
 
-    let recorder = null;
+  const fullscreenText =
+    document.getElementById("fullscreenText");
 
-    let recordedChunks = [];
 
-    let recordingBlob = null;
+  /* =====================================================
+     STATE
+  ====================================================== */
 
-    let recordingObjectUrl = null;
+  let currentUser = null;
 
-    let selectedVideoUrl = null;
+  let cameraStream = null;
+  let microphoneStream = null;
+  let screenStream = null;
 
-    let currentMode = null;
+  let recorder = null;
 
-    let recordingPaused = false;
+  let recordedChunks = [];
 
-    let videoLibrary = [];
+  let recordingBlob = null;
+  let recordingObjectUrl = null;
 
-    let unsubscribeStudents = null;
+  let videoLibrary = [];
+  let selectedVideoUrl = null;
 
-    let canvas = null;
+  let currentMode = null;
 
-    let canvasCtx = null;
+  let recordingStartedAt = 0;
+  let pausedStartedAt = 0;
+  let totalPausedMs = 0;
 
-    let animationFrame = null;
+  let recordingTimerInterval = null;
 
-    let recordingAudioContext = null;
+  let recordingPaused = false;
 
-    let recordingDestination = null;
+  let canvas = null;
+  let canvasCtx = null;
+  let animationFrame = null;
 
-    let recordingMicSource = null;
+  let audioContext = null;
+  let audioDestination = null;
+  let micAudioSource = null;
+  let videoAudioSource = null;
 
-    let recordingVideoAudioSource = null;
+  let unsubscribeStudents = null;
 
-    let currentVideoAudioStream = null;
+  let studentsCache = [];
 
+  let stageHideTimer = null;
 
-    /* =========================================================
-       TOAST
-    ========================================================= */
+  let isLeavingStudio = false;
 
-    function toast(
-      message,
-      duration = 2800
-    ) {
 
-      const item =
-        document.createElement("div");
+  /* =====================================================
+     TOAST
+  ====================================================== */
 
-      item.className = "toast";
+  function toast(message, duration = 2800){
 
-      item.textContent = message;
+    const el =
+      document.createElement("div");
 
-      toastWrap.appendChild(item);
+    el.className = "toast";
+    el.textContent = message;
+
+    toastWrap.appendChild(el);
+
+    setTimeout(() => {
+
+      el.style.opacity = "0";
+      el.style.transform = "translateY(8px)";
 
       setTimeout(() => {
+        el.remove();
+      }, 180);
 
-        item.style.opacity = "0";
-        item.style.transform =
-          "translateY(8px)";
+    }, duration);
 
-        setTimeout(() => {
-          item.remove();
-        }, 180);
-
-      }, duration);
-
-    }
+  }
 
 
-    /* =========================================================
-       AUTH
-    ========================================================= */
+  /* =====================================================
+     AUTH
+  ====================================================== */
 
-    onAuthStateChanged(
-      auth,
-      async (user) => {
+  onAuthStateChanged(
+    auth,
+    user => {
 
-        if (!user) {
+      if(!user){
 
-          window.location.href =
-            "../login/";
+        window.location.href =
+          "../login/";
 
-          return;
-        }
-
-        currentUser = user;
-
-        userEmail.textContent =
-          user.email || "Mentor";
-
-        userAvatar.textContent =
-          (
-            user.email ||
-            "U"
-          )
-            .charAt(0)
-            .toUpperCase();
-
-        loadStudents();
+        return;
 
       }
+
+      currentUser = user;
+
+      userEmail.textContent =
+        user.email || "Mentor";
+
+      userAvatar.textContent =
+        (
+          user.email ||
+          "U"
+        )
+        .charAt(0)
+        .toUpperCase();
+
+      loadStudents();
+
+    }
+  );
+
+
+  /* =====================================================
+     CLASS NAME
+  ====================================================== */
+
+  const savedClass =
+    sessionStorage.getItem(
+      "ushaLiveCurrentClass"
     );
 
+  if(
+    savedClass &&
+    savedClass.trim()
+  ){
 
-    /* =========================================================
-       CLASS NAME
-    ========================================================= */
+    className.textContent =
+      savedClass.trim();
 
-    function loadClassName() {
+  }
 
-      const saved =
-        sessionStorage.getItem(
-          "ushaLiveCurrentClass"
+
+  /* =====================================================
+     VIDEO PICKER
+  ====================================================== */
+
+  function openVideoPicker(){
+
+    mainVideoFile.value = "";
+    mainVideoFile.click();
+
+  }
+
+
+  mainVideoBtn.addEventListener(
+    "click",
+    openVideoPicker
+  );
+
+  libraryAddBtn.addEventListener(
+    "click",
+    openVideoPicker
+  );
+
+  emptyVideoBtn.addEventListener(
+    "click",
+    openVideoPicker
+  );
+
+
+  mainVideoFile.addEventListener(
+    "change",
+    event => {
+
+      const files =
+        Array.from(
+          event.target.files || []
         );
 
-      if (
-        saved &&
-        saved.trim()
-      ) {
-
-        className.textContent =
-          saved.trim();
-
+      if(!files.length){
+        return;
       }
 
-    }
+      const firstAdded = [];
 
-    loadClassName();
+      files.forEach(file => {
 
+        if(
+          !file.type.startsWith("video/")
+        ){
 
-    /* =========================================================
-       MAIN VIDEO PICKER
-    ========================================================= */
-
-    function openVideoPicker() {
-
-      mainVideoFile.value = "";
-
-      mainVideoFile.click();
-
-    }
-
-
-    mainVideoBtn.addEventListener(
-      "click",
-      openVideoPicker
-    );
-
-    libraryAddBtn.addEventListener(
-      "click",
-      openVideoPicker
-    );
-
-    emptyVideoBtn.addEventListener(
-      "click",
-      openVideoPicker
-    );
-
-
-    /* =========================================================
-       VIDEO FILE SELECT
-    ========================================================= */
-
-    mainVideoFile.addEventListener(
-      "change",
-      (event) => {
-
-        const files =
-          Array.from(
-            event.target.files || []
+          toast(
+            "One selected file was not a video."
           );
 
-        if (!files.length) {
           return;
+
         }
 
-        files.forEach(
-          (file) => {
-
-            if (
-              !file.type.startsWith(
-                "video/"
-              )
-            ) {
-
-              toast(
-                "Please select a valid video file."
-              );
-
-              return;
-            }
-
-            addVideoToLibrary(file);
-
-          }
-        );
-
-        if (files[0]) {
-
-          selectLibraryVideo(
-            videoLibrary[
-              videoLibrary.length -
-              files.length
-            ]
+        const item =
+          addVideoToLibrary(
+            file,
+            false
           );
 
+        if(item){
+          firstAdded.push(item);
         }
 
-      }
-    );
-
-
-    /* =========================================================
-       ADD VIDEO TO LIBRARY
-    ========================================================= */
-
-    function addVideoToLibrary(
-      file
-    ) {
-
-      const url =
-        URL.createObjectURL(file);
-
-      const item = {
-
-        id:
-          Date.now().toString() +
-          Math.random()
-            .toString(36)
-            .slice(2),
-
-        file,
-
-        url,
-
-        name:
-          file.name,
-
-        size:
-          file.size,
-
-        addedAt:
-          Date.now()
-
-      };
-
-      videoLibrary.push(item);
+      });
 
       renderVideoLibrary();
 
+      if(firstAdded[0]){
+
+        selectLibraryVideo(
+          firstAdded[0]
+        );
+
+      }
+
       toast(
-        `Added "${file.name}" to Video Library.`
+        files.length === 1
+          ? "Video added to your library."
+          : `${files.length} videos added to your library.`
       );
 
     }
+  );
 
 
-    /* =========================================================
-       FILE SIZE
-    ========================================================= */
+  /* =====================================================
+     ADD VIDEO
+  ====================================================== */
 
-    function formatFileSize(
-      bytes
-    ) {
+  function addVideoToLibrary(
+    file,
+    render = true
+  ){
 
-      if (!bytes) {
-        return "0 KB";
-      }
+    const url =
+      URL.createObjectURL(file);
 
-      const units = [
-        "B",
-        "KB",
-        "MB",
-        "GB"
-      ];
+    const item = {
 
-      const index =
-        Math.min(
-          Math.floor(
-            Math.log(bytes) /
-            Math.log(1024)
-          ),
-          units.length - 1
-        );
+      id:
+        `${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}`,
 
-      return (
-        bytes /
-        Math.pow(1024, index)
-      ).toFixed(
-        index === 0 ? 0 : 1
-      ) +
-      " " +
-      units[index];
+      file,
+      url,
+      name:file.name,
+      size:file.size
 
-    }
+    };
 
+    videoLibrary.push(item);
 
-    /* =========================================================
-       RENDER VIDEO LIBRARY
-    ========================================================= */
-
-    function renderVideoLibrary() {
-
-      libraryCount.textContent =
-        videoLibrary.length;
-
-      libraryList.innerHTML = "";
-
-      if (
-        !videoLibrary.length
-      ) {
-
-        const empty =
-          document.createElement(
-            "div"
-          );
-
-        empty.className =
-          "library-empty";
-
-        empty.textContent =
-          "No local videos selected yet.";
-
-        libraryList.appendChild(
-          empty
-        );
-
-        return;
-      }
-
-
-      videoLibrary.forEach(
-        (item) => {
-
-          const card =
-            document.createElement(
-              "div"
-            );
-
-          card.className =
-            "video-card";
-
-          card.dataset.id =
-            item.id;
-
-
-          if (
-            selectedVideoUrl ===
-            item.url
-          ) {
-
-            card.classList.add(
-              "active"
-            );
-
-          }
-
-
-          const thumb =
-            document.createElement(
-              "div"
-            );
-
-          thumb.className =
-            "video-thumb";
-
-
-          const thumbVideo =
-            document.createElement(
-              "video"
-            );
-
-          thumbVideo.src =
-            item.url;
-
-          thumbVideo.muted = true;
-
-          thumbVideo.preload =
-            "metadata";
-
-
-          const icon =
-            document.createElement(
-              "div"
-            );
-
-          icon.className =
-            "video-thumb-icon";
-
-          icon.textContent =
-            "▶";
-
-
-          thumb.appendChild(
-            thumbVideo
-          );
-
-          thumb.appendChild(
-            icon
-          );
-
-
-          const details =
-            document.createElement(
-              "div"
-            );
-
-          details.className =
-            "video-details";
-
-
-          const name =
-            document.createElement(
-              "div"
-            );
-
-          name.className =
-            "video-name";
-
-          name.textContent =
-            item.name;
-
-
-          const size =
-            document.createElement(
-              "div"
-            );
-
-          size.className =
-            "video-size";
-
-          size.textContent =
-            formatFileSize(
-              item.size
-            );
-
-
-          details.appendChild(
-            name
-          );
-
-          details.appendChild(
-            size
-          );
-
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-          remove.className =
-            "video-remove";
-
-          remove.type =
-            "button";
-
-          remove.title =
-            "Remove";
-
-          remove.textContent =
-            "✕";
-
-
-          remove.addEventListener(
-            "click",
-            (event) => {
-
-              event.stopPropagation();
-
-              removeVideoFromLibrary(
-                item.id
-              );
-
-            }
-          );
-
-
-          card.appendChild(
-            thumb
-          );
-
-          card.appendChild(
-            details
-          );
-
-          card.appendChild(
-            remove
-          );
-
-
-          card.addEventListener(
-            "click",
-            () => {
-
-              selectLibraryVideo(
-                item
-              );
-
-            }
-          );
-
-
-          libraryList.appendChild(
-            card
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       SELECT LIBRARY VIDEO
-    ========================================================= */
-
-    function selectLibraryVideo(
-      item
-    ) {
-
-      if (!item) {
-        return;
-      }
-
-
-      if (
-        selectedVideoUrl &&
-        selectedVideoUrl !==
-        item.url
-      ) {
-
-        mainVideo.pause();
-
-      }
-
-
-      selectedVideoUrl =
-        item.url;
-
-      currentMode =
-        "video";
-
-
-      screenVideo.pause();
-
-      screenVideo.srcObject =
-        null;
-
-      screenVideo.classList.remove(
-        "visible"
-      );
-
-
-      mainVideo.src =
-        item.url;
-
-      mainVideo.classList.add(
-        "visible"
-      );
-
-      mainVideo.muted =
-        false;
-
-
-      emptyStage.classList.add(
-        "hidden"
-      );
-
-
-      stageSourceLabel.textContent =
-        "Main Video";
-
-      stageSourceDot.classList.add(
-        "active"
-      );
-
-
-      mainVideoBtn.classList.add(
-        "active"
-      );
-
-      screenBtn.classList.remove(
-        "active"
-      );
-
-
+    if(render){
       renderVideoLibrary();
+    }
+
+    return item;
+
+  }
 
 
-      mainVideo.play().catch(
-        () => {
-          // Browser may block autoplay.
-        }
+  /* =====================================================
+     FILE SIZE
+  ====================================================== */
+
+  function formatFileSize(bytes){
+
+    if(!bytes){
+      return "0 KB";
+    }
+
+    const units =
+      ["B","KB","MB","GB"];
+
+    const index =
+      Math.min(
+        Math.floor(
+          Math.log(bytes) /
+          Math.log(1024)
+        ),
+        units.length - 1
       );
 
+    return (
+      bytes /
+      Math.pow(1024,index)
+    ).toFixed(
+      index === 0 ? 0 : 1
+    ) +
+    " " +
+    units[index];
 
-      toast(
-        `Loaded "${item.name}"`
-      );
+  }
+
+
+  /* =====================================================
+     VIDEO LIBRARY
+  ====================================================== */
+
+  function renderVideoLibrary(){
+
+    libraryCount.textContent =
+      videoLibrary.length;
+
+    libraryList.innerHTML = "";
+
+    if(!videoLibrary.length){
+
+      const empty =
+        document.createElement("div");
+
+      empty.className =
+        "library-empty";
+
+      empty.textContent =
+        "No local videos selected yet.";
+
+      libraryList.appendChild(empty);
+
+      return;
 
     }
 
 
-    /* =========================================================
-       REMOVE VIDEO
-    ========================================================= */
+    videoLibrary.forEach(item => {
 
-    function removeVideoFromLibrary(
-      id
-    ) {
+      const card =
+        document.createElement("div");
 
-      const index =
-        videoLibrary.findIndex(
-          (item) =>
-            item.id === id
-        );
+      card.className =
+        "video-card";
 
-      if (
-        index === -1
-      ) {
-        return;
-      }
-
-
-      const item =
-        videoLibrary[index];
-
-
-      if (
+      if(
         selectedVideoUrl ===
         item.url
-      ) {
+      ){
 
-        clearMainVideo();
-
-      }
-
-
-      URL.revokeObjectURL(
-        item.url
-      );
-
-
-      videoLibrary.splice(
-        index,
-        1
-      );
-
-
-      renderVideoLibrary();
-
-      toast(
-        "Video removed from library."
-      );
-
-    }
-
-
-    /* =========================================================
-       CLEAR MAIN VIDEO
-    ========================================================= */
-
-    function clearMainVideo() {
-
-      mainVideo.pause();
-
-      mainVideo.removeAttribute(
-        "src"
-      );
-
-      mainVideo.load();
-
-      mainVideo.classList.remove(
-        "visible"
-      );
-
-      selectedVideoUrl =
-        null;
-
-
-      if (
-        currentMode ===
-        "video"
-      ) {
-
-        currentMode =
-          null;
+        card.classList.add("active");
 
       }
 
 
-      mainVideoBtn.classList.remove(
-        "active"
-      );
+      const thumb =
+        document.createElement("div");
 
+      thumb.className =
+        "video-thumb";
 
-      if (
-        currentMode !==
-        "screen"
-      ) {
 
-        emptyStage.classList.remove(
-          "hidden"
-        );
+      const video =
+        document.createElement("video");
 
-        stageSourceLabel.textContent =
-          "No source selected";
+      video.src =
+        item.url;
 
-        stageSourceDot.classList.remove(
-          "active"
-        );
+      video.muted = true;
+      video.preload = "metadata";
 
-      }
 
-    }
+      const icon =
+        document.createElement("div");
 
+      icon.className =
+        "video-thumb-icon";
 
-    /* =========================================================
-       CAMERA
-    ========================================================= */
+      icon.textContent = "▶";
 
-    async function enableCamera() {
 
-      try {
+      thumb.appendChild(video);
+      thumb.appendChild(icon);
 
-        if (!cameraStream) {
 
-          cameraStream =
-            await navigator.mediaDevices
-              .getUserMedia({
-                video: {
-                  width: {
-                    ideal: 1280
-                  },
-                  height: {
-                    ideal: 720
-                  },
-                  facingMode:
-                    "user"
-                },
-                audio: false
-              });
+      const details =
+        document.createElement("div");
 
-        }
+      details.className =
+        "video-details";
 
 
-        cameraPreview.srcObject =
-          cameraStream;
+      const name =
+        document.createElement("div");
 
-        pipPlaceholder.classList.add(
-          "hidden"
-        );
+      name.className =
+        "video-name";
 
-        cameraBtn.classList.add(
-          "active"
-        );
+      name.textContent =
+        item.name;
 
 
-        toast(
-          "Mentor camera enabled."
-        );
+      const size =
+        document.createElement("div");
 
-      } catch (error) {
+      size.className =
+        "video-size";
 
-        console.error(
-          error
-        );
+      size.textContent =
+        formatFileSize(item.size);
 
-        toast(
-          "Camera permission was not granted."
-        );
 
-      }
+      details.appendChild(name);
+      details.appendChild(size);
 
-    }
 
+      const remove =
+        document.createElement("button");
 
-    function disableCamera() {
+      remove.className =
+        "video-remove";
 
-      if (
-        cameraStream
-      ) {
+      remove.textContent =
+        "✕";
 
-        cameraStream
-          .getTracks()
-          .forEach(
-            (track) =>
-              track.stop()
-          );
+      remove.title =
+        "Remove video";
 
-        cameraStream =
-          null;
 
-      }
+      remove.addEventListener(
+        "click",
+        event => {
 
+          event.stopPropagation();
 
-      cameraPreview.srcObject =
-        null;
-
-      pipPlaceholder.classList.remove(
-        "hidden"
-      );
-
-      cameraBtn.classList.remove(
-        "active"
-      );
-
-    }
-
-
-    cameraBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          cameraStream
-        ) {
-
-          disableCamera();
-
-        } else {
-
-          await enableCamera();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       MICROPHONE
-    ========================================================= */
-
-    async function enableMicrophone() {
-
-      try {
-
-        if (!microphoneStream) {
-
-          microphoneStream =
-            await navigator.mediaDevices
-              .getUserMedia({
-                audio: {
-                  echoCancellation:
-                    true,
-                  noiseSuppression:
-                    true,
-                  autoGainControl:
-                    true
-                },
-                video: false
-              });
-
-        }
-
-
-        micBtn.classList.add(
-          "active"
-        );
-
-        toast(
-          "Microphone enabled."
-        );
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-        toast(
-          "Microphone permission was not granted."
-        );
-
-      }
-
-    }
-
-
-    function disableMicrophone() {
-
-      if (
-        microphoneStream
-      ) {
-
-        microphoneStream
-          .getTracks()
-          .forEach(
-            (track) =>
-              track.stop()
-          );
-
-        microphoneStream =
-          null;
-
-      }
-
-
-      micBtn.classList.remove(
-        "active"
-      );
-
-    }
-
-
-    micBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          microphoneStream
-        ) {
-
-          disableMicrophone();
-
-        } else {
-
-          await enableMicrophone();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       SCREEN SHARE
-    ========================================================= */
-
-    async function startScreenShare() {
-
-      try {
-
-        screenStream =
-          await navigator.mediaDevices
-            .getDisplayMedia({
-              video: {
-                cursor: "always"
-              },
-              audio: true
-            });
-
-
-        screenVideo.srcObject =
-          screenStream;
-
-        screenVideo.muted =
-          true;
-
-        screenVideo.classList.add(
-          "visible"
-        );
-
-
-        mainVideo.pause();
-
-        mainVideo.classList.remove(
-          "visible"
-        );
-
-
-        currentMode =
-          "screen";
-
-
-        mainVideoBtn.classList.remove(
-          "active"
-        );
-
-        screenBtn.classList.add(
-          "active"
-        );
-
-
-        emptyStage.classList.add(
-          "hidden"
-        );
-
-
-        stageSourceLabel.textContent =
-          "Shared Screen";
-
-        stageSourceDot.classList.add(
-          "active"
-        );
-
-
-        screenStream
-          .getVideoTracks()[0]
-          .addEventListener(
-            "ended",
-            () => {
-
-              stopScreenShare();
-
-            }
-          );
-
-
-        toast(
-          "Screen sharing started."
-        );
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-        toast(
-          "Screen sharing was cancelled."
-        );
-
-      }
-
-    }
-
-
-    function stopScreenShare() {
-
-      if (
-        screenStream
-      ) {
-
-        screenStream
-          .getTracks()
-          .forEach(
-            (track) =>
-              track.stop()
-          );
-
-        screenStream =
-          null;
-
-      }
-
-
-      screenVideo.pause();
-
-      screenVideo.srcObject =
-        null;
-
-      screenVideo.classList.remove(
-        "visible"
-      );
-
-      screenBtn.classList.remove(
-        "active"
-      );
-
-
-      if (
-        currentMode ===
-        "screen"
-      ) {
-
-        currentMode =
-          null;
-
-        emptyStage.classList.remove(
-          "hidden"
-        );
-
-        stageSourceLabel.textContent =
-          "No source selected";
-
-        stageSourceDot.classList.remove(
-          "active"
-        );
-
-      }
-
-    }
-
-
-    screenBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          screenStream
-        ) {
-
-          stopScreenShare();
-
-        } else {
-
-          await startScreenShare();
-
-        }
-
-      }
-    );
-
-
-    emptyScreenBtn.addEventListener(
-      "click",
-      async () => {
-
-        await startScreenShare();
-
-      }
-    );
-
-
-    /* =========================================================
-       STUDENT PANEL
-    ========================================================= */
-
-    function toggleStudentsPanel() {
-
-      rightPanel.classList.toggle(
-        "mobile-open"
-      );
-
-    }
-
-
-    studentsBtn.addEventListener(
-      "click",
-      toggleStudentsPanel
-    );
-
-    studentsTopBtn.addEventListener(
-      "click",
-      toggleStudentsPanel
-    );
-
-
-    /* =========================================================
-       FIRESTORE STUDENTS
-    ========================================================= */
-
-    function loadStudents() {
-
-      if (
-        unsubscribeStudents
-      ) {
-
-        unsubscribeStudents();
-
-      }
-
-
-      try {
-
-        const studentsQuery =
-          query(
-            collection(
-              db,
-              "students"
-            )
-          );
-
-
-        unsubscribeStudents =
-          onSnapshot(
-            studentsQuery,
-            (snapshot) => {
-
-              const students =
-                [];
-
-
-              snapshot.forEach(
-                (doc) => {
-
-                  students.push({
-                    id: doc.id,
-                    ...doc.data()
-                  });
-
-                }
-              );
-
-
-              renderStudents(
-                students
-              );
-
-            },
-            (error) => {
-
-              console.warn(
-                "Student sync:",
-                error
-              );
-
-              renderStudents(
-                []
-              );
-
-            }
-          );
-
-      } catch (error) {
-
-        console.warn(
-          error
-        );
-
-        renderStudents(
-          []
-        );
-
-      }
-
-    }
-
-
-    function getStudentName(
-      student
-    ) {
-
-      return (
-        student.name ||
-        student.displayName ||
-        student.fullName ||
-        student.email ||
-        "Student"
-      );
-
-    }
-
-
-    function renderStudents(
-      students
-    ) {
-
-      const queryText =
-        studentSearch.value
-          .trim()
-          .toLowerCase();
-
-
-      const filtered =
-        students.filter(
-          (student) =>
-            getStudentName(
-              student
-            )
-              .toLowerCase()
-              .includes(queryText)
-        );
-
-
-      participantCount.textContent =
-        `${students.length} Online`;
-
-
-      studentsList.innerHTML = "";
-
-
-      if (
-        !filtered.length
-      ) {
-
-        const empty =
-          document.createElement(
-            "div"
-          );
-
-        empty.className =
-          "empty-students";
-
-        empty.textContent =
-          students.length
-            ? "No students match your search."
-            : "Waiting for students to join this class...";
-
-        studentsList.appendChild(
-          empty
-        );
-
-        return;
-
-      }
-
-
-      filtered.forEach(
-        (student) => {
-
-          const row =
-            document.createElement(
-              "div"
-            );
-
-          row.className =
-            "student";
-
-
-          const avatar =
-            document.createElement(
-              "div"
-            );
-
-          avatar.className =
-            "student-avatar";
-
-
-          const name =
-            getStudentName(
-              student
-            );
-
-
-          avatar.textContent =
-            name
-              .charAt(0)
-              .toUpperCase();
-
-
-          const info =
-            document.createElement(
-              "div"
-            );
-
-          info.className =
-            "student-info";
-
-
-          const nameEl =
-            document.createElement(
-              "div"
-            );
-
-          nameEl.className =
-            "student-name";
-
-          nameEl.textContent =
-            name;
-
-
-          const status =
-            document.createElement(
-              "div"
-            );
-
-          status.className =
-            "student-status";
-
-
-          const dot =
-            document.createElement(
-              "span"
-            );
-
-          dot.className =
-            "student-status-dot";
-
-
-          status.appendChild(
-            dot
-          );
-
-          status.appendChild(
-            document.createTextNode(
-              "Connected"
-            )
-          );
-
-
-          info.appendChild(
-            nameEl
-          );
-
-          info.appendChild(
-            status
-          );
-
-
-          row.appendChild(
-            avatar
-          );
-
-          row.appendChild(
-            info
-          );
-
-
-          studentsList.appendChild(
-            row
-          );
+          removeVideo(item.id);
 
         }
       );
 
-    }
 
+      card.appendChild(thumb);
+      card.appendChild(details);
+      card.appendChild(remove);
 
-    studentSearch.addEventListener(
-      "input",
-      () => {
 
-        if (
-          currentUser
-        ) {
-
-          // Re-render from currently visible DOM data
-          const rows =
-            Array.from(
-              studentsList.querySelectorAll(
-                ".student"
-              )
-            );
-
-          const text =
-            studentSearch.value
-              .toLowerCase()
-              .trim();
-
-          rows.forEach(
-            (row) => {
-
-              const name =
-                row.querySelector(
-                  ".student-name"
-                )?.textContent
-                  ?.toLowerCase() || "";
-
-              row.style.display =
-                !text ||
-                name.includes(text)
-                  ? ""
-                  : "none";
-
-            }
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       CANVAS COMPOSITOR
-    ========================================================= */
-
-    function createRecordingCanvas() {
-
-      if (
-        canvas
-      ) {
-
-        return;
-
-      }
-
-
-      canvas =
-        document.createElement(
-          "canvas"
-        );
-
-      canvas.width =
-        1920;
-
-      canvas.height =
-        1080;
-
-
-      canvasCtx =
-        canvas.getContext(
-          "2d",
-          {
-            alpha: false
-          }
-        );
-
-    }
-
-
-    function drawRecordingFrame() {
-
-      if (
-        !canvasCtx
-      ) {
-        return;
-      }
-
-
-      const ctx =
-        canvasCtx;
-
-      const width =
-        canvas.width;
-
-      const height =
-        canvas.height;
-
-
-      ctx.fillStyle =
-        "#020307";
-
-      ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-      );
-
-
-      let sourceVideo =
-        null;
-
-
-      if (
-        currentMode ===
-        "video" &&
-        mainVideo.readyState >= 2
-      ) {
-
-        sourceVideo =
-          mainVideo;
-
-      } else if (
-        currentMode ===
-        "screen" &&
-        screenVideo.readyState >= 2
-      ) {
-
-        sourceVideo =
-          screenVideo;
-
-      }
-
-
-      if (
-        sourceVideo
-      ) {
-
-        drawContain(
-          ctx,
-          sourceVideo,
-          0,
-          0,
-          width,
-          height
-        );
-
-      } else {
-
-        const gradient =
-          ctx.createRadialGradient(
-            width * 0.5,
-            height * 0.4,
-            100,
-            width * 0.5,
-            height * 0.4,
-            width * 0.8
-          );
-
-        gradient.addColorStop(
-          0,
-          "#12162a"
-        );
-
-        gradient.addColorStop(
-          1,
-          "#020307"
-        );
-
-        ctx.fillStyle =
-          gradient;
-
-        ctx.fillRect(
-          0,
-          0,
-          width,
-          height
-        );
-
-      }
-
-
-      /* -------------------------------------------------------
-         Dark cinematic overlay
-      ------------------------------------------------------- */
-
-      const overlay =
-        ctx.createLinearGradient(
-          0,
-          0,
-          0,
-          height
-        );
-
-      overlay.addColorStop(
-        0,
-        "rgba(0,0,0,0.08)"
-      );
-
-      overlay.addColorStop(
-        0.72,
-        "rgba(0,0,0,0.03)"
-      );
-
-      overlay.addColorStop(
-        1,
-        "rgba(0,0,0,0.38)"
-      );
-
-      ctx.fillStyle =
-        overlay;
-
-      ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-      );
-
-
-      /* -------------------------------------------------------
-         Mentor PIP
-      ------------------------------------------------------- */
-
-      if (
-        cameraStream &&
-        cameraPreview.readyState >= 2
-      ) {
-
-        const pipWidth =
-          360;
-
-        const pipHeight =
-          225;
-
-        const margin =
-          42;
-
-        const x =
-          width -
-          pipWidth -
-          margin;
-
-        const y =
-          height -
-          pipHeight -
-          48;
-
-
-        ctx.save();
-
-        ctx.beginPath();
-
-        roundedRect(
-          ctx,
-          x,
-          y,
-          pipWidth,
-          pipHeight,
-          22
-        );
-
-        ctx.clip();
-
-
-        ctx.translate(
-          x + pipWidth,
-          y
-        );
-
-        ctx.scale(
-          -1,
-          1
-        );
-
-
-        drawCover(
-          ctx,
-          cameraPreview,
-          0,
-          0,
-          pipWidth,
-          pipHeight
-        );
-
-
-        ctx.restore();
-
-
-        ctx.save();
-
-        ctx.strokeStyle =
-          "rgba(255,255,255,0.2)";
-
-        ctx.lineWidth =
-          5;
-
-        roundedRect(
-          ctx,
-          x,
-          y,
-          pipWidth,
-          pipHeight,
-          22
-        );
-
-        ctx.stroke();
-
-        ctx.restore();
-
-
-        ctx.save();
-
-        ctx.fillStyle =
-          "rgba(0,0,0,0.55)";
-
-        roundedRect(
-          ctx,
-          x + 14,
-          y +
-          pipHeight -
-          44,
-          100,
-          27,
-          8
-        );
-
-        ctx.fill();
-
-
-        ctx.fillStyle =
-          "#ffffff";
-
-        ctx.font =
-          "700 15px Inter, Arial";
-
-        ctx.fillText(
-          "Mentor",
-          x + 26,
-          y +
-          pipHeight -
-          25
-        );
-
-        ctx.restore();
-
-      }
-
-
-      animationFrame =
-        requestAnimationFrame(
-          drawRecordingFrame
-        );
-
-    }
-
-
-    function drawContain(
-      ctx,
-      video,
-      x,
-      y,
-      width,
-      height
-    ) {
-
-      const vw =
-        video.videoWidth ||
-        16;
-
-      const vh =
-        video.videoHeight ||
-        9;
-
-
-      const scale =
-        Math.min(
-          width / vw,
-          height / vh
-        );
-
-
-      const dw =
-        vw * scale;
-
-      const dh =
-        vh * scale;
-
-
-      const dx =
-        x +
-        (width - dw) / 2;
-
-      const dy =
-        y +
-        (height - dh) / 2;
-
-
-      ctx.drawImage(
-        video,
-        dx,
-        dy,
-        dw,
-        dh
-      );
-
-    }
-
-
-    function drawCover(
-      ctx,
-      video,
-      x,
-      y,
-      width,
-      height
-    ) {
-
-      const vw =
-        video.videoWidth ||
-        16;
-
-      const vh =
-        video.videoHeight ||
-        9;
-
-
-      const scale =
-        Math.max(
-          width / vw,
-          height / vh
-        );
-
-
-      const dw =
-        vw * scale;
-
-      const dh =
-        vh * scale;
-
-
-      const dx =
-        x +
-        (width - dw) / 2;
-
-      const dy =
-        y +
-        (height - dh) / 2;
-
-
-      ctx.drawImage(
-        video,
-        dx,
-        dy,
-        dw,
-        dh
-      );
-
-    }
-
-
-    function roundedRect(
-      ctx,
-      x,
-      y,
-      width,
-      height,
-      radius
-    ) {
-
-      const r =
-        Math.min(
-          radius,
-          width / 2,
-          height / 2
-        );
-
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        x + r,
-        y
-      );
-
-      ctx.arcTo(
-        x + width,
-        y,
-        x + width,
-        y + height,
-        r
-      );
-
-      ctx.arcTo(
-        x + width,
-        y + height,
-        x,
-        y + height,
-        r
-      );
-
-      ctx.arcTo(
-        x,
-        y + height,
-        x,
-        y,
-        r
-      );
-
-      ctx.arcTo(
-        x,
-        y,
-        x + width,
-        y,
-        r
-      );
-
-      ctx.closePath();
-
-    }
-
-
-    /* =========================================================
-       RECORDING AUDIO
-    ========================================================= */
-
-    function buildRecordingAudio() {
-
-      try {
-
-        recordingAudioContext =
-          new AudioContext();
-
-
-        recordingDestination =
-          recordingAudioContext
-            .createMediaStreamDestination();
-
-
-        if (
-          microphoneStream
-        ) {
-
-          recordingMicSource =
-            recordingAudioContext
-              .createMediaStreamSource(
-                microphoneStream
-              );
-
-
-          recordingMicSource.connect(
-            recordingDestination
-          );
-
-        }
-
-
-        if (
-          mainVideo &&
-          currentMode ===
-          "video"
-        ) {
-
-          if (
-            typeof mainVideo.captureStream ===
-            "function"
-          ) {
-
-            currentVideoAudioStream =
-              mainVideo.captureStream();
-
-            const audioTracks =
-              currentVideoAudioStream
-                .getAudioTracks();
-
-
-            if (
-              audioTracks.length
-            ) {
-
-              const audioOnlyStream =
-                new MediaStream(
-                  audioTracks
-                );
-
-
-              recordingVideoAudioSource =
-                recordingAudioContext
-                  .createMediaStreamSource(
-                    audioOnlyStream
-                  );
-
-
-              recordingVideoAudioSource.connect(
-                recordingDestination
-              );
-
-            }
-
-          }
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Audio mixing unavailable:",
-          error
-        );
-
-      }
-
-    }
-
-
-    function cleanupRecordingAudio() {
-
-      try {
-
-        if (
-          recordingMicSource
-        ) {
-
-          recordingMicSource.disconnect();
-
-          recordingMicSource =
-            null;
-
-        }
-
-
-        if (
-          recordingVideoAudioSource
-        ) {
-
-          recordingVideoAudioSource.disconnect();
-
-          recordingVideoAudioSource =
-            null;
-
-        }
-
-
-        if (
-          recordingAudioContext
-        ) {
-
-          recordingAudioContext.close();
-
-          recordingAudioContext =
-            null;
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          error
-        );
-
-      }
-
-
-      recordingDestination =
-        null;
-
-      currentVideoAudioStream =
-        null;
-
-    }
-
-
-    /* =========================================================
-       START RECORDING
-    ========================================================= */
-
-    async function startRecording() {
-
-      if (
-        !currentMode
-      ) {
-
-        toast(
-          "Select a Main Video or Share Screen before recording."
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !microphoneStream
-      ) {
-
-        await enableMicrophone();
-
-      }
-
-
-      createRecordingCanvas();
-
-
-      if (
-        animationFrame
-      ) {
-
-        cancelAnimationFrame(
-          animationFrame
-        );
-
-      }
-
-
-      drawRecordingFrame();
-
-
-      const canvasStream =
-        canvas.captureStream(
-          30
-        );
-
-
-      buildRecordingAudio();
-
-
-      const tracks =
-        [
-          ...canvasStream.getVideoTracks()
-        ];
-
-
-      if (
-        recordingDestination
-      ) {
-
-        tracks.push(
-          ...recordingDestination
-            .stream
-            .getAudioTracks()
-        );
-
-      }
-
-
-      const recordingStream =
-        new MediaStream(
-          tracks
-        );
-
-
-      let mimeType =
-        "";
-
-
-      const mimeCandidates = [
-
-        "video/webm;codecs=vp9,opus",
-
-        "video/webm;codecs=vp8,opus",
-
-        "video/webm"
-
-      ];
-
-
-      for (
-        const candidate of
-        mimeCandidates
-      ) {
-
-        if (
-          MediaRecorder.isTypeSupported(
-            candidate
-          )
-        ) {
-
-          mimeType =
-            candidate;
-
-          break;
-
-        }
-
-      }
-
-
-      try {
-
-        recorder =
-          new MediaRecorder(
-            recordingStream,
-            mimeType
-              ? {
-                  mimeType,
-                  videoBitsPerSecond:
-                    6000000
-                }
-              : undefined
-          );
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-        toast(
-          "This browser cannot start recording."
-        );
-
-        cleanupRecordingAudio();
-
-        return;
-
-      }
-
-
-      recordedChunks = [];
-
-
-      recorder.ondataavailable =
-        (event) => {
-
-          if (
-            event.data &&
-            event.data.size > 0
-          ) {
-
-            recordedChunks.push(
-              event.data
-            );
-
-          }
-
-        };
-
-
-      recorder.onstop =
+      card.addEventListener(
+        "click",
         () => {
 
-          const type =
-            mimeType ||
-            "video/webm";
+          selectLibraryVideo(item);
 
-
-          recordingBlob =
-            new Blob(
-              recordedChunks,
-              {
-                type
-              }
-            );
-
-
-          if (
-            recordingObjectUrl
-          ) {
-
-            URL.revokeObjectURL(
-              recordingObjectUrl
-            );
-
-          }
-
-
-          recordingObjectUrl =
-            URL.createObjectURL(
-              recordingBlob
-            );
-
-
-          previewVideo.src =
-            recordingObjectUrl;
-
-
-          previewModal.classList.add(
-            "show"
-          );
-
-
-          recordIndicator.classList.remove(
-            "active"
-          );
-
-          recordBtn.classList.remove(
-            "active"
-          );
-
-
-          recordBtn.innerHTML =
-            "🔴<span>Record</span>";
-
-
-          pauseBtn.disabled =
-            true;
-
-          pauseBtn.innerHTML =
-            "⏸<span>Pause</span>";
-
-
-          recordingPaused =
-            false;
-
-
-          cleanupRecordingAudio();
-
-
-          if (
-            animationFrame
-          ) {
-
-            cancelAnimationFrame(
-              animationFrame
-            );
-
-            animationFrame =
-              null;
-
-          }
-
-
-          toast(
-            "Recording ready for preview."
-          );
-
-        };
-
-
-      recorder.onerror =
-        (event) => {
-
-          console.error(
-            "Recorder error:",
-            event
-          );
-
-          toast(
-            "Recording error occurred."
-          );
-
-        };
-
-
-      recorder.start(
-        1000
+        }
       );
 
 
-      recordIndicator.classList.add(
-        "active"
-      );
+      libraryList.appendChild(card);
 
-      recordBtn.classList.add(
-        "active"
-      );
+    });
+
+  }
 
 
-      recordBtn.innerHTML =
-        "⏹<span>Stop</span>";
+  /* =====================================================
+     SELECT VIDEO
+  ====================================================== */
 
+  function selectLibraryVideo(item){
 
-      pauseBtn.disabled =
-        false;
+    if(!item){
+      return;
+    }
 
+    if(
+      currentMode === "screen"
+    ){
 
-      toast(
-        "Recording started."
-      );
+      stopScreenShare();
 
     }
 
 
-    /* =========================================================
-       STOP RECORDING
-    ========================================================= */
+    mainVideo.pause();
 
-    function stopRecording() {
+    selectedVideoUrl =
+      item.url;
 
-      if (
-        recorder &&
-        recorder.state !==
-          "inactive"
-      ) {
-
-        recorder.stop();
-
-      }
-
-    }
+    currentMode =
+      "video";
 
 
-    /* =========================================================
-       RECORD BUTTON
-    ========================================================= */
+    mainVideo.src =
+      item.url;
 
-    recordBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          !recorder ||
-          recorder.state ===
-            "inactive"
-        ) {
-
-          await startRecording();
-
-        } else {
-
-          stopRecording();
-
-        }
-
-      }
+    mainVideo.classList.add(
+      "visible"
     );
 
 
-    /* =========================================================
-       PAUSE / RESUME
-    ========================================================= */
-
-    pauseBtn.addEventListener(
-      "click",
-      () => {
-
-        if (
-          !recorder
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          recorder.state ===
-          "recording"
-        ) {
-
-          recorder.pause();
-
-          recordingPaused =
-            true;
-
-          pauseBtn.innerHTML =
-            "▶<span>Resume</span>";
-
-          toast(
-            "Recording paused."
-          );
-
-        } else if (
-          recorder.state ===
-          "paused"
-        ) {
-
-          recorder.resume();
-
-          recordingPaused =
-            false;
-
-          pauseBtn.innerHTML =
-            "⏸<span>Pause</span>";
-
-          toast(
-            "Recording resumed."
-          );
-
-        }
-
-      }
+    screenVideo.classList.remove(
+      "visible"
     );
 
 
-    /* =========================================================
-       FULLSCREEN
-    ========================================================= */
-
-    fullscreenBtn.addEventListener(
-      "click",
-      async () => {
-
-        try {
-
-          if (
-            !document.fullscreenElement
-          ) {
-
-            await studio.requestFullscreen();
-
-          } else {
-
-            await document.exitFullscreen();
-
-          }
-
-        } catch (error) {
-
-          console.warn(
-            error
-          );
-
-          toast(
-            "Fullscreen is not available."
-          );
-
-        }
-
-      }
+    emptyStage.classList.add(
+      "hidden"
     );
 
 
-    /* =========================================================
-       PREVIEW CLOSE
-    ========================================================= */
-
-    function closePreview() {
-
-      previewModal.classList.remove(
-        "show"
-      );
-
-      previewVideo.pause();
-
-    }
-
-
-    closePreviewBtn.addEventListener(
-      "click",
-      closePreview
-    );
-
-    closePreviewAction.addEventListener(
-      "click",
-      closePreview
-    );
-
-
-    previewModal.addEventListener(
-      "click",
-      (event) => {
-
-        if (
-          event.target ===
-          previewModal
-        ) {
-
-          closePreview();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       DOWNLOAD
-    ========================================================= */
-
-    downloadBtn.addEventListener(
-      "click",
-      () => {
-
-        if (
-          !recordingObjectUrl
-        ) {
-
-          toast(
-            "No recording available."
-          );
-
-          return;
-
-        }
-
-
-        const anchor =
-          document.createElement(
-            "a"
-          );
-
-        anchor.href =
-          recordingObjectUrl;
-
-        anchor.download =
-          `UshaLiveAI-${Date.now()}.webm`;
-
-        document.body.appendChild(
-          anchor
-        );
-
-        anchor.click();
-
-        anchor.remove();
-
-
-        toast(
-          "Recording download started."
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       SETTINGS
-    ========================================================= */
-
-    settingsBtn.addEventListener(
-      "click",
-      () => {
-
-        toast(
-          "Studio settings panel will be added in the next module."
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
-
-        try {
-
-          stopRecording();
-
-          stopScreenShare();
-
-          disableCamera();
-
-          disableMicrophone();
-
-
-          if (
-            unsubscribeStudents
-          ) {
-
-            unsubscribeStudents();
-
-          }
-
-
-          await signOut(
-            auth
-          );
-
-
-          window.location.href =
-            "../login/";
-
-        } catch (error) {
-
-          console.error(
-            error
-          );
-
-          toast(
-            "Logout failed."
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       END STUDIO
-    ========================================================= */
-
-    endBtn.addEventListener(
-      "click",
-      () => {
-
-        const confirmed =
-          window.confirm(
-            "End this Mentor Studio session?"
-          );
-
-
-        if (
-          !confirmed
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          recorder &&
-          recorder.state !==
-            "inactive"
-        ) {
-
-          recorder.stop();
-
-        }
-
-
-        stopScreenShare();
-
-        disableCamera();
-
-        disableMicrophone();
-
-
-        toast(
-          "Mentor Studio ended."
-        );
-
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "../dashboard/";
-
-          },
-          500
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       MAIN VIDEO EVENTS
-    ========================================================= */
-
-    mainVideo.addEventListener(
-      "play",
-      () => {
-
-        if (
-          currentMode ===
-          "video"
-        ) {
-
-          stageSourceDot.classList.add(
-            "active"
-          );
-
-        }
-
-      }
-    );
-
-
-    mainVideo.addEventListener(
-      "ended",
-      () => {
-
-        /*
-          IMPORTANT:
-          Do NOT load an old recording.
-          Keep the selected video as the current source,
-          but stop playback naturally.
-        */
-
-        toast(
-          "Main video finished."
-        );
-
-      }
-    );
-
-
-    mainVideo.addEventListener(
-      "error",
-      () => {
-
-        toast(
-          "Could not play this video file."
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       KEYBOARD SHORTCUTS
-    ========================================================= */
-
-    document.addEventListener(
-      "keydown",
-      (event) => {
-
-        const target =
-          event.target;
-
-        const typing =
-          target &&
-          (
-            target.tagName ===
-              "INPUT" ||
-            target.tagName ===
-              "TEXTAREA" ||
-            target.isContentEditable
-          );
-
-
-        if (
-          typing
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          event.code ===
-          "Space"
-        ) {
-
-          event.preventDefault();
-
-
-          if (
-            recorder &&
-            recorder.state ===
-              "recording"
-          ) {
-
-            pauseBtn.click();
-
-          }
-
-        }
-
-
-        if (
-          event.key.toLowerCase() ===
-          "r"
-        ) {
-
-          recordBtn.click();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       CLEANUP
-    ========================================================= */
-
-    window.addEventListener(
-      "beforeunload",
-      () => {
-
-        if (
-          cameraStream
-        ) {
-
-          cameraStream
-            .getTracks()
-            .forEach(
-              (track) =>
-                track.stop()
-            );
-
-        }
-
-
-        if (
-          microphoneStream
-        ) {
-
-          microphoneStream
-            .getTracks()
-            .forEach(
-              (track) =>
-                track.stop()
-            );
-
-        }
-
-
-        if (
-          screenStream
-        ) {
-
-          screenStream
-            .getTracks()
-            .forEach(
-              (track) =>
-                track.stop()
-            );
-
-        }
-
-
-        videoLibrary.forEach(
-          (item) => {
-
-            try {
-
-              URL.revokeObjectURL(
-                item.url
-              );
-
-            } catch {}
-
-          }
-        );
-
-
-        if (
-          recordingObjectUrl
-        ) {
-
-          try {
-
-            URL.revokeObjectURL(
-              recordingObjectUrl
-            );
-
-          } catch {}
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       INITIAL UI
-    ========================================================= */
-
-    cameraBtn.classList.remove(
-      "active"
-    );
-
-    micBtn.classList.remove(
-      "active"
-    );
-
-    mainVideoBtn.classList.remove(
+    mainVideoBtn.classList.add(
       "active"
     );
 
@@ -5052,17 +2459,2398 @@
 
 
     stageSourceLabel.textContent =
-      "No source selected";
+      "Main Video";
+
+    stageSourceDot.classList.add(
+      "active"
+    );
 
 
-    /*
-      IMPORTANT:
-      No previous recording is loaded here.
-      Main Video remains empty until the mentor
-      explicitly selects a local video.
-    */
+    renderVideoLibrary();
 
-  </script>
+
+    mainVideo.play().catch(() => {});
+
+
+    toast(
+      `Loaded "${item.name}"`
+    );
+
+  }
+
+
+  /* =====================================================
+     REMOVE VIDEO
+  ====================================================== */
+
+  function removeVideo(id){
+
+    const index =
+      videoLibrary.findIndex(
+        item => item.id === id
+      );
+
+    if(index === -1){
+      return;
+    }
+
+
+    const item =
+      videoLibrary[index];
+
+
+    if(
+      selectedVideoUrl ===
+      item.url
+    ){
+
+      clearMainVideo();
+
+    }
+
+
+    URL.revokeObjectURL(
+      item.url
+    );
+
+    videoLibrary.splice(
+      index,
+      1
+    );
+
+    renderVideoLibrary();
+
+    toast(
+      "Video removed."
+    );
+
+  }
+
+
+  /* =====================================================
+     CLEAR VIDEO
+  ====================================================== */
+
+  function clearMainVideo(){
+
+    mainVideo.pause();
+
+    mainVideo.removeAttribute(
+      "src"
+    );
+
+    mainVideo.load();
+
+    mainVideo.classList.remove(
+      "visible"
+    );
+
+    selectedVideoUrl =
+      null;
+
+    mainVideoBtn.classList.remove(
+      "active"
+    );
+
+
+    if(
+      currentMode === "video"
+    ){
+
+      currentMode =
+        null;
+
+      emptyStage.classList.remove(
+        "hidden"
+      );
+
+      stageSourceLabel.textContent =
+        "No source selected";
+
+      stageSourceDot.classList.remove(
+        "active"
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     CAMERA
+  ====================================================== */
+
+  async function enableCamera(){
+
+    try{
+
+      cameraStream =
+        await navigator.mediaDevices
+          .getUserMedia({
+
+            video:{
+              width:{ideal:1280},
+              height:{ideal:720},
+              facingMode:"user"
+            },
+
+            audio:false
+
+          });
+
+
+      cameraPreview.srcObject =
+        cameraStream;
+
+      pipPlaceholder.classList.add(
+        "hidden"
+      );
+
+      cameraBtn.classList.add(
+        "active"
+      );
+
+
+      toast(
+        "Camera enabled."
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Camera permission was not granted."
+      );
+
+    }
+
+  }
+
+
+  function disableCamera(){
+
+    if(cameraStream){
+
+      cameraStream
+        .getTracks()
+        .forEach(track =>
+          track.stop()
+        );
+
+      cameraStream =
+        null;
+
+    }
+
+
+    cameraPreview.srcObject =
+      null;
+
+    pipPlaceholder.classList.remove(
+      "hidden"
+    );
+
+    cameraBtn.classList.remove(
+      "active"
+    );
+
+  }
+
+
+  cameraBtn.addEventListener(
+    "click",
+    async () => {
+
+      if(cameraStream){
+
+        disableCamera();
+        toast("Camera muted.");
+
+      }else{
+
+        await enableCamera();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     MICROPHONE
+  ====================================================== */
+
+  async function enableMicrophone(){
+
+    try{
+
+      microphoneStream =
+        await navigator.mediaDevices
+          .getUserMedia({
+
+            audio:{
+              echoCancellation:true,
+              noiseSuppression:true,
+              autoGainControl:true
+            },
+
+            video:false
+
+          });
+
+
+      micBtn.classList.add(
+        "active"
+      );
+
+      toast(
+        "Microphone enabled."
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Microphone permission was not granted."
+      );
+
+    }
+
+  }
+
+
+  function disableMicrophone(){
+
+    if(microphoneStream){
+
+      microphoneStream
+        .getTracks()
+        .forEach(track =>
+          track.stop()
+        );
+
+      microphoneStream =
+        null;
+
+    }
+
+    micBtn.classList.remove(
+      "active"
+    );
+
+  }
+
+
+  micBtn.addEventListener(
+    "click",
+    async () => {
+
+      if(microphoneStream){
+
+        disableMicrophone();
+
+        toast("Microphone muted.");
+
+      }else{
+
+        await enableMicrophone();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     SCREEN SHARE
+  ====================================================== */
+
+  async function startScreenShare(){
+
+    try{
+
+      screenStream =
+        await navigator.mediaDevices
+          .getDisplayMedia({
+
+            video:{
+              cursor:"always"
+            },
+
+            audio:true
+
+          });
+
+
+      screenVideo.srcObject =
+        screenStream;
+
+      screenVideo.muted =
+        true;
+
+      screenVideo.classList.add(
+        "visible"
+      );
+
+
+      mainVideo.pause();
+
+      mainVideo.classList.remove(
+        "visible"
+      );
+
+
+      currentMode =
+        "screen";
+
+
+      mainVideoBtn.classList.remove(
+        "active"
+      );
+
+      screenBtn.classList.add(
+        "active"
+      );
+
+
+      emptyStage.classList.add(
+        "hidden"
+      );
+
+
+      stageSourceLabel.textContent =
+        "Shared Screen";
+
+      stageSourceDot.classList.add(
+        "active"
+      );
+
+
+      const track =
+        screenStream.getVideoTracks()[0];
+
+
+      if(track){
+
+        track.addEventListener(
+          "ended",
+          () => {
+
+            stopScreenShare();
+
+            toast(
+              "Screen sharing ended."
+            );
+
+          }
+        );
+
+      }
+
+
+      toast(
+        "Screen sharing started."
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Screen sharing cancelled."
+      );
+
+    }
+
+  }
+
+
+  function stopScreenShare(){
+
+    if(screenStream){
+
+      screenStream
+        .getTracks()
+        .forEach(track =>
+          track.stop()
+        );
+
+      screenStream =
+        null;
+
+    }
+
+
+    screenVideo.pause();
+
+    screenVideo.srcObject =
+      null;
+
+    screenVideo.classList.remove(
+      "visible"
+    );
+
+    screenBtn.classList.remove(
+      "active"
+    );
+
+
+    if(
+      currentMode === "screen"
+    ){
+
+      currentMode =
+        null;
+
+      emptyStage.classList.remove(
+        "hidden"
+      );
+
+      stageSourceLabel.textContent =
+        "No source selected";
+
+      stageSourceDot.classList.remove(
+        "active"
+      );
+
+    }
+
+  }
+
+
+  screenBtn.addEventListener(
+    "click",
+    async () => {
+
+      if(screenStream){
+
+        stopScreenShare();
+
+        toast(
+          "Screen sharing stopped."
+        );
+
+      }else{
+
+        await startScreenShare();
+
+      }
+
+    }
+  );
+
+
+  emptyScreenBtn.addEventListener(
+    "click",
+    startScreenShare
+  );
+
+
+  /* =====================================================
+     STUDENTS PANEL
+  ====================================================== */
+
+  function toggleStudents(){
+
+    rightPanel.classList.toggle(
+      "mobile-open"
+    );
+
+  }
+
+
+  studentsBtn.addEventListener(
+    "click",
+    toggleStudents
+  );
+
+  studentsTopBtn.addEventListener(
+    "click",
+    toggleStudents
+  );
+
+
+  /* =====================================================
+     STUDENTS
+  ====================================================== */
+
+  function loadStudents(){
+
+    if(unsubscribeStudents){
+      unsubscribeStudents();
+    }
+
+
+    try{
+
+      const q =
+        query(
+          collection(
+            db,
+            "students"
+          )
+        );
+
+
+      unsubscribeStudents =
+        onSnapshot(
+          q,
+          snapshot => {
+
+            studentsCache = [];
+
+            snapshot.forEach(
+              doc => {
+
+                studentsCache.push({
+                  id:doc.id,
+                  ...doc.data()
+                });
+
+              }
+            );
+
+
+            renderStudents();
+
+          },
+          error => {
+
+            console.warn(
+              "Student sync:",
+              error
+            );
+
+            studentsCache = [];
+
+            renderStudents();
+
+          }
+        );
+
+    }catch(error){
+
+      console.warn(error);
+
+    }
+
+  }
+
+
+  function getStudentName(student){
+
+    return (
+      student.name ||
+      student.displayName ||
+      student.fullName ||
+      student.email ||
+      "Student"
+    );
+
+  }
+
+
+  function renderStudents(){
+
+    const search =
+      studentSearch.value
+        .trim()
+        .toLowerCase();
+
+
+    const filtered =
+      studentsCache.filter(
+        student =>
+          getStudentName(student)
+            .toLowerCase()
+            .includes(search)
+      );
+
+
+    participantCount.textContent =
+      `${studentsCache.length} Online`;
+
+
+    studentsList.innerHTML = "";
+
+
+    if(!filtered.length){
+
+      const empty =
+        document.createElement("div");
+
+      empty.className =
+        "empty-students";
+
+      empty.textContent =
+        studentsCache.length
+          ? "No students match your search."
+          : "Waiting for students to join this class...";
+
+      studentsList.appendChild(empty);
+
+      return;
+
+    }
+
+
+    filtered.forEach(student => {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "student";
+
+
+      const avatar =
+        document.createElement("div");
+
+      avatar.className =
+        "student-avatar";
+
+
+      const name =
+        getStudentName(student);
+
+
+      avatar.textContent =
+        name
+          .charAt(0)
+          .toUpperCase();
+
+
+      const info =
+        document.createElement("div");
+
+      info.className =
+        "student-info";
+
+
+      const nameEl =
+        document.createElement("div");
+
+      nameEl.className =
+        "student-name";
+
+      nameEl.textContent =
+        name;
+
+
+      const status =
+        document.createElement("div");
+
+      status.className =
+        "student-status";
+
+
+      const dot =
+        document.createElement("span");
+
+      dot.className =
+        "student-status-dot";
+
+
+      status.appendChild(dot);
+
+      status.appendChild(
+        document.createTextNode(
+          "Connected"
+        )
+      );
+
+
+      info.appendChild(nameEl);
+      info.appendChild(status);
+
+
+      row.appendChild(avatar);
+      row.appendChild(info);
+
+
+      studentsList.appendChild(row);
+
+    });
+
+  }
+
+
+  studentSearch.addEventListener(
+    "input",
+    renderStudents
+  );
+
+
+  /* =====================================================
+     CANVAS
+  ====================================================== */
+
+  function createCanvas(){
+
+    if(canvas){
+      return;
+    }
+
+
+    canvas =
+      document.createElement("canvas");
+
+    canvas.width =
+      1920;
+
+    canvas.height =
+      1080;
+
+
+    canvasCtx =
+      canvas.getContext(
+        "2d",
+        {alpha:false}
+      );
+
+  }
+
+
+  function drawContain(
+    ctx,
+    video,
+    x,
+    y,
+    width,
+    height
+  ){
+
+    const vw =
+      video.videoWidth || 16;
+
+    const vh =
+      video.videoHeight || 9;
+
+
+    const scale =
+      Math.min(
+        width / vw,
+        height / vh
+      );
+
+
+    const dw =
+      vw * scale;
+
+    const dh =
+      vh * scale;
+
+
+    const dx =
+      x + (width-dw)/2;
+
+    const dy =
+      y + (height-dh)/2;
+
+
+    ctx.drawImage(
+      video,
+      dx,
+      dy,
+      dw,
+      dh
+    );
+
+  }
+
+
+  function drawCover(
+    ctx,
+    video,
+    x,
+    y,
+    width,
+    height
+  ){
+
+    const vw =
+      video.videoWidth || 16;
+
+    const vh =
+      video.videoHeight || 9;
+
+
+    const scale =
+      Math.max(
+        width / vw,
+        height / vh
+      );
+
+
+    const dw =
+      vw * scale;
+
+    const dh =
+      vh * scale;
+
+
+    const dx =
+      x + (width-dw)/2;
+
+    const dy =
+      y + (height-dh)/2;
+
+
+    ctx.drawImage(
+      video,
+      dx,
+      dy,
+      dw,
+      dh
+    );
+
+  }
+
+
+  function roundedRect(
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    radius
+  ){
+
+    const r =
+      Math.min(
+        radius,
+        width/2,
+        height/2
+      );
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      x+r,
+      y
+    );
+
+    ctx.arcTo(
+      x+width,
+      y,
+      x+width,
+      y+height,
+      r
+    );
+
+    ctx.arcTo(
+      x+width,
+      y+height,
+      x,
+      y+height,
+      r
+    );
+
+    ctx.arcTo(
+      x,
+      y+height,
+      x,
+      y,
+      r
+    );
+
+    ctx.arcTo(
+      x,
+      y,
+      x+width,
+      y,
+      r
+    );
+
+    ctx.closePath();
+
+  }
+
+
+  function drawFrame(){
+
+    if(!canvasCtx){
+      return;
+    }
+
+
+    const ctx =
+      canvasCtx;
+
+    const w =
+      canvas.width;
+
+    const h =
+      canvas.height;
+
+
+    ctx.fillStyle =
+      "#020307";
+
+    ctx.fillRect(
+      0,
+      0,
+      w,
+      h
+    );
+
+
+    let source = null;
+
+
+    if(
+      currentMode === "video" &&
+      mainVideo.readyState >= 2
+    ){
+
+      source =
+        mainVideo;
+
+    }else if(
+      currentMode === "screen" &&
+      screenVideo.readyState >= 2
+    ){
+
+      source =
+        screenVideo;
+
+    }
+
+
+    if(source){
+
+      drawContain(
+        ctx,
+        source,
+        0,
+        0,
+        w,
+        h
+      );
+
+    }else{
+
+      const gradient =
+        ctx.createRadialGradient(
+          w*.5,
+          h*.4,
+          80,
+          w*.5,
+          h*.4,
+          w*.8
+        );
+
+      gradient.addColorStop(
+        0,
+        "#14182b"
+      );
+
+      gradient.addColorStop(
+        1,
+        "#020307"
+      );
+
+      ctx.fillStyle =
+        gradient;
+
+      ctx.fillRect(
+        0,
+        0,
+        w,
+        h
+      );
+
+    }
+
+
+    const overlay =
+      ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        h
+      );
+
+    overlay.addColorStop(
+      0,
+      "rgba(0,0,0,.08)"
+    );
+
+    overlay.addColorStop(
+      .7,
+      "rgba(0,0,0,.02)"
+    );
+
+    overlay.addColorStop(
+      1,
+      "rgba(0,0,0,.4)"
+    );
+
+
+    ctx.fillStyle =
+      overlay;
+
+    ctx.fillRect(
+      0,
+      0,
+      w,
+      h
+    );
+
+
+    if(
+      cameraStream &&
+      cameraPreview.readyState >= 2
+    ){
+
+      const pw = 360;
+      const ph = 225;
+      const margin = 42;
+
+      const x =
+        w-pw-margin;
+
+      const y =
+        h-ph-48;
+
+
+      ctx.save();
+
+      roundedRect(
+        ctx,
+        x,
+        y,
+        pw,
+        ph,
+        22
+      );
+
+      ctx.clip();
+
+
+      ctx.translate(
+        x+pw,
+        y
+      );
+
+      ctx.scale(-1,1);
+
+
+      drawCover(
+        ctx,
+        cameraPreview,
+        0,
+        0,
+        pw,
+        ph
+      );
+
+
+      ctx.restore();
+
+
+      ctx.save();
+
+      ctx.strokeStyle =
+        "rgba(255,255,255,.2)";
+
+      ctx.lineWidth =
+        5;
+
+      roundedRect(
+        ctx,
+        x,
+        y,
+        pw,
+        ph,
+        22
+      );
+
+      ctx.stroke();
+
+      ctx.restore();
+
+    }
+
+
+    animationFrame =
+      requestAnimationFrame(
+        drawFrame
+      );
+
+  }
+
+
+  /* =====================================================
+     AUDIO
+  ====================================================== */
+
+  function setupAudio(){
+
+    try{
+
+      audioContext =
+        new AudioContext();
+
+      audioDestination =
+        audioContext
+          .createMediaStreamDestination();
+
+
+      if(microphoneStream){
+
+        micAudioSource =
+          audioContext
+            .createMediaStreamSource(
+              microphoneStream
+            );
+
+        micAudioSource.connect(
+          audioDestination
+        );
+
+      }
+
+
+      if(
+        currentMode === "video" &&
+        typeof mainVideo.captureStream ===
+        "function"
+      ){
+
+        const stream =
+          mainVideo.captureStream();
+
+        const tracks =
+          stream.getAudioTracks();
+
+
+        if(tracks.length){
+
+          const audioStream =
+            new MediaStream(tracks);
+
+          videoAudioSource =
+            audioContext
+              .createMediaStreamSource(
+                audioStream
+              );
+
+          videoAudioSource.connect(
+            audioDestination
+          );
+
+        }
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "Audio setup:",
+        error
+      );
+
+    }
+
+  }
+
+
+  function cleanupAudio(){
+
+    try{
+
+      if(micAudioSource){
+        micAudioSource.disconnect();
+      }
+
+      if(videoAudioSource){
+        videoAudioSource.disconnect();
+      }
+
+      if(audioContext){
+        audioContext.close();
+      }
+
+    }catch(error){
+
+      console.warn(error);
+
+    }
+
+
+    micAudioSource = null;
+    videoAudioSource = null;
+    audioDestination = null;
+    audioContext = null;
+
+  }
+
+
+  /* =====================================================
+     RECORD TIMER
+  ====================================================== */
+
+  function formatTime(ms){
+
+    const total =
+      Math.max(
+        0,
+        Math.floor(ms/1000)
+      );
+
+
+    const hours =
+      Math.floor(total/3600);
+
+    const minutes =
+      Math.floor(
+        (total%3600)/60
+      );
+
+    const seconds =
+      total%60;
+
+
+    return [
+      hours,
+      minutes,
+      seconds
+    ]
+      .map(
+        value =>
+          String(value)
+            .padStart(2,"0")
+      )
+      .join(":");
+
+  }
+
+
+  function updateRecordTimer(){
+
+    if(!recordingStartedAt){
+      return;
+    }
+
+
+    const now =
+      Date.now();
+
+
+    const elapsed =
+      now -
+      recordingStartedAt -
+      totalPausedMs;
+
+
+    recordTimer.textContent =
+      formatTime(elapsed);
+
+  }
+
+
+  function startRecordTimer(){
+
+    recordingStartedAt =
+      Date.now();
+
+    pausedStartedAt = 0;
+    totalPausedMs = 0;
+
+
+    recordTimer.textContent =
+      "00:00:00";
+
+    recordTimer.classList.add(
+      "active"
+    );
+
+
+    clearInterval(
+      recordingTimerInterval
+    );
+
+
+    recordingTimerInterval =
+      setInterval(
+        updateRecordTimer,
+        250
+      );
+
+  }
+
+
+  function stopRecordTimer(){
+
+    clearInterval(
+      recordingTimerInterval
+    );
+
+    recordingTimerInterval =
+      null;
+
+    recordingStartedAt =
+      0;
+
+    pausedStartedAt =
+      0;
+
+    totalPausedMs =
+      0;
+
+    recordTimer.classList.remove(
+      "active"
+    );
+
+    recordTimer.textContent =
+      "00:00:00";
+
+  }
+
+
+  /* =====================================================
+     START RECORDING
+  ====================================================== */
+
+  async function startRecording(){
+
+    if(!currentMode){
+
+      toast(
+        "Select Main Video or Share Screen first."
+      );
+
+      return;
+
+    }
+
+
+    if(!microphoneStream){
+
+      await enableMicrophone();
+
+    }
+
+
+    createCanvas();
+
+    setupAudio();
+
+
+    if(animationFrame){
+
+      cancelAnimationFrame(
+        animationFrame
+      );
+
+    }
+
+
+    drawFrame();
+
+
+    const canvasStream =
+      canvas.captureStream(30);
+
+
+    const tracks =
+      [
+        ...canvasStream.getVideoTracks()
+      ];
+
+
+    if(
+      audioDestination
+    ){
+
+      tracks.push(
+        ...audioDestination
+          .stream
+          .getAudioTracks()
+      );
+
+    }
+
+
+    const recordingStream =
+      new MediaStream(
+        tracks
+      );
+
+
+    const types = [
+      "video/webm;codecs=vp9,opus",
+      "video/webm;codecs=vp8,opus",
+      "video/webm"
+    ];
+
+
+    let mimeType = "";
+
+
+    for(
+      const type of types
+    ){
+
+      if(
+        MediaRecorder.isTypeSupported(
+          type
+        )
+      ){
+
+        mimeType =
+          type;
+
+        break;
+
+      }
+
+    }
+
+
+    try{
+
+      recorder =
+        new MediaRecorder(
+          recordingStream,
+          mimeType
+            ? {
+                mimeType,
+                videoBitsPerSecond:
+                  6000000
+              }
+            : undefined
+        );
+
+    }catch(error){
+
+      console.error(error);
+
+      cleanupAudio();
+
+      toast(
+        "This browser cannot record this studio."
+      );
+
+      return;
+
+    }
+
+
+    recordedChunks = [];
+
+
+    recorder.ondataavailable =
+      event => {
+
+        if(
+          event.data &&
+          event.data.size
+        ){
+
+          recordedChunks.push(
+            event.data
+          );
+
+        }
+
+      };
+
+
+    recorder.onstop =
+      () => {
+
+        const type =
+          mimeType ||
+          "video/webm";
+
+
+        recordingBlob =
+          new Blob(
+            recordedChunks,
+            {type}
+          );
+
+
+        if(recordingObjectUrl){
+
+          URL.revokeObjectURL(
+            recordingObjectUrl
+          );
+
+        }
+
+
+        recordingObjectUrl =
+          URL.createObjectURL(
+            recordingBlob
+          );
+
+
+        previewVideo.src =
+          recordingObjectUrl;
+
+
+        previewModal.classList.add(
+          "show"
+        );
+
+
+        cleanupAudio();
+
+
+        if(animationFrame){
+
+          cancelAnimationFrame(
+            animationFrame
+          );
+
+          animationFrame =
+            null;
+
+        }
+
+
+        recordIndicator.classList.remove(
+          "active"
+        );
+
+        recordBtn.classList.remove(
+          "active"
+        );
+
+
+        recordIcon.textContent =
+          "🔴";
+
+        recordText.textContent =
+          "Record";
+
+
+        pauseBtn.disabled =
+          true;
+
+        pauseIcon.textContent =
+          "⏸";
+
+        pauseText.textContent =
+          "Pause";
+
+
+        recordingPaused =
+          false;
+
+
+        stopRecordTimer();
+
+
+        toast(
+          "Recording is ready for preview."
+        );
+
+      };
+
+
+    recorder.onerror =
+      error => {
+
+        console.error(
+          "Recorder:",
+          error
+        );
+
+        toast(
+          "Recording error occurred."
+        );
+
+      };
+
+
+    recorder.start(1000);
+
+
+    recordBtn.classList.add(
+      "active"
+    );
+
+
+    recordIcon.textContent =
+      "⏹";
+
+    recordText.textContent =
+      "Stop";
+
+
+    recordIndicator.classList.add(
+      "active"
+    );
+
+
+    pauseBtn.disabled =
+      false;
+
+
+    startRecordTimer();
+
+
+    toast(
+      "Recording started."
+    );
+
+  }
+
+
+  /* =====================================================
+     STOP RECORDING
+  ====================================================== */
+
+  function stopRecording(){
+
+    if(
+      recorder &&
+      recorder.state !==
+      "inactive"
+    ){
+
+      recorder.stop();
+
+    }
+
+  }
+
+
+  recordBtn.addEventListener(
+    "click",
+    async () => {
+
+      if(
+        !recorder ||
+        recorder.state ===
+        "inactive"
+      ){
+
+        await startRecording();
+
+      }else{
+
+        stopRecording();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     PAUSE / RESUME
+  ====================================================== */
+
+  pauseBtn.addEventListener(
+    "click",
+    () => {
+
+      if(!recorder){
+        return;
+      }
+
+
+      if(
+        recorder.state ===
+        "recording"
+      ){
+
+        recorder.pause();
+
+        recordingPaused =
+          true;
+
+        pausedStartedAt =
+          Date.now();
+
+
+        pauseIcon.textContent =
+          "▶";
+
+        pauseText.textContent =
+          "Resume";
+
+
+        toast(
+          "Recording paused."
+        );
+
+      }else if(
+        recorder.state ===
+        "paused"
+      ){
+
+        recorder.resume();
+
+        recordingPaused =
+          false;
+
+
+        if(pausedStartedAt){
+
+          totalPausedMs +=
+            Date.now() -
+            pausedStartedAt;
+
+        }
+
+        pausedStartedAt =
+          0;
+
+
+        pauseIcon.textContent =
+          "⏸";
+
+        pauseText.textContent =
+          "Pause";
+
+
+        toast(
+          "Recording resumed."
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     FULLSCREEN
+  ====================================================== */
+
+  fullscreenBtn.addEventListener(
+    "click",
+    toggleFullscreen
+  );
+
+
+  async function toggleFullscreen(){
+
+    try{
+
+      if(
+        !document.fullscreenElement
+      ){
+
+        await studio.requestFullscreen();
+
+      }else{
+
+        await document.exitFullscreen();
+
+      }
+
+    }catch(error){
+
+      console.warn(error);
+
+      toast(
+        "Fullscreen is not available."
+      );
+
+    }
+
+  }
+
+
+  document.addEventListener(
+    "fullscreenchange",
+    () => {
+
+      if(
+        document.fullscreenElement
+      ){
+
+        fullscreenIcon.textContent =
+          "⛶";
+
+        fullscreenText.textContent =
+          "Exit Fullscreen";
+
+      }else{
+
+        fullscreenIcon.textContent =
+          "⛶";
+
+        fullscreenText.textContent =
+          "Fullscreen";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     PREVIEW
+  ====================================================== */
+
+  function closePreview(){
+
+    previewModal.classList.remove(
+      "show"
+    );
+
+    previewVideo.pause();
+
+  }
+
+
+  closePreviewBtn.addEventListener(
+    "click",
+    closePreview
+  );
+
+  closePreviewAction.addEventListener(
+    "click",
+    closePreview
+  );
+
+
+  previewModal.addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target ===
+        previewModal
+      ){
+
+        closePreview();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     DOWNLOAD
+  ====================================================== */
+
+  downloadBtn.addEventListener(
+    "click",
+    () => {
+
+      if(!recordingObjectUrl){
+
+        toast(
+          "No recording available."
+        );
+
+        return;
+
+      }
+
+
+      const a =
+        document.createElement("a");
+
+      a.href =
+        recordingObjectUrl;
+
+      a.download =
+        `UshaLiveAI-${new Date()
+          .toISOString()
+          .replace(/[:.]/g,"-")}.webm`;
+
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      a.remove();
+
+
+      toast(
+        "Recording download started."
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     PREMIUM STAGE AUTO-HIDE
+  ====================================================== */
+
+  function showStageUI(){
+
+    stage.classList.remove(
+      "stage-ui-hidden"
+    );
+
+
+    clearTimeout(
+      stageHideTimer
+    );
+
+
+    stageHideTimer =
+      setTimeout(
+        () => {
+
+          if(
+            currentMode &&
+            !previewModal.classList.contains("show")
+          ){
+
+            stage.classList.add(
+              "stage-ui-hidden"
+            );
+
+          }
+
+        },
+        4500
+      );
+
+  }
+
+
+  stage.addEventListener(
+    "mousemove",
+    showStageUI
+  );
+
+  stage.addEventListener(
+    "touchstart",
+    showStageUI,
+    {passive:true}
+  );
+
+  stage.addEventListener(
+    "mouseenter",
+    showStageUI
+  );
+
+
+  /* =====================================================
+     SETTINGS
+  ====================================================== */
+
+  settingsBtn.addEventListener(
+    "click",
+    () => {
+
+      toast(
+        "Premium Studio Settings will be connected in the next module."
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     LOGOUT
+  ====================================================== */
+
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+      if(
+        recorder &&
+        recorder.state !==
+        "inactive"
+      ){
+
+        const ok =
+          confirm(
+            "A recording is currently active. Logout and stop the recording?"
+          );
+
+        if(!ok){
+          return;
+        }
+
+        stopRecording();
+
+      }
+
+
+      try{
+
+        disableCamera();
+        disableMicrophone();
+        stopScreenShare();
+
+
+        if(unsubscribeStudents){
+
+          unsubscribeStudents();
+
+        }
+
+
+        await signOut(auth);
+
+        isLeavingStudio =
+          true;
+
+        window.location.href =
+          "../login/";
+
+      }catch(error){
+
+        console.error(error);
+
+        toast(
+          "Logout failed."
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     END STUDIO
+  ====================================================== */
+
+  endBtn.addEventListener(
+    "click",
+    () => {
+
+      if(
+        recorder &&
+        recorder.state !==
+        "inactive"
+      ){
+
+        const ok =
+          confirm(
+            "A recording is active. End Studio and stop recording?"
+          );
+
+        if(!ok){
+          return;
+        }
+
+        stopRecording();
+
+      }else{
+
+        const ok =
+          confirm(
+            "End this Mentor Studio session?"
+          );
+
+        if(!ok){
+          return;
+        }
+
+      }
+
+
+      stopScreenShare();
+      disableCamera();
+      disableMicrophone();
+
+
+      isLeavingStudio =
+        true;
+
+
+      toast(
+        "Ending Mentor Studio..."
+      );
+
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            "../dashboard/";
+
+        },
+        450
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     VIDEO EVENTS
+  ====================================================== */
+
+  mainVideo.addEventListener(
+    "ended",
+    () => {
+
+      toast(
+        "Main video finished."
+      );
+
+    }
+  );
+
+
+  mainVideo.addEventListener(
+    "error",
+    () => {
+
+      toast(
+        "Unable to play this video file."
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     KEYBOARD SHORTCUTS
+  ====================================================== */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      const target =
+        event.target;
+
+
+      const typing =
+        target &&
+        (
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable
+        );
+
+
+      if(typing){
+        return;
+      }
+
+
+      if(event.key === "Escape"){
+
+        rightPanel.classList.remove(
+          "mobile-open"
+        );
+
+        closePreview();
+
+        return;
+
+      }
+
+
+      if(event.code === "Space"){
+
+        event.preventDefault();
+
+        if(
+          recorder &&
+          (
+            recorder.state === "recording" ||
+            recorder.state === "paused"
+          )
+        ){
+
+          pauseBtn.click();
+
+        }
+
+        return;
+
+      }
+
+
+      const key =
+        event.key.toLowerCase();
+
+
+      if(key === "r"){
+
+        recordBtn.click();
+
+      }
+
+      else if(key === "m"){
+
+        micBtn.click();
+
+      }
+
+      else if(key === "c"){
+
+        cameraBtn.click();
+
+      }
+
+      else if(key === "s"){
+
+        screenBtn.click();
+
+      }
+
+      else if(key === "f"){
+
+        toggleFullscreen();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     BEFORE LEAVE PROTECTION
+  ====================================================== */
+
+  window.addEventListener(
+    "beforeunload",
+    event => {
+
+      if(
+        isLeavingStudio
+      ){
+
+        return;
+
+      }
+
+
+      if(
+        recorder &&
+        (
+          recorder.state === "recording" ||
+          recorder.state === "paused"
+        )
+      ){
+
+        event.preventDefault();
+
+        event.returnValue =
+          "";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     CLEANUP
+  ====================================================== */
+
+  window.addEventListener(
+    "beforeunload",
+    () => {
+
+      if(cameraStream){
+
+        cameraStream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
+      }
+
+
+      if(microphoneStream){
+
+        microphoneStream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
+      }
+
+
+      if(screenStream){
+
+        screenStream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
+      }
+
+
+      videoLibrary.forEach(
+        item => {
+
+          try{
+
+            URL.revokeObjectURL(
+              item.url
+            );
+
+          }catch{}
+
+        }
+      );
+
+
+      if(recordingObjectUrl){
+
+        try{
+
+          URL.revokeObjectURL(
+            recordingObjectUrl
+          );
+
+        }catch{}
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     INITIAL STATE
+  ====================================================== */
+
+  mainVideoBtn.classList.remove(
+    "active"
+  );
+
+  screenBtn.classList.remove(
+    "active"
+  );
+
+  cameraBtn.classList.remove(
+    "active"
+  );
+
+  micBtn.classList.remove(
+    "active"
+  );
+
+  recordBtn.classList.remove(
+    "active"
+  );
+
+
+  pauseBtn.disabled =
+    true;
+
+
+  stageSourceLabel.textContent =
+    "No source selected";
+
+
+  renderVideoLibrary();
+
+</script>
 
 </body>
 </html>
