@@ -1,80 +1,45 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Mentor Studio | UshaLiveAI</title>
-
-  <meta name="theme-color" content="#070a10">
-  <meta name="mobile-web-app-capable" content="yes">
-
-  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#07090f">
+  <title>UshaLiveAI — Mentor Studio</title>
 
   <style>
-    /* =========================================================
-       USHALIVEAI — MENTOR STUDIO
-       ULTRA PREMIUM / MASHALIVE-INSPIRED STUDIO UI
-       ========================================================= */
-
-    :root {
-      --bg: #05070b;
-      --bg-2: #090c12;
-      --panel: #0d1119;
-      --panel-2: #111722;
-      --panel-3: #151c28;
-
-      --border: rgba(255,255,255,.09);
-      --border-soft: rgba(255,255,255,.055);
-
-      --text: #f5f7fb;
-      --muted: #8e99aa;
-      --muted-2: #667182;
-
-      --accent: #6d5dfc;
-      --accent-2: #8b7cff;
-
-      --green: #28d17c;
-      --red: #ff3d5a;
-      --yellow: #f6c453;
-      --blue: #45a8ff;
-
-      --shadow: 0 25px 80px rgba(0,0,0,.45);
-
-      --topbar: 68px;
-      --controls: 82px;
-      --students: 310px;
-
-      --radius: 18px;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html,
+    :root {
+      --bg: #05070c;
+      --panel: #0b0f17;
+      --panel2: #101621;
+      --border: rgba(255,255,255,.09);
+      --text: #f5f7fb;
+      --muted: #8e98aa;
+      --blue: #5b8cff;
+      --green: #20d68b;
+      --red: #ff465c;
+      --yellow: #f7c948;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+
     body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--bg);
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(65,95,180,.12), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(45,120,100,.08), transparent 30%),
+        var(--bg);
       color: var(--text);
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
     button,
-    input,
-    select,
-    textarea {
+    input {
       font: inherit;
     }
 
@@ -83,1427 +48,768 @@
       cursor: pointer;
     }
 
-    /* =========================================================
-       AUTH LOADING — HIDDEN / NON-DISTRACTING
-       ========================================================= */
-
-    #authLoading {
-      display: none !important;
-    }
-
-    /* =========================================================
-       APP
-       ========================================================= */
-
-    #app {
+    .app {
       width: 100%;
-      height: 100%;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      background:
-        radial-gradient(
-          circle at 50% -20%,
-          rgba(109,93,252,.12),
-          transparent 38%
-        ),
-        var(--bg);
     }
 
-    /* =========================================================
+    /* =========================
        TOP BAR
-       ========================================================= */
+    ========================= */
 
     .topbar {
-      height: var(--topbar);
-      min-height: var(--topbar);
+      height: 66px;
+      min-height: 66px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
       padding: 0 18px;
-      border-bottom: 1px solid var(--border-soft);
-      background: rgba(5,7,11,.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,9,15,.92);
+      backdrop-filter: blur(18px);
       position: relative;
-      z-index: 50;
+      z-index: 20;
     }
 
-    .brand-area {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
+      gap: 11px;
     }
 
     .brand-logo {
-      width: 40px;
-      height: 40px;
+      width: 39px;
+      height: 39px;
       border-radius: 12px;
-      object-fit: cover;
-      background: #121722;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 8px 25px rgba(0,0,0,.35);
-      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,#5b8cff,#8c5cff);
+      font-weight: 900;
+      font-size: 17px;
+      box-shadow: 0 8px 25px rgba(91,140,255,.22);
     }
 
-    .brand-text {
-      min-width: 0;
-    }
-
-    .brand-title {
-      font-size: 14px;
-      font-weight: 800;
+    .brand-text strong {
+      display: block;
+      font-size: 15px;
       letter-spacing: -.2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .brand-subtitle {
-      margin-top: 2px;
+    .brand-text span {
       color: var(--muted);
       font-size: 11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .top-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .studio-title {
+    .class-name {
       font-size: 13px;
-      font-weight: 700;
-      color: #dce2ec;
-      max-width: 250px;
+      color: #dfe5f1;
+      max-width: 280px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .live-pill {
-      display: inline-flex;
+    .live-badge {
+      display: flex;
       align-items: center;
       gap: 7px;
+      background: rgba(255,70,92,.11);
+      border: 1px solid rgba(255,70,92,.25);
+      color: #ff6a7b;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(40,209,124,.08);
-      border: 1px solid rgba(40,209,124,.18);
-      color: #8ff0bd;
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: .7px;
+      letter-spacing: .5px;
     }
 
     .live-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 12px rgba(40,209,124,.8);
+      background: var(--red);
+      box-shadow: 0 0 12px rgba(255,70,92,.9);
     }
 
     .top-actions {
       display: flex;
-      align-items: center;
       gap: 8px;
-      margin-left: auto;
     }
 
     .top-btn {
-      min-height: 38px;
-      padding: 0 12px;
+      width: 38px;
+      height: 38px;
       border-radius: 11px;
       background: rgba(255,255,255,.045);
+      color: #dbe2ee;
       border: 1px solid var(--border);
-      color: #dbe1ea;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: .2s ease;
-      font-size: 12px;
-      font-weight: 700;
+      transition: .2s;
     }
 
     .top-btn:hover {
-      background: rgba(255,255,255,.085);
-      border-color: rgba(255,255,255,.15);
+      background: rgba(255,255,255,.09);
+      transform: translateY(-1px);
     }
 
-    .top-btn.danger:hover {
-      color: #ff8497;
-      border-color: rgba(255,61,90,.28);
-      background: rgba(255,61,90,.08);
-    }
+    /* =========================
+       MAIN
+    ========================= */
 
-    /* =========================================================
-       STUDIO BODY
-       ========================================================= */
-
-    .studio-body {
+    .workspace {
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) var(--students);
-      overflow: hidden;
+      grid-template-columns: minmax(0,1fr) 285px;
     }
-
-    /* =========================================================
-       MAIN AREA
-       ========================================================= */
-
-    .main-area {
-      min-width: 0;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      padding: 14px;
-      gap: 12px;
-      overflow: hidden;
-    }
-
-    .studio-heading {
-      height: 42px;
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .heading-left {
-      min-width: 0;
-    }
-
-    .heading-title {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: -.2px;
-    }
-
-    .heading-desc {
-      color: var(--muted);
-      font-size: 10px;
-      margin-top: 3px;
-    }
-
-    .sync-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-size: 9px;
-      color: var(--muted);
-      font-weight: 800;
-      letter-spacing: .7px;
-      white-space: nowrap;
-    }
-
-    .sync-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--yellow);
-    }
-
-    .sync-status.online .sync-dot {
-      background: var(--green);
-      box-shadow: 0 0 10px rgba(40,209,124,.6);
-    }
-
-    /* =========================================================
-       STAGE
-       ========================================================= */
 
     .stage-wrap {
-      flex: 1;
+      min-width: 0;
       min-height: 0;
+      position: relative;
+      padding: 14px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
     }
 
     .stage {
-      width: min(100%, 1200px);
-      aspect-ratio: 16 / 9;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
       position: relative;
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
       background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(109,93,252,.08),
-          transparent 40%
-        ),
-        #020305;
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow:
-        0 30px 100px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.03);
-      isolation: isolate;
-      touch-action: none;
+        radial-gradient(circle at center, rgba(55,70,100,.13), transparent 45%),
+        #090d14;
+      box-shadow: var(--shadow);
     }
 
-    .stage::before {
-      content: "";
+    .stage-grid {
       position: absolute;
       inset: 0;
+      opacity: .25;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 40px 40px;
       pointer-events: none;
-      z-index: 1;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(0,0,0,.18),
-          transparent 18%,
-          transparent 78%,
-          rgba(0,0,0,.35)
-        );
     }
 
     .stage-placeholder {
       position: absolute;
       inset: 0;
-      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      color: var(--muted);
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(109,93,252,.08),
-          transparent 42%
-        );
+      text-align: center;
       pointer-events: none;
     }
 
+    .placeholder-content {
+      max-width: 390px;
+      padding: 30px;
+    }
+
     .placeholder-icon {
-      width: 66px;
-      height: 66px;
-      border-radius: 20px;
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 17px;
+      border-radius: 22px;
       display: grid;
       place-items: center;
-      font-size: 29px;
       background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.07);
-      box-shadow: 0 15px 40px rgba(0,0,0,.3);
+      border: 1px solid var(--border);
+      font-size: 34px;
     }
 
-    .placeholder-title {
-      color: #cbd2dd;
+    .placeholder-content h2 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .placeholder-content p {
+      color: var(--muted);
+      line-height: 1.6;
       font-size: 13px;
-      font-weight: 700;
     }
 
-    .placeholder-desc {
-      font-size: 10px;
-      color: var(--muted-2);
-    }
-
+    #mainVideo,
     #mainImage,
-    #mainVideo {
+    #screenVideo {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: 3;
       object-fit: contain;
+      display: none;
       background: #000;
-      display: none;
+      z-index: 2;
     }
 
-    #mainVideo {
+    #mainImage {
       object-fit: contain;
     }
 
-    /* =========================================================
-       STAGE TOP OVERLAY
-       ========================================================= */
-
-    .stage-top-overlay {
-      position: absolute;
-      top: 13px;
-      left: 13px;
-      right: 13px;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      pointer-events: none;
+    #screenVideo {
+      object-fit: contain;
     }
-
-    .stage-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: rgba(5,7,11,.7);
-      border: 1px solid rgba(255,255,255,.09);
-      backdrop-filter: blur(14px);
-      font-size: 9px;
-      color: #d7dce5;
-      font-weight: 800;
-      letter-spacing: .45px;
-    }
-
-    .stage-badge .mini-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px rgba(109,93,252,.8);
-    }
-
-    .record-indicator {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: rgba(255,61,90,.12);
-      border: 1px solid rgba(255,61,90,.28);
-      color: #ff8a9b;
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .7px;
-      backdrop-filter: blur(14px);
-    }
-
-    .record-indicator.show {
-      display: inline-flex;
-    }
-
-    .record-light {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--red);
-      box-shadow: 0 0 14px rgba(255,61,90,.8);
-      animation: recordPulse 1.1s infinite;
-    }
-
-    @keyframes recordPulse {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: .35;
-      }
-    }
-
-    /* =========================================================
-       STAGE LABEL
-       ========================================================= */
 
     .stage-label {
       position: absolute;
-      left: 18px;
-      bottom: 18px;
-      z-index: 20;
-      max-width: 65%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: rgba(5,7,11,.78);
-      border: 1px solid rgba(255,255,255,.1);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 12px 35px rgba(0,0,0,.3);
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .stage-label:active {
-      cursor: grabbing;
-    }
-
-    .stage-label-title {
-      font-size: 12px;
-      font-weight: 900;
-      color: white;
-    }
-
-    .stage-label-subtitle {
-      margin-top: 3px;
-      font-size: 9px;
-      color: #9ca6b5;
-    }
-
-    .brand-badge {
-      position: absolute;
-      right: 18px;
-      bottom: 18px;
-      z-index: 15;
-      padding: 8px 11px;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
+      padding: 7px 11px;
       border-radius: 9px;
-      background: rgba(5,7,11,.62);
-      border: 1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(15px);
-      font-size: 8px;
-      color: #bfc6d1;
-      letter-spacing: .5px;
+      background: rgba(0,0,0,.5);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(12px);
+      color: #dfe6f1;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .record-status {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 12;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,50,70,.12);
+      border: 1px solid rgba(255,50,70,.28);
+      color: #ff7281;
+      font-size: 11px;
       font-weight: 800;
     }
 
-    /* =========================================================
-       MENTOR CAMERA PIP
-       ========================================================= */
+    .record-status.active {
+      display: flex;
+    }
 
-    .mentor-camera-box {
-      display: none;
+    .record-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: .35;
+        transform: scale(.72);
+      }
+    }
+
+    /* =========================
+       MENTOR CAMERA
+    ========================= */
+
+    .mentor-pip {
       position: absolute;
-      width: 190px;
-      aspect-ratio: 16 / 10;
+      width: 205px;
+      height: 125px;
       right: 22px;
-      top: 22px;
-      z-index: 25;
+      bottom: 22px;
+      z-index: 8;
       border-radius: 15px;
       overflow: hidden;
-      background: #05070a;
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow:
-        0 18px 50px rgba(0,0,0,.55),
-        0 0 0 1px rgba(109,93,252,.06);
-      cursor: grab;
-      touch-action: none;
+      background: #111720;
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: 0 18px 45px rgba(0,0,0,.5);
+      display: none;
+      cursor: move;
     }
 
-    .mentor-camera-box.active {
-      display: block;
-    }
-
-    .mentor-camera-box:active {
-      cursor: grabbing;
-    }
-
-    #mentorCamera {
+    #cameraVideo {
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: cover;
-      background: #05070a;
       transform: scaleX(-1);
     }
 
-    .camera-name {
+    .pip-label {
       position: absolute;
+      bottom: 7px;
       left: 8px;
-      bottom: 8px;
-      z-index: 2;
-      padding: 5px 8px;
-      border-radius: 7px;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      font-size: 8px;
-      font-weight: 800;
-    }
-
-    .camera-live {
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      z-index: 2;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 12px rgba(40,209,124,.9);
-    }
-
-    /* =========================================================
-       CONTROL BAR
-       ========================================================= */
-
-    .control-bar {
-      min-height: var(--controls);
-      border-radius: 17px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(
-          180deg,
-          rgba(18,23,34,.96),
-          rgba(10,14,21,.96)
-        );
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      padding: 9px 12px;
-      position: relative;
-      z-index: 30;
-    }
-
-    .control-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .control-divider {
-      width: 1px;
-      height: 32px;
-      background: rgba(255,255,255,.07);
-      margin: 0 5px;
-    }
-
-    .control-btn {
-      min-width: 65px;
-      height: 56px;
-      border-radius: 12px;
-      color: #bfc7d3;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 5px;
-      transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease;
-      position: relative;
-    }
-
-    .control-btn:hover {
-      background: rgba(255,255,255,.055);
+      padding: 4px 7px;
+      border-radius: 6px;
+      background: rgba(0,0,0,.55);
+      font-size: 9px;
       color: #fff;
     }
 
-    .control-btn:active {
-      transform: scale(.96);
-    }
-
-    .control-icon {
-      font-size: 19px;
-      line-height: 1;
-    }
-
-    .control-text {
-      font-size: 8px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .control-btn.active {
-      color: #fff;
-      background: rgba(109,93,252,.13);
-    }
-
-    .control-btn.active::after {
-      content: "";
-      position: absolute;
-      bottom: 5px;
-      width: 18px;
-      height: 2px;
-      border-radius: 99px;
-      background: var(--accent);
-      box-shadow: 0 0 10px rgba(109,93,252,.6);
-    }
-
-    .control-btn.record {
-      min-width: 78px;
-      color: #fff;
-      background: rgba(255,61,90,.09);
-      border: 1px solid rgba(255,61,90,.16);
-    }
-
-    .control-btn.record:hover {
-      background: rgba(255,61,90,.15);
-      border-color: rgba(255,61,90,.3);
-    }
-
-    .control-btn.record .control-icon {
-      color: var(--red);
-    }
-
-    .control-btn.record.recording {
-      background: rgba(255,61,90,.16);
-      border-color: rgba(255,61,90,.35);
-    }
-
-    .control-btn.record.recording .control-icon {
-      animation: recordPulse 1s infinite;
-    }
-
-    .control-btn.end {
-      min-width: 78px;
-      color: #ff8497;
-      background: rgba(255,61,90,.055);
-    }
-
-    .record-time {
-      position: absolute;
-      right: 13px;
-      top: 9px;
-      display: none;
-      align-items: center;
-      gap: 6px;
-      font-family: monospace;
-      font-size: 10px;
-      color: #ff7f91;
-      font-weight: 800;
-    }
-
-    .record-time.show {
-      display: flex;
-    }
-
-    /* =========================================================
-       STUDENTS PANEL
-       ========================================================= */
+    /* =========================
+       STUDENTS
+    ========================= */
 
     .students-panel {
-      min-width: 0;
-      min-height: 0;
-      border-left: 1px solid var(--border-soft);
-      background:
-        linear-gradient(
-          180deg,
-          rgba(11,15,23,.98),
-          rgba(7,10,16,.98)
-        );
+      border-left: 1px solid var(--border);
+      background: rgba(10,14,22,.95);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      min-height: 0;
     }
 
     .students-head {
-      min-height: 68px;
-      padding: 14px 14px 12px;
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      padding: 17px;
+      border-bottom: 1px solid var(--border);
     }
 
     .students-title {
-      font-size: 13px;
-      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .students-count {
-      min-width: 25px;
-      height: 25px;
-      padding: 0 7px;
-      border-radius: 8px;
+    .students-title strong {
+      font-size: 13px;
+    }
+
+    .student-count {
+      min-width: 24px;
+      height: 24px;
       display: grid;
       place-items: center;
-      background: rgba(109,93,252,.13);
-      border: 1px solid rgba(109,93,252,.18);
-      color: #b8afff;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: rgba(91,140,255,.12);
+      color: #8facff;
       font-size: 10px;
-      font-weight: 900;
+      font-weight: 800;
     }
 
-    .students-subtitle {
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 9px;
-    }
-
-    .student-list {
+    .students-list {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: 10px;
+      padding: 9px;
     }
 
-    .student-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .student-list::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,.1);
-      border-radius: 99px;
-    }
-
-    .student-item {
+    .student {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 10px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      transition: .2s ease;
-      margin-bottom: 5px;
+      border-radius: 11px;
+      margin-bottom: 4px;
+      transition: .2s;
     }
 
-    .student-item:hover {
+    .student:hover {
       background: rgba(255,255,255,.035);
-      border-color: rgba(255,255,255,.055);
     }
 
-    .student-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
+    .avatar {
+      width: 35px;
+      height: 35px;
+      flex: 0 0 35px;
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(109,93,252,.28),
-          rgba(69,168,255,.12)
-        );
-      border: 1px solid rgba(255,255,255,.08);
-      color: #ddd9ff;
-      font-size: 11px;
-      font-weight: 900;
-      flex-shrink: 0;
+      background: linear-gradient(135deg,#29344b,#172033);
+      border: 1px solid rgba(255,255,255,.09);
+      font-size: 14px;
     }
 
     .student-info {
       min-width: 0;
-      flex: 1;
     }
 
-    .student-name {
-      color: #dce2ea;
+    .student-info strong {
+      display: block;
       font-size: 11px;
-      font-weight: 800;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .student-status {
-      margin-top: 3px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    .student-info span {
       color: var(--muted);
-      font-size: 8px;
+      font-size: 9px;
     }
 
-    .student-status-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
+    .online-dot {
+      margin-left: auto;
+      width: 6px;
+      height: 6px;
       background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 9px rgba(32,214,139,.7);
     }
 
     .empty-students {
-      min-height: 180px;
+      padding: 35px 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       CONTROL BAR
+    ========================= */
+
+    .controls {
+      min-height: 104px;
+      padding: 12px 16px 15px;
+      border-top: 1px solid var(--border);
+      background: rgba(7,9,15,.97);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      z-index: 30;
+    }
+
+    .control-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       gap: 8px;
-      color: var(--muted-2);
-      text-align: center;
-      padding: 20px;
+      flex-wrap: wrap;
     }
 
-    .empty-icon {
-      font-size: 28px;
-      opacity: .7;
+    .control-btn {
+      min-width: 73px;
+      height: 58px;
+      padding: 7px 10px;
+      border-radius: 12px;
+      color: #dfe5ef;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      transition: .18s;
     }
 
-    .empty-title {
-      font-size: 11px;
-      color: #9ca5b3;
-      font-weight: 800;
+    .control-btn:hover {
+      background: rgba(255,255,255,.085);
+      transform: translateY(-1px);
     }
 
-    .empty-desc {
+    .control-btn.active {
+      border-color: rgba(91,140,255,.55);
+      background: rgba(91,140,255,.12);
+      color: #9eb5ff;
+    }
+
+    .control-btn.danger {
+      color: #ff7382;
+      border-color: rgba(255,70,92,.25);
+      background: rgba(255,70,92,.07);
+    }
+
+    .control-btn.primary {
+      color: #fff;
+      border-color: rgba(91,140,255,.45);
+      background: linear-gradient(135deg,rgba(91,140,255,.23),rgba(118,84,255,.17));
+    }
+
+    .control-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .control-text {
       font-size: 9px;
-      line-height: 1.5;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    /* =========================================================
-       SETTINGS DRAWER
-       ========================================================= */
+    .record-btn.recording {
+      background: rgba(255,70,92,.14);
+      border-color: rgba(255,70,92,.55);
+      color: #ff7382;
+    }
 
-    .drawer-overlay {
+    .timer {
+      min-width: 73px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aeb8ca;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    .modal-backdrop {
       position: fixed;
       inset: 0;
       z-index: 100;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(5px);
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
       display: none;
-    }
-
-    .drawer-overlay.show {
-      display: block;
-    }
-
-    .settings-drawer {
-      position: fixed;
-      z-index: 110;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: min(390px, 92vw);
-      background:
-        linear-gradient(
-          180deg,
-          #10151f,
-          #080b11
-        );
-      border-left: 1px solid var(--border);
-      box-shadow: -30px 0 80px rgba(0,0,0,.5);
-      transform: translateX(105%);
-      transition: transform .28s ease;
-      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
     }
 
-    .settings-drawer.show {
-      transform: translateX(0);
-    }
-
-    .drawer-head {
+    .modal-backdrop.show {
       display: flex;
-      justify-content: space-between;
+    }
+
+    .modal {
+      width: min(700px,100%);
+      max-height: 90vh;
+      overflow: auto;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #0d121b;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .modal-head {
+      display: flex;
       align-items: center;
-      margin-bottom: 22px;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 16px;
     }
 
-    .drawer-title {
-      font-size: 17px;
-      font-weight: 900;
+    .modal-head h3 {
+      font-size: 16px;
     }
 
-    .drawer-close {
+    .close-btn {
       width: 35px;
       height: 35px;
-      border-radius: 10px;
-      color: #c8ced8;
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: #d8dfeb;
+      background: rgba(255,255,255,.06);
     }
 
-    .setting-section {
-      margin-bottom: 20px;
-    }
-
-    .setting-section-title {
-      font-size: 10px;
-      color: #8d98a8;
-      font-weight: 900;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .field {
-      margin-bottom: 11px;
-    }
-
-    .field label {
+    .preview-video {
+      width: 100%;
+      max-height: 55vh;
+      background: #000;
+      border-radius: 13px;
       display: block;
-      font-size: 10px;
-      color: #aeb6c2;
-      margin-bottom: 6px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 10px 15px;
+      border-radius: 9px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--border);
+      color: #e9edf5;
+      font-size: 11px;
       font-weight: 700;
     }
 
-    .field input,
-    .field textarea,
-    .field select {
+    .action-btn.primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    /* =========================
+       SETTINGS
+    ========================= */
+
+    .settings-panel {
+      position: fixed;
+      top: 0;
+      right: -360px;
+      width: min(360px,92vw);
+      height: 100vh;
+      z-index: 80;
+      background: #0b1018;
+      border-left: 1px solid var(--border);
+      box-shadow: -20px 0 60px rgba(0,0,0,.35);
+      padding: 22px;
+      transition: right .25s ease;
+      overflow-y: auto;
+    }
+
+    .settings-panel.show {
+      right: 0;
+    }
+
+    .settings-panel h3 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .setting {
+      margin-bottom: 18px;
+    }
+
+    .setting label {
+      display: block;
+      color: #c8d0dd;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .setting input {
       width: 100%;
-      border: 1px solid rgba(255,255,255,.08);
-      outline: none;
-      background: rgba(255,255,255,.035);
-      color: #e8ecf3;
-      border-radius: 10px;
-      padding: 10px 11px;
-      font-size: 11px;
-      transition: .2s ease;
-    }
-
-    .field textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: rgba(109,93,252,.55);
-      box-shadow: 0 0 0 3px rgba(109,93,252,.08);
-    }
-
-    .save-btn {
-      width: 100%;
-      height: 43px;
-      border-radius: 11px;
-      color: white;
-      background:
-        linear-gradient(
-          135deg,
-          #6d5dfc,
-          #5144dc
-        );
-      font-size: 11px;
-      font-weight: 900;
-      box-shadow: 0 12px 30px rgba(109,93,252,.18);
-    }
-
-    /* =========================================================
-       VOICE CLONE CARD
-       ========================================================= */
-
-    .voice-card {
-      padding: 13px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.025);
-      border: 1px solid var(--border);
-    }
-
-    .voice-card-title {
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .voice-card-desc {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 9px;
-      line-height: 1.5;
-    }
-
-    .voice-actions {
-      display: flex;
-      gap: 7px;
-      margin-top: 11px;
-    }
-
-    .small-action {
-      flex: 1;
-      height: 36px;
+      height: 42px;
       border-radius: 9px;
-      background: rgba(255,255,255,.045);
       border: 1px solid var(--border);
-      color: #cbd2dc;
-      font-size: 9px;
-      font-weight: 800;
+      outline: none;
+      background: rgba(255,255,255,.045);
+      color: #fff;
+      padding: 0 11px;
     }
 
-    .small-action.primary {
-      background: rgba(109,93,252,.13);
-      border-color: rgba(109,93,252,.2);
-      color: #c6bfff;
-    }
-
-    .voice-status {
-      margin-top: 9px;
-      font-size: 9px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* =========================================================
+    /* =========================
        TOAST
-       ========================================================= */
+    ========================= */
 
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 102px;
-      transform: translate(-50%, 20px);
-      z-index: 300;
+      bottom: 130px;
+      transform: translate(-50%,20px);
+      z-index: 200;
       opacity: 0;
       pointer-events: none;
-      padding: 10px 14px;
-      border-radius: 11px;
-      background: rgba(17,23,34,.94);
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 18px 50px rgba(0,0,0,.4);
-      backdrop-filter: blur(18px);
-      color: #e5e9f0;
-      font-size: 10px;
-      font-weight: 700;
-      transition: .25s ease;
-      white-space: nowrap;
+      padding: 10px 15px;
+      border-radius: 10px;
+      background: rgba(15,20,29,.95);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      color: #eef2f8;
+      font-size: 11px;
+      transition: .25s;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translate(-50%, 0);
+      transform: translate(-50%,0);
     }
 
-    /* =========================================================
-       RECORDING PREVIEW MODAL
-       ========================================================= */
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 250;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0,0,0,.78);
-      backdrop-filter: blur(8px);
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .preview-modal {
-      width: min(850px, 95vw);
-      max-height: 90vh;
-      overflow: auto;
-      border-radius: 20px;
-      background: #0c1119;
-      border: 1px solid var(--border);
-      box-shadow: 0 40px 120px rgba(0,0,0,.65);
-      padding: 16px;
-    }
-
-    .preview-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .preview-title {
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .preview-close {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: rgba(255,255,255,.05);
-      color: #cfd5df;
-      border: 1px solid var(--border);
-    }
-
-    #previewVideo {
-      width: 100%;
-      max-height: 65vh;
-      border-radius: 14px;
-      background: #000;
-      display: block;
-    }
-
-    .preview-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .preview-action {
-      height: 42px;
-      padding: 0 15px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--border);
-      color: #d9dfe8;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .preview-action.primary {
-      background: linear-gradient(135deg,#6d5dfc,#5144dc);
-      border-color: transparent;
-      color: white;
-    }
-
-    /* =========================================================
-       DISABLED STATE
-       ========================================================= */
-
-    .disabled {
-      opacity: .38 !important;
-      pointer-events: none !important;
-    }
-
-    /* =========================================================
-       RECORDING MODE
-       ========================================================= */
-
-    body.recording .stage {
-      border-color: rgba(255,61,90,.3);
-      box-shadow:
-        0 30px 100px rgba(0,0,0,.55),
-        0 0 0 1px rgba(255,61,90,.08);
-    }
-
-    body.recording .studio-heading {
-      opacity: .9;
-    }
-
-    body.recording .control-bar {
-      border-color: rgba(255,61,90,.18);
-    }
-
-    /* =========================================================
+    /* =========================
        MOBILE
-       ========================================================= */
+    ========================= */
 
-    @media (max-width: 1050px) {
-      :root {
-        --students: 260px;
-      }
-
-      .control-btn {
-        min-width: 55px;
-      }
-
-      .control-text {
-        font-size: 7px;
-      }
-
-      .mentor-camera-box {
-        width: 165px;
-      }
-    }
-
-    @media (max-width: 820px) {
-      html,
+    @media (max-width: 900px) {
       body {
         overflow: auto;
       }
 
-      #app {
-        min-height: 100dvh;
+      .app {
+        min-height: 100vh;
         height: auto;
       }
 
-      .topbar {
-        height: 60px;
-        min-height: 60px;
-        padding: 0 11px;
+      .workspace {
+        grid-template-columns: 1fr;
+        min-height: 500px;
       }
 
-      .brand-logo {
-        width: 35px;
-        height: 35px;
+      .students-panel {
+        position: fixed;
+        top: 66px;
+        right: -310px;
+        bottom: 104px;
+        width: 300px;
+        z-index: 70;
+        transition: right .25s ease;
+        box-shadow: -20px 0 50px rgba(0,0,0,.5);
       }
 
-      .brand-subtitle {
-        display: none;
+      .students-panel.show {
+        right: 0;
+      }
+
+      .stage-wrap {
+        min-height: 480px;
       }
 
       .top-center {
         display: none;
       }
 
-      .top-btn span {
-        display: none;
-      }
-
-      .top-btn {
-        width: 38px;
-        padding: 0;
-      }
-
-      .studio-body {
-        display: block;
-        overflow: visible;
-      }
-
-      .main-area {
-        min-height: calc(100dvh - 60px);
-        padding: 9px;
-        gap: 8px;
-      }
-
-      .studio-heading {
-        height: 35px;
-        min-height: 35px;
-      }
-
-      .heading-desc {
-        display: none;
-      }
-
-      .sync-status {
-        font-size: 8px;
-        padding: 6px 8px;
-      }
-
-      .stage-wrap {
-        min-height: 0;
-      }
-
-      .stage {
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        border-radius: 15px;
-      }
-
-      .mentor-camera-box {
-        width: 125px;
-        border-radius: 12px;
-        right: 12px;
-        top: 12px;
-      }
-
-      .stage-label {
-        left: 11px;
-        bottom: 11px;
-        padding: 8px 10px;
-        max-width: 70%;
-      }
-
-      .stage-label-title {
-        font-size: 10px;
-      }
-
-      .stage-label-subtitle {
-        font-size: 7px;
-      }
-
-      .brand-badge {
-        right: 11px;
-        bottom: 11px;
-        font-size: 7px;
-        padding: 6px 8px;
-      }
-
-      .control-bar {
-        min-height: auto;
-        border-radius: 15px;
-        padding: 6px;
-        gap: 2px;
-        justify-content: space-around;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-      }
-
-      .control-bar::-webkit-scrollbar {
-        display: none;
-      }
-
-      .control-divider {
-        display: none;
+      .mentor-pip {
+        width: 145px;
+        height: 92px;
+        right: 14px;
+        bottom: 14px;
       }
 
       .control-btn {
-        flex: 0 0 57px;
-        min-width: 57px;
+        min-width: 62px;
         height: 52px;
       }
 
-      .control-btn.record,
-      .control-btn.end {
-        min-width: 64px;
-      }
-
-      .record-time {
-        position: static;
-        margin-left: auto;
-        margin-right: 7px;
-      }
-
-      .students-panel {
-        display: none;
-      }
-
-      .students-panel.mobile-show {
-        display: flex;
-        position: fixed;
-        z-index: 120;
-        top: 60px;
-        right: 0;
-        bottom: 0;
-        width: min(320px, 90vw);
-        border-left: 1px solid var(--border);
-        box-shadow: -30px 0 80px rgba(0,0,0,.5);
-      }
-
-      .mobile-students-btn {
-        display: inline-flex !important;
-      }
-
-      .toast {
-        bottom: 86px;
-        max-width: calc(100vw - 30px);
-        white-space: normal;
-        text-align: center;
+      .controls {
+        min-height: 104px;
       }
     }
 
-    @media (min-width: 821px) {
-      .mobile-students-btn {
-        display: none !important;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .brand-title {
-        max-width: 125px;
-      }
-
-      .heading-title {
-        font-size: 12px;
-      }
-
-      .sync-status {
+    @media (max-width: 540px) {
+      .brand-text {
         display: none;
       }
 
-      .stage-placeholder {
-        gap: 8px;
+      .topbar {
+        padding: 0 10px;
       }
 
-      .placeholder-icon {
-        width: 53px;
-        height: 53px;
-        border-radius: 16px;
-        font-size: 23px;
+      .stage-wrap {
+        padding: 8px;
       }
 
-      .placeholder-title {
-        font-size: 11px;
+      .stage {
+        border-radius: 13px;
       }
 
-      .placeholder-desc {
-        font-size: 8px;
-      }
-
-      .mentor-camera-box {
-        width: 108px;
-      }
-
-      .camera-name {
-        font-size: 7px;
+      .control-row {
+        gap: 5px;
       }
 
       .control-btn {
-        flex-basis: 54px;
-        min-width: 54px;
+        min-width: 55px;
+        height: 50px;
+        padding: 5px 6px;
       }
 
       .control-icon {
-        font-size: 17px;
+        font-size: 16px;
       }
 
       .control-text {
-        font-size: 6.5px;
+        font-size: 8px;
       }
 
-      .control-btn.record,
-      .control-btn.end {
-        min-width: 58px;
+      .timer {
+        min-width: 55px;
+        height: 50px;
       }
     }
   </style>
@@ -1511,2394 +817,1362 @@
 
 <body>
 
-  <!-- =======================================================
-       APP
-       ======================================================== -->
+<div class="app">
 
-  <div id="app">
+  <!-- TOP BAR -->
+  <header class="topbar">
 
-    <!-- TOP BAR -->
-    <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">U</div>
 
-      <div class="brand-area">
+      <div class="brand-text">
+        <strong>UshaLiveAI</strong>
+        <span>Mentor Studio</span>
+      </div>
+    </div>
 
+    <div class="top-center">
+      <div class="class-name" id="className">My Live Class</div>
+
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        LIVE STUDIO
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="top-btn" id="studentsToggle" title="Students">👥</button>
+      <button class="top-btn" id="settingsBtn" title="Settings">⚙️</button>
+      <button class="top-btn" id="logoutBtn" title="Logout">↪</button>
+    </div>
+
+  </header>
+
+
+  <!-- WORKSPACE -->
+  <main class="workspace">
+
+    <!-- STAGE -->
+    <section class="stage-wrap">
+
+      <div class="stage" id="stage">
+
+        <div class="stage-grid"></div>
+
+        <div class="stage-label" id="stageLabel">
+          Main Stage
+        </div>
+
+        <div class="record-status" id="recordStatus">
+          <span class="record-pulse"></span>
+          <span>RECORDING</span>
+          <span id="recordTimer">00:00</span>
+        </div>
+
+
+        <!-- EMPTY STAGE -->
+        <div class="stage-placeholder" id="stagePlaceholder">
+
+          <div class="placeholder-content">
+
+            <div class="placeholder-icon">🎬</div>
+
+            <h2>Your Class Stage</h2>
+
+            <p>
+              Choose Main Video, Slide, Camera or Share Screen
+              to start your live class.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- MAIN VIDEO -->
+        <video
+          id="mainVideo"
+          playsinline
+          controls>
+        </video>
+
+
+        <!-- SLIDE -->
         <img
-          id="studioLogo"
-          class="brand-logo"
-          src="https://github.com/yourdocuments/masha.github.io/blob/main/logo.png?raw=true"
-          alt="UshaLiveAI"
-        >
+          id="mainImage"
+          alt="Selected slide">
 
-        <div class="brand-text">
-          <div id="studioName" class="brand-title">
-            UshaLiveAI
+
+        <!-- SCREEN SHARE -->
+        <video
+          id="screenVideo"
+          autoplay
+          muted
+          playsinline>
+        </video>
+
+
+        <!-- CAMERA -->
+        <div class="mentor-pip" id="mentorPip">
+
+          <video
+            id="cameraVideo"
+            autoplay
+            muted
+            playsinline>
+          </video>
+
+          <div class="pip-label">
+            Mentor Camera
           </div>
 
-          <div id="studioSubtitle" class="brand-subtitle">
-            Personal Course Studio
-          </div>
         </div>
 
       </div>
 
-      <div class="top-center">
+    </section>
 
-        <div id="topStudioTitle" class="studio-title">
-          Mentor Studio
-        </div>
 
-        <div class="live-pill">
-          <span class="live-dot"></span>
-          STUDIO
+    <!-- STUDENTS -->
+    <aside class="students-panel" id="studentsPanel">
+
+      <div class="students-head">
+
+        <div class="students-title">
+          <strong>Students</strong>
+          <span class="student-count" id="studentCount">0</span>
         </div>
 
       </div>
 
-      <div class="top-actions">
+      <div class="students-list" id="studentsList">
 
-        <button
-          id="studentsMobileBtn"
-          class="top-btn mobile-students-btn"
-          type="button"
-          title="Students"
-        >
-          👥
-        </button>
-
-        <button
-          id="settingsBtn"
-          class="top-btn"
-          type="button"
-          title="Settings"
-        >
-          ⚙️
-          <span>Settings</span>
-        </button>
-
-        <button
-          id="logoutBtn"
-          class="top-btn danger"
-          type="button"
-          title="Logout"
-        >
-          ↪
-          <span>Logout</span>
-        </button>
+        <div class="empty-students">
+          No students connected yet.
+        </div>
 
       </div>
 
-    </header>
-
-
-    <!-- STUDIO BODY -->
-    <div class="studio-body">
-
-      <!-- ===================================================
-           MAIN AREA
-           =================================================== -->
-
-      <main class="main-area">
-
-        <div class="studio-heading">
-
-          <div class="heading-left">
-            <div class="heading-title">
-              Mentor Studio
-            </div>
-
-            <div class="heading-desc">
-              Create, teach and record your class.
-            </div>
-          </div>
-
-          <div id="syncStatus" class="sync-status">
-            <span class="sync-dot"></span>
-            <span id="syncText">LOCAL MODE</span>
-          </div>
-
-        </div>
-
-
-        <!-- STAGE -->
-        <div class="stage-wrap">
-
-          <section
-            id="stage"
-            class="stage"
-            aria-label="Mentor Studio Main Stage"
-          >
-
-            <!-- PLACEHOLDER -->
-            <div
-              id="stagePlaceholder"
-              class="stage-placeholder"
-            >
-
-              <div class="placeholder-icon">
-                🎬
-              </div>
-
-              <div class="placeholder-title">
-                Your class stage is ready
-              </div>
-
-              <div class="placeholder-desc">
-                Choose Main Video, Slide or Camera to begin
-              </div>
-
-            </div>
-
-
-            <!-- MAIN IMAGE -->
-            <img
-              id="mainImage"
-              alt="Selected slide"
-            >
-
-
-            <!-- MAIN VIDEO -->
-            <video
-              id="mainVideo"
-              playsinline
-              controls
-            ></video>
-
-
-            <!-- STAGE TOP -->
-            <div class="stage-top-overlay">
-
-              <div class="stage-badge">
-                <span class="mini-dot"></span>
-                USHALIVEAI STUDIO
-              </div>
-
-              <div
-                id="recordIndicator"
-                class="record-indicator"
-              >
-                <span class="record-light"></span>
-                RECORDING
-              </div>
-
-            </div>
-
-
-            <!-- STAGE LABEL -->
-            <div
-              id="stageLabel"
-              class="stage-label"
-            >
-
-              <div
-                id="stageTitle"
-                class="stage-label-title"
-              >
-                Mentor Class
-              </div>
-
-              <div
-                id="stageWelcome"
-                class="stage-label-subtitle"
-              >
-                Ready to start
-              </div>
-
-            </div>
-
-
-            <!-- BRAND -->
-            <div
-              id="brandBadge"
-              class="brand-badge"
-            >
-              USHA.AI
-            </div>
-
-
-            <!-- MENTOR CAMERA -->
-            <div
-              id="mentorCameraBox"
-              class="mentor-camera-box"
-            >
-
-              <video
-                id="mentorCamera"
-                autoplay
-                muted
-                playsinline
-              ></video>
-
-              <span class="camera-live"></span>
-
-              <div class="camera-name">
-                Mentor
-              </div>
-
-            </div>
-
-          </section>
-
-        </div>
-
-
-        <!-- CONTROL BAR -->
-        <div class="control-bar">
-
-          <div class="control-group">
-
-            <button
-              id="slideBtn"
-              class="control-btn"
-              type="button"
-              title="Slide / Image"
-            >
-              <span class="control-icon">🖼️</span>
-              <span class="control-text">Slide</span>
-            </button>
-
-
-            <button
-              id="videoBtn"
-              class="control-btn"
-              type="button"
-              title="Choose Main Video"
-            >
-              <span class="control-icon">🎬</span>
-              <span class="control-text">Main Video</span>
-            </button>
-
-
-            <button
-              id="cameraBtn"
-              class="control-btn"
-              type="button"
-              title="Mentor Camera"
-            >
-              <span class="control-icon">📷</span>
-              <span class="control-text">Camera</span>
-            </button>
-
-
-            <button
-              id="micBtn"
-              class="control-btn"
-              type="button"
-              title="Microphone"
-            >
-              <span class="control-icon">🎙️</span>
-              <span class="control-text">Mic</span>
-            </button>
-
-          </div>
-
-
-          <div class="control-divider"></div>
-
-
-          <div class="control-group">
-
-            <button
-              id="shareBtn"
-              class="control-btn"
-              type="button"
-              title="Share Screen"
-            >
-              <span class="control-icon">🖥️</span>
-              <span class="control-text">Share Screen</span>
-            </button>
-
-
-            <button
-              id="playBtn"
-              class="control-btn"
-              type="button"
-              title="Play / Pause Video"
-            >
-              <span class="control-icon">▶️</span>
-              <span class="control-text">Play</span>
-            </button>
-
-
-            <button
-              id="clearBtn"
-              class="control-btn"
-              type="button"
-              title="Clear Stage"
-            >
-              <span class="control-icon">🧹</span>
-              <span class="control-text">Clear</span>
-            </button>
-
-          </div>
-
-
-          <div class="control-divider"></div>
-
-
-          <div class="control-group">
-
-            <button
-              id="recordBtn"
-              class="control-btn record"
-              type="button"
-              title="Start Recording"
-            >
-              <span class="control-icon">🔴</span>
-              <span
-                id="recordText"
-                class="control-text"
-              >
-                Record
-              </span>
-            </button>
-
-
-            <button
-              id="pauseBtn"
-              class="control-btn"
-              type="button"
-              title="Pause Recording"
-              disabled
-            >
-              <span class="control-icon">⏸️</span>
-              <span
-                id="pauseText"
-                class="control-text"
-              >
-                Pause
-              </span>
-            </button>
-
-
-            <button
-              id="fullscreenBtn"
-              class="control-btn"
-              type="button"
-              title="Fullscreen"
-            >
-              <span class="control-icon">⛶</span>
-              <span class="control-text">Fullscreen</span>
-            </button>
-
-
-            <button
-              id="endBtn"
-              class="control-btn end"
-              type="button"
-              title="End Studio"
-            >
-              <span class="control-icon">⏹️</span>
-              <span class="control-text">End Studio</span>
-            </button>
-
-          </div>
-
-
-          <div
-            id="recordTime"
-            class="record-time"
-          >
-            <span class="record-light"></span>
-            <span id="recordTimerText">00:00</span>
-          </div>
-
-        </div>
-
-      </main>
-
-
-      <!-- ===================================================
-           STUDENTS
-           =================================================== -->
-
-      <aside
-        id="studentsPanel"
-        class="students-panel"
-      >
-
-        <div class="students-head">
-
-          <div>
-            <div class="students-title">
-              Students
-            </div>
-
-            <div class="students-subtitle">
-              Live participants
-            </div>
-          </div>
-
-          <div
-            id="studentCount"
-            class="students-count"
-          >
-            0
-          </div>
-
-        </div>
-
-
-        <div
-          id="studentList"
-          class="student-list"
-        >
-
-          <div class="empty-students">
-
-            <div class="empty-icon">
-              👥
-            </div>
-
-            <div class="empty-title">
-              No students yet
-            </div>
-
-            <div class="empty-desc">
-              Students will appear here when they join your class.
-            </div>
-
-          </div>
-
-        </div>
-
-      </aside>
+    </aside>
+
+  </main>
+
+
+  <!-- CONTROL BAR -->
+  <footer class="controls">
+
+    <div class="control-row">
+
+      <button class="control-btn" id="slideBtn">
+        <span class="control-icon">🖼️</span>
+        <span class="control-text">Slide</span>
+      </button>
+
+      <button class="control-btn" id="mainVideoBtn">
+        <span class="control-icon">🎬</span>
+        <span class="control-text">Main Video</span>
+      </button>
+
+      <button class="control-btn" id="cameraBtn">
+        <span class="control-icon">📷</span>
+        <span class="control-text">Camera</span>
+      </button>
+
+      <button class="control-btn" id="micBtn">
+        <span class="control-icon">🎙️</span>
+        <span class="control-text">Mic</span>
+      </button>
+
+      <button class="control-btn" id="shareBtn">
+        <span class="control-icon">🖥️</span>
+        <span class="control-text">Share Screen</span>
+      </button>
+
+      <button class="control-btn" id="playBtn">
+        <span class="control-icon">▶️</span>
+        <span class="control-text">Play</span>
+      </button>
+
+      <button class="control-btn" id="clearBtn">
+        <span class="control-icon">🧹</span>
+        <span class="control-text">Clear</span>
+      </button>
+
+      <button class="control-btn primary record-btn" id="recordBtn">
+        <span class="control-icon">🔴</span>
+        <span class="control-text">Record</span>
+      </button>
+
+      <button class="control-btn" id="pauseBtn">
+        <span class="control-icon">⏸️</span>
+        <span class="control-text">Pause</span>
+      </button>
+
+      <div class="timer" id="sessionTimer">
+        00:00
+      </div>
+
+      <button class="control-btn" id="fullscreenBtn">
+        <span class="control-icon">⛶</span>
+        <span class="control-text">Fullscreen</span>
+      </button>
+
+      <button class="control-btn danger" id="endBtn">
+        <span class="control-icon">⏹</span>
+        <span class="control-text">End Studio</span>
+      </button>
 
     </div>
+
+  </footer>
+
+</div>
+
+
+<!-- FILE INPUTS -->
+
+<input
+  type="file"
+  id="videoInput"
+  accept="video/*"
+  hidden>
+
+<input
+  type="file"
+  id="slideInput"
+  accept="image/*"
+  hidden>
+
+
+<!-- SETTINGS -->
+
+<aside class="settings-panel" id="settingsPanel">
+
+  <div class="modal-head">
+
+    <h3>Studio Settings</h3>
+
+    <button class="close-btn" id="closeSettings">
+      ✕
+    </button>
 
   </div>
 
 
-  <!-- =======================================================
-       SETTINGS OVERLAY
-       ======================================================== -->
+  <div class="setting">
 
-  <div
-    id="drawerOverlay"
-    class="drawer-overlay"
-  ></div>
+    <label>Class Name</label>
+
+    <input
+      id="classNameInput"
+      type="text"
+      placeholder="Enter class name">
+
+  </div>
 
 
-  <aside
-    id="settingsDrawer"
-    class="settings-drawer"
-  >
+  <div class="setting">
 
-    <div class="drawer-head">
+    <label>Voice Clone API URL</label>
 
-      <div class="drawer-title">
-        Studio Settings
-      </div>
+    <input
+      id="voiceApiInput"
+      type="url"
+      placeholder="https://example.com">
 
-      <button
-        id="drawerClose"
-        class="drawer-close"
-        type="button"
-      >
+  </div>
+
+
+  <div class="modal-actions">
+
+    <button
+      class="action-btn primary"
+      id="saveSettings">
+      Save Settings
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- PREVIEW MODAL -->
+
+<div class="modal-backdrop" id="previewModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <h3>Recording Preview</h3>
+
+      <button class="close-btn" id="closePreview">
         ✕
       </button>
 
     </div>
 
+    <video
+      class="preview-video"
+      id="previewVideo"
+      controls
+      playsinline>
+    </video>
 
-    <div class="setting-section">
+    <div class="modal-actions">
 
-      <div class="setting-section-title">
-        Studio
-      </div>
+      <button
+        class="action-btn"
+        id="closePreview2">
+        Close
+      </button>
 
-
-      <div class="field">
-        <label for="studioNameInput">
-          Studio Name
-        </label>
-
-        <input
-          id="studioNameInput"
-          type="text"
-          placeholder="Studio Name"
-        >
-      </div>
-
-
-      <div class="field">
-        <label for="studioSubtitleInput">
-          Subtitle
-        </label>
-
-        <input
-          id="studioSubtitleInput"
-          type="text"
-          placeholder="Subtitle"
-        >
-      </div>
-
-
-      <div class="field">
-        <label for="brandInput">
-          Selected Brand
-        </label>
-
-        <input
-          id="brandInput"
-          type="text"
-          placeholder="Brand"
-        >
-      </div>
-
-    </div>
-
-
-    <div class="setting-section">
-
-      <div class="setting-section-title">
-        Stage
-      </div>
-
-
-      <div class="field">
-        <label for="stageTitleInput">
-          Stage Title
-        </label>
-
-        <input
-          id="stageTitleInput"
-          type="text"
-          placeholder="Class title"
-        >
-      </div>
-
-
-      <div class="field">
-        <label for="welcomeInput">
-          Welcome Text
-        </label>
-
-        <textarea
-          id="welcomeInput"
-          placeholder="Welcome text"
-        ></textarea>
-      </div>
-
-    </div>
-
-
-    <button
-      id="saveSettingsBtn"
-      class="save-btn"
-      type="button"
-    >
-      Save Studio Settings
-    </button>
-
-
-    <div class="setting-section" style="margin-top:25px;">
-
-      <div class="setting-section-title">
-        Mentor Voice
-      </div>
-
-
-      <div class="voice-card">
-
-        <div class="voice-card-title">
-          🎙 Mentor Voice Clone
-        </div>
-
-        <div class="voice-card-desc">
-          আপনার voice sample নির্বাচন করুন। API থাকলে পরে
-          voice clone processing করা যাবে।
-        </div>
-
-
-        <div class="field" style="margin-top:12px;margin-bottom:0;">
-
-          <input
-            id="voiceInput"
-            type="file"
-            accept="audio/*"
-          >
-
-        </div>
-
-
-        <div class="voice-actions">
-
-          <button
-            id="voicePreviewBtn"
-            class="small-action"
-            type="button"
-          >
-            Preview
-          </button>
-
-          <button
-            id="voiceCloneBtn"
-            class="small-action primary"
-            type="button"
-          >
-            Clone Voice
-          </button>
-
-        </div>
-
-
-        <div
-          id="voiceStatus"
-          class="voice-status"
-        >
-          No voice sample selected.
-        </div>
-
-      </div>
-
-    </div>
-
-  </aside>
-
-
-  <!-- =======================================================
-       RECORD PREVIEW
-       ======================================================== -->
-
-  <div
-    id="previewOverlay"
-    class="modal-overlay"
-  >
-
-    <div class="preview-modal">
-
-      <div class="preview-head">
-
-        <div class="preview-title">
-          Recording Preview
-        </div>
-
-        <button
-          id="previewClose"
-          class="preview-close"
-          type="button"
-        >
-          ✕
-        </button>
-
-      </div>
-
-
-      <video
-        id="previewVideo"
-        controls
-        playsinline
-      ></video>
-
-
-      <div class="preview-actions">
-
-        <button
-          id="downloadRecordingBtn"
-          class="preview-action primary"
-          type="button"
-        >
-          ⬇ Download Recording
-        </button>
-
-        <button
-          id="closePreviewBtn"
-          class="preview-action"
-          type="button"
-        >
-          Close
-        </button>
-
-      </div>
+      <button
+        class="action-btn primary"
+        id="downloadRecording">
+        Download Recording
+      </button>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- =======================================================
-       HIDDEN FILE INPUTS
-       ======================================================== -->
 
-  <input
-    id="slideInput"
-    type="file"
-    accept="image/*"
-    hidden
-  >
+<!-- TOAST -->
 
-  <input
-    id="videoInput"
-    type="file"
-    accept="video/*"
-    hidden
-  >
+<div class="toast" id="toast"></div>
 
 
-  <!-- =======================================================
-       TOAST
-       ======================================================== -->
+<script>
+/* =========================================================
+   USHALIVEAI — MENTOR STUDIO CORE
+   NO MODULE DEPENDENCY
+   CORE BUTTONS WORK EVEN IF FIREBASE FAILS
+========================================================= */
 
-  <div
-    id="toast"
-    class="toast"
-  ></div>
+(function () {
 
+  "use strict";
 
-  <!-- =======================================================
-       FIREBASE / APP SCRIPT
-       ======================================================== -->
 
-  <script type="module">
+  /* =======================================================
+     ELEMENTS
+  ======================================================= */
 
-    import { db } from "../firebase.js";
+  const $ = (id) => document.getElementById(id);
 
-    import {
-      protectMentor,
-      logoutStudio
-    } from "../auth-guard.js";
+  const stage = $("stage");
+  const stagePlaceholder = $("stagePlaceholder");
 
-    import {
-      collection,
-      onSnapshot
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  const mainVideo = $("mainVideo");
+  const mainImage = $("mainImage");
+  const screenVideo = $("screenVideo");
 
+  const cameraVideo = $("cameraVideo");
+  const mentorPip = $("mentorPip");
 
-    /* =======================================================
-       ELEMENTS
-       ======================================================== */
+  const videoInput = $("videoInput");
+  const slideInput = $("slideInput");
 
-    const app = document.getElementById("app");
+  const slideBtn = $("slideBtn");
+  const mainVideoBtn = $("mainVideoBtn");
+  const cameraBtn = $("cameraBtn");
+  const micBtn = $("micBtn");
+  const shareBtn = $("shareBtn");
+  const playBtn = $("playBtn");
+  const clearBtn = $("clearBtn");
+  const recordBtn = $("recordBtn");
+  const pauseBtn = $("pauseBtn");
+  const fullscreenBtn = $("fullscreenBtn");
+  const endBtn = $("endBtn");
 
-    const stage = document.getElementById("stage");
+  const studentsToggle = $("studentsToggle");
+  const studentsPanel = $("studentsPanel");
 
-    const stagePlaceholder =
-      document.getElementById("stagePlaceholder");
+  const settingsBtn = $("settingsBtn");
+  const settingsPanel = $("settingsPanel");
+  const closeSettings = $("closeSettings");
+  const saveSettings = $("saveSettings");
 
-    const mainImage =
-      document.getElementById("mainImage");
+  const logoutBtn = $("logoutBtn");
 
-    const mainVideo =
-      document.getElementById("mainVideo");
+  const className = $("className");
+  const classNameInput = $("classNameInput");
 
-    const mentorCamera =
-      document.getElementById("mentorCamera");
+  const voiceApiInput = $("voiceApiInput");
 
-    const mentorCameraBox =
-      document.getElementById("mentorCameraBox");
+  const toast = $("toast");
 
-    const stageLabel =
-      document.getElementById("stageLabel");
+  const recordStatus = $("recordStatus");
+  const recordTimer = $("recordTimer");
+  const sessionTimer = $("sessionTimer");
 
-    const stageTitle =
-      document.getElementById("stageTitle");
+  const previewModal = $("previewModal");
+  const previewVideo = $("previewVideo");
+  const closePreview = $("closePreview");
+  const closePreview2 = $("closePreview2");
+  const downloadRecording = $("downloadRecording");
 
-    const stageWelcome =
-      document.getElementById("stageWelcome");
 
-    const brandBadge =
-      document.getElementById("brandBadge");
+  /* =======================================================
+     STATE
+  ======================================================= */
 
-    const studioName =
-      document.getElementById("studioName");
+  let cameraStream = null;
+  let micStream = null;
+  let screenStream = null;
 
-    const studioSubtitle =
-      document.getElementById("studioSubtitle");
+  let recorder = null;
+  let recordedChunks = [];
 
-    const topStudioTitle =
-      document.getElementById("topStudioTitle");
+  let recordedBlob = null;
+  let recordedUrl = null;
 
-    const syncStatus =
-      document.getElementById("syncStatus");
+  let videoObjectUrl = null;
+  let slideObjectUrl = null;
 
-    const syncText =
-      document.getElementById("syncText");
+  let recordingSeconds = 0;
+  let recordingInterval = null;
 
+  let sessionSeconds = 0;
+  let sessionInterval = null;
 
-    const slideBtn =
-      document.getElementById("slideBtn");
+  let isRecording = false;
+  let isPaused = false;
 
-    const videoBtn =
-      document.getElementById("videoBtn");
 
-    const cameraBtn =
-      document.getElementById("cameraBtn");
+  /* =======================================================
+     TOAST
+  ======================================================= */
 
-    const micBtn =
-      document.getElementById("micBtn");
+  let toastTimer = null;
 
-    const shareBtn =
-      document.getElementById("shareBtn");
+  function showToast(message) {
 
-    const clearBtn =
-      document.getElementById("clearBtn");
+    if (!toast) return;
 
-    const playBtn =
-      document.getElementById("playBtn");
+    toast.textContent = message;
+    toast.classList.add("show");
 
-    const recordBtn =
-      document.getElementById("recordBtn");
+    clearTimeout(toastTimer);
 
-    const pauseBtn =
-      document.getElementById("pauseBtn");
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
 
-    const fullscreenBtn =
-      document.getElementById("fullscreenBtn");
 
-    const endBtn =
-      document.getElementById("endBtn");
+  /* =======================================================
+     TIME
+  ======================================================= */
 
+  function formatTime(seconds) {
 
-    const slideInput =
-      document.getElementById("slideInput");
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
 
-    const videoInput =
-      document.getElementById("videoInput");
+    const secs = Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, "0");
 
-    const voiceInput =
-      document.getElementById("voiceInput");
+    return mins + ":" + secs;
+  }
 
 
-    const recordText =
-      document.getElementById("recordText");
+  /* =======================================================
+     SESSION TIMER
+  ======================================================= */
 
-    const pauseText =
-      document.getElementById("pauseText");
+  function startSessionTimer() {
 
-    const recordTime =
-      document.getElementById("recordTime");
+    if (sessionInterval) return;
 
-    const recordTimerText =
-      document.getElementById("recordTimerText");
+    sessionInterval = setInterval(() => {
 
-    const recordIndicator =
-      document.getElementById("recordIndicator");
+      sessionSeconds++;
 
+      sessionTimer.textContent =
+        formatTime(sessionSeconds);
 
-    const studentList =
-      document.getElementById("studentList");
+    }, 1000);
+  }
 
-    const studentCount =
-      document.getElementById("studentCount");
 
-    const studentsPanel =
-      document.getElementById("studentsPanel");
+  startSessionTimer();
 
-    const studentsMobileBtn =
-      document.getElementById("studentsMobileBtn");
 
+  /* =======================================================
+     STAGE
+  ======================================================= */
 
-    const settingsBtn =
-      document.getElementById("settingsBtn");
+  function updateStage() {
 
-    const settingsDrawer =
-      document.getElementById("settingsDrawer");
+    const videoVisible =
+      mainVideo.style.display === "block";
 
-    const drawerOverlay =
-      document.getElementById("drawerOverlay");
+    const imageVisible =
+      mainImage.style.display === "block";
 
-    const drawerClose =
-      document.getElementById("drawerClose");
+    const screenVisible =
+      screenVideo.style.display === "block";
 
-    const saveSettingsBtn =
-      document.getElementById("saveSettingsBtn");
+    const cameraVisible =
+      mentorPip.style.display === "block";
 
+    const hasContent =
+      videoVisible ||
+      imageVisible ||
+      screenVisible ||
+      cameraVisible;
 
-    const studioNameInput =
-      document.getElementById("studioNameInput");
+    stagePlaceholder.style.display =
+      hasContent ? "none" : "flex";
+  }
 
-    const studioSubtitleInput =
-      document.getElementById("studioSubtitleInput");
 
-    const brandInput =
-      document.getElementById("brandInput");
+  /* =======================================================
+     MAIN VIDEO
+  ======================================================= */
 
-    const stageTitleInput =
-      document.getElementById("stageTitleInput");
+  mainVideoBtn.addEventListener("click", function () {
 
-    const welcomeInput =
-      document.getElementById("welcomeInput");
+    if (isRecording) {
 
+      showToast(
+        "Stop recording before changing Main Video."
+      );
 
-    const voicePreviewBtn =
-      document.getElementById("voicePreviewBtn");
+      return;
+    }
 
-    const voiceCloneBtn =
-      document.getElementById("voiceCloneBtn");
+    videoInput.value = "";
+    videoInput.click();
 
-    const voiceStatus =
-      document.getElementById("voiceStatus");
+  });
 
 
-    const previewOverlay =
-      document.getElementById("previewOverlay");
+  videoInput.addEventListener("change", function (event) {
 
-    const previewVideo =
-      document.getElementById("previewVideo");
+    const file = event.target.files &&
+                 event.target.files[0];
 
-    const previewClose =
-      document.getElementById("previewClose");
+    if (!file) return;
 
-    const closePreviewBtn =
-      document.getElementById("closePreviewBtn");
+    if (videoObjectUrl) {
 
-    const downloadRecordingBtn =
-      document.getElementById("downloadRecordingBtn");
-
-
-    const toast =
-      document.getElementById("toast");
-
-    const logoutBtn =
-      document.getElementById("logoutBtn");
-
-
-    /* =======================================================
-       STATE
-       ======================================================== */
-
-    let cameraStream = null;
-
-    let micStream = null;
-
-    let screenStream = null;
-
-    let selectedVideoUrl = null;
-
-    let selectedImageUrl = null;
-
-    let voiceObjectUrl = null;
-
-    let voiceAudio = null;
-
-    let recorder = null;
-
-    let recordedChunks = [];
-
-    let recordingBlob = null;
-
-    let recordingUrl = null;
-
-    let recordingStartedAt = 0;
-
-    let recordingElapsed = 0;
-
-    let recordingTimer = null;
-
-    let isRecording = false;
-
-    let isPaused = false;
-
-    let micEnabled = false;
-
-    let currentVideoFile = null;
-
-    let currentImageFile = null;
-
-
-    /* =======================================================
-       SETTINGS
-       ======================================================== */
-
-    const SETTINGS_KEY =
-      "personalCourseStudioSettings";
-
-
-    const defaultSettings = {
-
-      studioName:
-        "UshaLiveAI",
-
-      studioSubtitle:
-        "Personal Course Studio",
-
-      studioLogo:
-        "US",
-
-      selectedBrand:
-        "Shah Neil Khan / USHA.AI",
-
-      zoomTitle:
-        "Mentor Class",
-
-      welcomeText:
-        "Ready to start your class?"
-
-    };
-
-
-    function getSettings() {
-
-      try {
-
-        const saved =
-          JSON.parse(
-            localStorage.getItem(SETTINGS_KEY)
-          );
-
-        return {
-          ...defaultSettings,
-          ...(saved || {})
-        };
-
-      } catch {
-
-        return {
-          ...defaultSettings
-        };
-
-      }
+      URL.revokeObjectURL(videoObjectUrl);
 
     }
 
+    videoObjectUrl =
+      URL.createObjectURL(file);
 
-    function saveLocalSettings(settings) {
+    mainVideo.src = videoObjectUrl;
 
-      localStorage.setItem(
-        SETTINGS_KEY,
-        JSON.stringify(settings)
+    mainVideo.style.display = "block";
+
+    mainImage.style.display = "none";
+    screenVideo.style.display = "none";
+
+    mainVideo.currentTime = 0;
+
+    updateStage();
+
+    showToast(
+      "Main Video loaded: " + file.name
+    );
+
+  });
+
+
+  /* =======================================================
+     SLIDE
+  ======================================================= */
+
+  slideBtn.addEventListener("click", function () {
+
+    if (isRecording) {
+
+      showToast(
+        "Stop recording before changing Slide."
+      );
+
+      return;
+    }
+
+    slideInput.value = "";
+    slideInput.click();
+
+  });
+
+
+  slideInput.addEventListener("change", function (event) {
+
+    const file = event.target.files &&
+                 event.target.files[0];
+
+    if (!file) return;
+
+    if (slideObjectUrl) {
+
+      URL.revokeObjectURL(slideObjectUrl);
+
+    }
+
+    slideObjectUrl =
+      URL.createObjectURL(file);
+
+    mainImage.src = slideObjectUrl;
+
+    mainImage.style.display = "block";
+
+    mainVideo.style.display = "none";
+    screenVideo.style.display = "none";
+
+    updateStage();
+
+    showToast(
+      "Slide loaded: " + file.name
+    );
+
+  });
+
+
+  /* =======================================================
+     PLAY
+  ======================================================= */
+
+  playBtn.addEventListener("click", async function () {
+
+    if (mainVideo.style.display === "block") {
+
+      try {
+
+        if (mainVideo.paused) {
+
+          await mainVideo.play();
+
+          playBtn.classList.add("active");
+
+          showToast("Main Video playing.");
+
+        } else {
+
+          mainVideo.pause();
+
+          playBtn.classList.remove("active");
+
+          showToast("Main Video paused.");
+
+        }
+
+      } catch (error) {
+
+        showToast(
+          "Video could not start. Click the video first."
+        );
+
+      }
+
+      return;
+    }
+
+    if (screenVideo.style.display === "block") {
+
+      try {
+
+        await screenVideo.play();
+
+      } catch (_) {}
+
+      showToast("Screen preview playing.");
+
+      return;
+    }
+
+    showToast("First select a Main Video or Share Screen.");
+
+  });
+
+
+  mainVideo.addEventListener("play", function () {
+
+    playBtn.classList.add("active");
+
+  });
+
+
+  mainVideo.addEventListener("pause", function () {
+
+    playBtn.classList.remove("active");
+
+  });
+
+
+  /* =======================================================
+     CAMERA
+  ======================================================= */
+
+  cameraBtn.addEventListener("click", async function () {
+
+    if (cameraStream) {
+
+      stopCamera();
+
+      return;
+    }
+
+    try {
+
+      cameraStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+
+      cameraVideo.srcObject = cameraStream;
+
+      mentorPip.style.display = "block";
+
+      cameraBtn.classList.add("active");
+
+      updateStage();
+
+      showToast("Camera ON.");
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Camera permission was not granted."
       );
 
     }
 
-
-    function applySettings() {
-
-      const settings =
-        getSettings();
-
-      studioName.textContent =
-        settings.studioName;
-
-      studioSubtitle.textContent =
-        settings.studioSubtitle;
-
-      topStudioTitle.textContent =
-        settings.zoomTitle ||
-        "Mentor Studio";
-
-      stageTitle.textContent =
-        settings.zoomTitle ||
-        "Mentor Class";
-
-      stageWelcome.textContent =
-        settings.welcomeText ||
-        "Ready to start";
-
-      brandBadge.textContent =
-        settings.selectedBrand ||
-        "USHA.AI";
+  });
 
 
-      studioNameInput.value =
-        settings.studioName;
+  function stopCamera() {
 
-      studioSubtitleInput.value =
-        settings.studioSubtitle;
+    if (cameraStream) {
 
-      brandInput.value =
-        settings.selectedBrand;
+      cameraStream.getTracks().forEach(track => {
+        track.stop();
+      });
 
-      stageTitleInput.value =
-        settings.zoomTitle;
+      cameraStream = null;
+    }
 
-      welcomeInput.value =
-        settings.welcomeText;
+    cameraVideo.srcObject = null;
+
+    mentorPip.style.display = "none";
+
+    cameraBtn.classList.remove("active");
+
+    updateStage();
+
+    showToast("Camera OFF.");
+
+  }
+
+
+  /* =======================================================
+     MICROPHONE
+  ======================================================= */
+
+  micBtn.addEventListener("click", async function () {
+
+    if (micStream) {
+
+      stopMic();
+
+      return;
+    }
+
+    try {
+
+      micStream =
+        await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: false
+        });
+
+      micBtn.classList.add("active");
+
+      showToast("Microphone ON.");
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Microphone permission was not granted."
+      );
 
     }
 
-
-    /* =======================================================
-       TOAST
-       ======================================================== */
-
-    let toastTimer = null;
+  });
 
 
-    function showToast(message) {
+  function stopMic() {
 
-      toast.textContent = message;
+    if (micStream) {
 
-      toast.classList.add("show");
+      micStream.getTracks().forEach(track => {
+        track.stop();
+      });
 
-      clearTimeout(toastTimer);
-
-      toastTimer =
-        setTimeout(() => {
-
-          toast.classList.remove("show");
-
-        }, 2600);
-
+      micStream = null;
     }
 
+    micBtn.classList.remove("active");
 
-    /* =======================================================
-       STAGE
-       ======================================================== */
+    showToast("Microphone OFF.");
 
-    function updateStageState() {
-
-      const hasImage =
-        mainImage.style.display !== "none" &&
-        !!mainImage.src;
-
-      const hasVideo =
-        mainVideo.style.display !== "none" &&
-        !!mainVideo.src;
-
-      const hasCamera =
-        mentorCameraBox.classList.contains("active");
+  }
 
 
-      stagePlaceholder.style.display =
-        hasImage ||
-        hasVideo ||
-        hasCamera
-          ? "none"
-          : "flex";
+  /* =======================================================
+     SCREEN SHARE
+  ======================================================= */
 
+  shareBtn.addEventListener("click", async function () {
+
+    if (screenStream) {
+
+      stopScreenShare();
+
+      return;
     }
 
+    try {
 
-    function clearStage() {
+      screenStream =
+        await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: true
+        });
 
-      mainImage.style.display =
-        "none";
+      screenVideo.srcObject =
+        screenStream;
+
+      screenVideo.style.display =
+        "block";
 
       mainVideo.style.display =
         "none";
 
-      mainImage.removeAttribute("src");
+      mainImage.style.display =
+        "none";
 
-      mainVideo.pause();
+      screenVideo.play().catch(() => {});
 
-      mainVideo.removeAttribute("src");
+      shareBtn.classList.add("active");
 
-      if (selectedImageUrl) {
+      updateStage();
 
-        URL.revokeObjectURL(
-          selectedImageUrl
+      const videoTrack =
+        screenStream.getVideoTracks()[0];
+
+      if (videoTrack) {
+
+        videoTrack.addEventListener(
+          "ended",
+          stopScreenShare
         );
-
-        selectedImageUrl = null;
 
       }
 
-      if (selectedVideoUrl) {
+      showToast("Screen sharing started.");
 
-        URL.revokeObjectURL(
-          selectedVideoUrl
-        );
+    } catch (error) {
 
-        selectedVideoUrl = null;
-
-      }
-
-      currentVideoFile = null;
-
-      currentImageFile = null;
-
-      updateStageState();
-
-      playBtn.classList.remove("active");
-
-      playBtn.querySelector(
-        ".control-icon"
-      ).textContent = "▶️";
-
-      playBtn.querySelector(
-        ".control-text"
-      ).textContent = "Play";
+      console.error(error);
 
       showToast(
-        "Stage cleared."
+        "Screen sharing was cancelled."
       );
 
     }
 
+  });
 
-    /* =======================================================
-       SLIDE / IMAGE
-       ======================================================== */
 
-    slideBtn.addEventListener(
-      "click",
-      () => {
+  function stopScreenShare() {
 
-        if (isRecording) {
+    if (screenStream) {
 
-          showToast(
-            "Stop recording before changing the stage."
-          );
-
-          return;
-
-        }
-
-        slideInput.click();
-
-      }
-    );
-
-
-    slideInput.addEventListener(
-      "change",
-      event => {
-
-        const file =
-          event.target.files?.[0];
-
-        if (!file) return;
-
-        if (selectedImageUrl) {
-
-          URL.revokeObjectURL(
-            selectedImageUrl
-          );
-
-        }
-
-        selectedImageUrl =
-          URL.createObjectURL(file);
-
-        currentImageFile =
-          file;
-
-        mainImage.src =
-          selectedImageUrl;
-
-        mainImage.style.display =
-          "block";
-
-        mainVideo.style.display =
-          "none";
-
-        mainVideo.pause();
-
-        updateStageState();
-
-        showToast(
-          "Slide loaded."
-        );
-
-      }
-    );
-
-
-    /* =======================================================
-       MAIN VIDEO
-       IMPORTANT:
-       LOCAL FILE PICKER ONLY
-       ======================================================== */
-
-    videoBtn.addEventListener(
-      "click",
-      () => {
-
-        if (isRecording) {
-
-          showToast(
-            "Stop recording before changing the video."
-          );
-
-          return;
-
-        }
-
-        videoInput.click();
-
-      }
-    );
-
-
-    videoInput.addEventListener(
-      "change",
-      event => {
-
-        const file =
-          event.target.files?.[0];
-
-        if (!file) return;
-
-        if (selectedVideoUrl) {
-
-          URL.revokeObjectURL(
-            selectedVideoUrl
-          );
-
-        }
-
-        selectedVideoUrl =
-          URL.createObjectURL(file);
-
-        currentVideoFile =
-          file;
-
-        mainVideo.src =
-          selectedVideoUrl;
-
-        mainVideo.currentTime = 0;
-
-        mainVideo.style.display =
-          "block";
-
-        mainImage.style.display =
-          "none";
-
-        updateStageState();
-
-        playBtn.classList.add("active");
-
-        playBtn.querySelector(
-          ".control-icon"
-        ).textContent = "▶️";
-
-        playBtn.querySelector(
-          ".control-text"
-        ).textContent = "Play";
-
-        showToast(
-          "Main video loaded from your computer."
-        );
-
-      }
-    );
-
-
-    /* =======================================================
-       PLAY / PAUSE MAIN VIDEO
-       ======================================================== */
-
-    playBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          mainVideo.style.display === "none" ||
-          !mainVideo.src
-        ) {
-
-          showToast(
-            "First choose a Main Video."
-          );
-
-          return;
-
-        }
-
-        try {
-
-          if (mainVideo.paused) {
-
-            await mainVideo.play();
-
-            playBtn.querySelector(
-              ".control-icon"
-            ).textContent = "⏸️";
-
-            playBtn.querySelector(
-              ".control-text"
-            ).textContent = "Pause";
-
-          } else {
-
-            mainVideo.pause();
-
-            playBtn.querySelector(
-              ".control-icon"
-            ).textContent = "▶️";
-
-            playBtn.querySelector(
-              ".control-text"
-            ).textContent = "Play";
-
-          }
-
-        } catch {
-
-          showToast(
-            "Video could not be played."
-          );
-
-        }
-
-      }
-    );
-
-
-    mainVideo.addEventListener(
-      "play",
-      () => {
-
-        playBtn.querySelector(
-          ".control-icon"
-        ).textContent = "⏸️";
-
-        playBtn.querySelector(
-          ".control-text"
-        ).textContent = "Pause";
-
-      }
-    );
-
-
-    mainVideo.addEventListener(
-      "pause",
-      () => {
-
-        playBtn.querySelector(
-          ".control-icon"
-        ).textContent = "▶️";
-
-        playBtn.querySelector(
-          ".control-text"
-        ).textContent = "Play";
-
-      }
-    );
-
-
-    /* =======================================================
-       CAMERA
-       ======================================================== */
-
-    cameraBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          cameraStream
-        ) {
-
-          stopCamera();
-
-          return;
-
-        }
-
-        try {
-
-          cameraStream =
-            await navigator.mediaDevices.getUserMedia({
-              video: true,
-              audio: false
-            });
-
-          mentorCamera.srcObject =
-            cameraStream;
-
-          mentorCameraBox.classList.add(
-            "active"
-          );
-
-          cameraBtn.classList.add(
-            "active"
-          );
-
-          cameraBtn.querySelector(
-            ".control-icon"
-          ).textContent = "📹";
-
-          cameraBtn.querySelector(
-            ".control-text"
-          ).textContent = "Stop Cam";
-
-          updateStageState();
-
-          showToast(
-            "Mentor camera is ON."
-          );
-
-        } catch (error) {
-
-          console.error(error);
-
-          showToast(
-            "Camera permission was denied."
-          );
-
-        }
-
-      }
-    );
-
-
-    function stopCamera() {
-
-      if (cameraStream) {
-
-        cameraStream
-          .getTracks()
-          .forEach(track =>
-            track.stop()
-          );
-
-      }
-
-      cameraStream = null;
-
-      mentorCamera.srcObject =
-        null;
-
-      mentorCameraBox.classList.remove(
-        "active"
-      );
-
-      cameraBtn.classList.remove(
-        "active"
-      );
-
-      cameraBtn.querySelector(
-        ".control-icon"
-      ).textContent = "📷";
-
-      cameraBtn.querySelector(
-        ".control-text"
-      ).textContent = "Camera";
-
-      updateStageState();
-
-    }
-
-
-    /* =======================================================
-       MICROPHONE
-       ======================================================== */
-
-    micBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (!micStream) {
-
-          try {
-
-            micStream =
-              await navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: false
-              });
-
-            micEnabled = true;
-
-            micStream
-              .getAudioTracks()
-              .forEach(track => {
-
-                track.enabled =
-                  true;
-
-              });
-
-            micBtn.classList.add(
-              "active"
-            );
-
-            micBtn.querySelector(
-              ".control-icon"
-            ).textContent = "🎙️";
-
-            micBtn.querySelector(
-              ".control-text"
-            ).textContent = "Mic ON";
-
-            showToast(
-              "Microphone is ON."
-            );
-
-          } catch (error) {
-
-            console.error(error);
-
-            showToast(
-              "Microphone permission was denied."
-            );
-
-          }
-
-          return;
-
-        }
-
-
-        micEnabled =
-          !micEnabled;
-
-        micStream
-          .getAudioTracks()
-          .forEach(track => {
-
-            track.enabled =
-              micEnabled;
-
-          });
-
-
-        if (micEnabled) {
-
-          micBtn.classList.add(
-            "active"
-          );
-
-          micBtn.querySelector(
-            ".control-text"
-          ).textContent =
-            "Mic ON";
-
-          showToast(
-            "Microphone ON."
-          );
-
-        } else {
-
-          micBtn.classList.remove(
-            "active"
-          );
-
-          micBtn.querySelector(
-            ".control-text"
-          ).textContent =
-            "Mic OFF";
-
-          showToast(
-            "Microphone muted."
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =======================================================
-       SHARE SCREEN
-       ======================================================== */
-
-    shareBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (isRecording) {
-
-          showToast(
-            "Stop recording before changing screen sharing."
-          );
-
-          return;
-
-        }
-
-        if (screenStream) {
-
-          stopScreenShare();
-
-          return;
-
-        }
-
-        if (
-          !navigator.mediaDevices?.getDisplayMedia
-        ) {
-
-          showToast(
-            "Screen sharing is not supported here."
-          );
-
-          return;
-
-        }
-
-        try {
-
-          screenStream =
-            await navigator.mediaDevices.getDisplayMedia({
-              video: true,
-              audio: true
-            });
-
-          const screenVideo =
-            document.createElement(
-              "video"
-            );
-
-          screenVideo.autoplay =
-            true;
-
-          screenVideo.muted =
-            true;
-
-          screenVideo.playsInline =
-            true;
-
-          screenVideo.srcObject =
-            screenStream;
-
-          screenVideo.style.position =
-            "absolute";
-
-          screenVideo.style.inset =
-            "0";
-
-          screenVideo.style.width =
-            "100%";
-
-          screenVideo.style.height =
-            "100%";
-
-          screenVideo.style.objectFit =
-            "contain";
-
-          screenVideo.style.zIndex =
-            "4";
-
-          screenVideo.id =
-            "screenShareVideo";
-
-          stage.appendChild(
-            screenVideo
-          );
-
-          shareBtn.classList.add(
-            "active"
-          );
-
-          shareBtn.querySelector(
-            ".control-text"
-          ).textContent =
-            "Stop Share";
-
-          showToast(
-            "Screen sharing started."
-          );
-
-
-          const track =
-            screenStream.getVideoTracks()[0];
-
-          track.addEventListener(
-            "ended",
-            () => {
-
-              stopScreenShare();
-
-            }
-          );
-
-        } catch (error) {
-
-          console.error(error);
-
-          showToast(
-            "Screen sharing cancelled."
-          );
-
-        }
-
-      }
-    );
-
-
-    function stopScreenShare() {
-
-      if (screenStream) {
-
-        screenStream
-          .getTracks()
-          .forEach(track =>
-            track.stop()
-          );
-
-      }
+      screenStream.getTracks().forEach(track => {
+        track.stop();
+      });
 
       screenStream = null;
+    }
 
-      const screenVideo =
-        document.getElementById(
-          "screenShareVideo"
-        );
+    screenVideo.srcObject = null;
 
-      if (screenVideo) {
+    screenVideo.style.display =
+      "none";
 
-        screenVideo.remove();
+    shareBtn.classList.remove("active");
 
-      }
+    updateStage();
 
-      shareBtn.classList.remove(
-        "active"
-      );
+    showToast("Screen sharing stopped.");
 
-      shareBtn.querySelector(
-        ".control-text"
-      ).textContent =
-        "Share Screen";
+  }
+
+
+  /* =======================================================
+     CLEAR STAGE
+  ======================================================= */
+
+  clearBtn.addEventListener("click", function () {
+
+    if (isRecording) {
 
       showToast(
-        "Screen sharing stopped."
+        "Stop recording before clearing the stage."
       );
 
+      return;
     }
 
+    mainVideo.pause();
 
-    /* =======================================================
-       RECORDING
-       ======================================================== */
+    mainVideo.removeAttribute("src");
+    mainVideo.load();
 
-    function formatTime(seconds) {
+    mainImage.removeAttribute("src");
 
-      seconds =
-        Math.max(
-          0,
-          Math.floor(seconds)
-        );
+    if (screenStream) {
 
-      const hours =
-        Math.floor(
-          seconds / 3600
-        );
-
-      const minutes =
-        Math.floor(
-          (seconds % 3600) / 60
-        );
-
-      const secs =
-        seconds % 60;
-
-
-      if (hours > 0) {
-
-        return [
-          String(hours).padStart(2,"0"),
-          String(minutes).padStart(2,"0"),
-          String(secs).padStart(2,"0")
-        ].join(":");
-
-      }
-
-      return [
-        String(minutes).padStart(2,"0"),
-        String(secs).padStart(2,"0")
-      ].join(":");
+      stopScreenShare();
 
     }
 
+    mainVideo.style.display = "none";
+    mainImage.style.display = "none";
+    screenVideo.style.display = "none";
 
-    function startTimer() {
+    playBtn.classList.remove("active");
 
-      clearInterval(
-        recordingTimer
-      );
+    updateStage();
 
-      recordingStartedAt =
-        Date.now();
+    showToast("Main stage cleared.");
 
-
-      recordingTimer =
-        setInterval(() => {
-
-          if (
-            !isRecording ||
-            isPaused
-          ) return;
-
-          const current =
-            Date.now();
-
-          const elapsed =
-            recordingElapsed +
-            (
-              current -
-              recordingStartedAt
-            );
-
-          recordTimerText.textContent =
-            formatTime(
-              elapsed / 1000
-            );
-
-        }, 250);
-
-    }
+  });
 
 
-    function stopTimer() {
+  /* =======================================================
+     RECORDING
+  ======================================================= */
 
-      clearInterval(
-        recordingTimer
-      );
+  recordBtn.addEventListener(
+    "click",
+    function () {
 
-      recordingTimer =
-        null;
+      if (isRecording) {
 
-    }
+        stopRecording();
 
+      } else {
 
-    function pauseTimer() {
-
-      if (!isRecording) return;
-
-      recordingElapsed +=
-        Date.now() -
-        recordingStartedAt;
-
-    }
-
-
-    function startRecording() {
-
-      if (
-        typeof MediaRecorder ===
-        "undefined"
-      ) {
-
-        showToast(
-          "Recording is not supported in this browser."
-        );
-
-        return;
-
-      }
-
-
-      if (isRecording) return;
-
-
-      let stream =
-        null;
-
-
-      /*
-       * Primary recording source:
-       * screen capture.
-       *
-       * This preserves browser compatibility and allows
-       * recording the visible studio/workspace.
-       */
-
-      if (
-        navigator.mediaDevices?.getDisplayMedia
-      ) {
-
-        navigator.mediaDevices
-          .getDisplayMedia({
-            video: true,
-            audio: true
-          })
-          .then(
-            displayStream => {
-
-              startRecorderFromStream(
-                displayStream
-              );
-
-            }
-          )
-          .catch(
-            error => {
-
-              console.error(error);
-
-              showToast(
-                "Recording permission was cancelled."
-              );
-
-            }
-          );
-
-        return;
-
-      }
-
-
-      if (stream) {
-
-        startRecorderFromStream(
-          stream
-        );
+        startRecording();
 
       }
 
     }
+  );
 
 
-    function startRecorderFromStream(
-      displayStream
+  async function startRecording() {
+
+    if (
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getDisplayMedia
     ) {
 
-      try {
+      showToast(
+        "Screen recording is not supported here."
+      );
 
-        recordedChunks = [];
-
-        recordingElapsed = 0;
-
-        isPaused = false;
-
-        isRecording = true;
-
-        recordTimerText.textContent =
-          "00:00";
-
-
-        let mimeType =
-          "";
-
-
-        if (
-          MediaRecorder.isTypeSupported(
-            "video/webm;codecs=vp9,opus"
-          )
-        ) {
-
-          mimeType =
-            "video/webm;codecs=vp9,opus";
-
-        } else if (
-          MediaRecorder.isTypeSupported(
-            "video/webm;codecs=vp8,opus"
-          )
-        ) {
-
-          mimeType =
-            "video/webm;codecs=vp8,opus";
-
-        } else {
-
-          mimeType =
-            "video/webm";
-
-        }
-
-
-        recorder =
-          new MediaRecorder(
-            displayStream,
-            {
-              mimeType
-            }
-          );
-
-
-        recorder.ondataavailable =
-          event => {
-
-            if (
-              event.data &&
-              event.data.size > 0
-            ) {
-
-              recordedChunks.push(
-                event.data
-              );
-
-            }
-
-          };
-
-
-        recorder.onstop =
-          () => {
-
-            finishRecording(
-              displayStream
-            );
-
-          };
-
-
-        recorder.onerror =
-          event => {
-
-            console.error(
-              event
-            );
-
-            showToast(
-              "Recording error occurred."
-            );
-
-          };
-
-
-        recorder.start(
-          1000
-        );
-
-
-        displayStream
-          .getVideoTracks()
-          .forEach(track => {
-
-            track.addEventListener(
-              "ended",
-              () => {
-
-                if (isRecording) {
-
-                  stopRecording();
-
-                }
-
-              }
-            );
-
-          });
-
-
-        document.body.classList.add(
-          "recording"
-        );
-
-        recordBtn.classList.add(
-          "recording"
-        );
-
-        recordText.textContent =
-          "Stop";
-
-        recordBtn.title =
-          "Stop Recording";
-
-        pauseBtn.disabled =
-          false;
-
-        pauseBtn.classList.remove(
-          "disabled"
-        );
-
-        recordTime.classList.add(
-          "show"
-        );
-
-        recordIndicator.classList.add(
-          "show"
-        );
-
-        startTimer();
-
-        showToast(
-          "Recording started."
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        isRecording = false;
-
-        displayStream
-          ?.getTracks()
-          .forEach(track =>
-            track.stop()
-          );
-
-        showToast(
-          "Could not start recording."
-        );
-
-      }
-
+      return;
     }
 
 
-    function stopRecording() {
+    try {
 
-      if (
-        !recorder ||
-        !isRecording
-      ) return;
+      /*
+       * We capture the browser tab/screen.
+       * Chrome will show its native share dialog.
+       */
+
+      const displayStream =
+        await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: true
+        });
 
 
-      if (
-        recorder.state !==
-        "inactive"
-      ) {
+      let audioTracks = [];
 
-        recorder.stop();
+
+      if (micStream) {
+
+        audioTracks =
+          micStream.getAudioTracks();
 
       }
 
 
-      isRecording =
-        false;
+      const combinedTracks = [
+        ...displayStream.getVideoTracks(),
+        ...displayStream.getAudioTracks(),
+        ...audioTracks
+      ];
 
-      isPaused =
-        false;
 
-      stopTimer();
+      const recordingStream =
+        new MediaStream(combinedTracks);
 
-      document.body.classList.remove(
-        "recording"
+
+      let mimeType = "";
+
+
+      if (
+        MediaRecorder.isTypeSupported(
+          "video/webm;codecs=vp9,opus"
+        )
+      ) {
+
+        mimeType =
+          "video/webm;codecs=vp9,opus";
+
+      } else if (
+        MediaRecorder.isTypeSupported(
+          "video/webm;codecs=vp8,opus"
+        )
+      ) {
+
+        mimeType =
+          "video/webm;codecs=vp8,opus";
+
+      } else {
+
+        mimeType = "video/webm";
+
+      }
+
+
+      recorder =
+        new MediaRecorder(
+          recordingStream,
+          mimeType
+            ? { mimeType }
+            : undefined
+        );
+
+
+      recordedChunks = [];
+
+
+      recorder.addEventListener(
+        "dataavailable",
+        function (event) {
+
+          if (event.data &&
+              event.data.size > 0) {
+
+            recordedChunks.push(
+              event.data
+            );
+
+          }
+
+        }
       );
 
-      recordBtn.classList.remove(
-        "recording"
+
+      recorder.addEventListener(
+        "stop",
+        function () {
+
+          const finalType =
+            mimeType || "video/webm";
+
+          recordedBlob =
+            new Blob(
+              recordedChunks,
+              { type: finalType }
+            );
+
+
+          if (recordedUrl) {
+
+            URL.revokeObjectURL(
+              recordedUrl
+            );
+
+          }
+
+
+          recordedUrl =
+            URL.createObjectURL(
+              recordedBlob
+            );
+
+
+          previewVideo.src =
+            recordedUrl;
+
+          previewModal.classList.add("show");
+
+
+          displayStream
+            .getTracks()
+            .forEach(track => {
+              track.stop();
+            });
+
+
+          showToast(
+            "Recording ready for preview."
+          );
+
+        }
       );
 
-      recordText.textContent =
-        "Record";
 
-      recordBtn.title =
-        "Start Recording";
+      recorder.addEventListener(
+        "error",
+        function (event) {
 
-      pauseBtn.disabled =
-        true;
+          console.error(
+            "Recorder error:",
+            event
+          );
 
-      pauseBtn.classList.remove(
+          showToast(
+            "Recording error occurred."
+          );
+
+        }
+      );
+
+
+      recorder.start(1000);
+
+
+      isRecording = true;
+      isPaused = false;
+
+      recordingSeconds = 0;
+
+      recordTimer.textContent =
+        "00:00";
+
+
+      recordStatus.classList.add(
         "active"
       );
 
-      pauseText.textContent =
-        "Pause";
 
-      recordTime.classList.remove(
-        "show"
+      recordBtn.classList.add(
+        "recording"
       );
 
-      recordIndicator.classList.remove(
-        "show"
-      );
 
-    }
-
-
-    function finishRecording(
-      displayStream
-    ) {
-
-      displayStream
-        ?.getTracks()
-        .forEach(track =>
-          track.stop()
-        );
+      recordBtn.querySelector(
+        ".control-text"
+      ).textContent = "Stop";
 
 
-      if (
-        !recordedChunks.length
-      ) {
-
-        showToast(
-          "No recording data was created."
-        );
-
-        return;
-
-      }
+      pauseBtn.querySelector(
+        ".control-text"
+      ).textContent = "Pause";
 
 
-      recordingBlob =
-        new Blob(
-          recordedChunks,
-          {
-            type:
-              "video/webm"
+      recordingInterval =
+        setInterval(() => {
+
+          if (!isPaused) {
+
+            recordingSeconds++;
+
+            recordTimer.textContent =
+              formatTime(recordingSeconds);
+
+          }
+
+        }, 1000);
+
+
+      const shareTrack =
+        displayStream.getVideoTracks()[0];
+
+
+      if (shareTrack) {
+
+        shareTrack.addEventListener(
+          "ended",
+          function () {
+
+            if (isRecording) {
+
+              stopRecording();
+
+            }
+
           }
         );
 
-
-      if (recordingUrl) {
-
-        URL.revokeObjectURL(
-          recordingUrl
-        );
-
       }
 
-      recordingUrl =
-        URL.createObjectURL(
-          recordingBlob
-        );
-
-
-      previewVideo.src =
-        recordingUrl;
-
-      previewOverlay.classList.add(
-        "show"
-      );
 
       showToast(
-        "Recording ready for preview."
+        "Recording started."
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Recording cancelled."
       );
 
     }
 
+  }
 
-    recordBtn.addEventListener(
-      "click",
-      () => {
 
-        if (isRecording) {
+  function stopRecording() {
 
-          stopRecording();
+    if (
+      !recorder ||
+      recorder.state === "inactive"
+    ) {
 
-        } else {
+      return;
+    }
 
-          startRecording();
 
-        }
+    recorder.stop();
 
-      }
+    isRecording = false;
+    isPaused = false;
+
+
+    clearInterval(
+      recordingInterval
+    );
+
+    recordingInterval = null;
+
+
+    recordStatus.classList.remove(
+      "active"
     );
 
 
-    pauseBtn.addEventListener(
-      "click",
-      () => {
+    recordBtn.classList.remove(
+      "recording"
+    );
+
+
+    recordBtn.querySelector(
+      ".control-text"
+    ).textContent = "Record";
+
+
+    pauseBtn.querySelector(
+      ".control-text"
+    ).textContent = "Pause";
+
+
+    showToast(
+      "Recording stopped."
+    );
+
+  }
+
+
+  /* =======================================================
+     PAUSE / RESUME
+  ======================================================= */
+
+  pauseBtn.addEventListener(
+    "click",
+    function () {
+
+      if (!recorder) {
+
+        showToast(
+          "Start recording first."
+        );
+
+        return;
+      }
+
+
+      if (
+        recorder.state === "inactive"
+      ) {
+
+        showToast(
+          "Start recording first."
+        );
+
+        return;
+      }
+
+
+      if (!isPaused) {
 
         if (
-          !recorder ||
-          !isRecording
-        ) return;
-
-
-        if (
-          recorder.state ===
-          "recording"
+          recorder.state === "recording"
         ) {
-
-          pauseTimer();
 
           recorder.pause();
 
-          isPaused =
-            true;
-
-          pauseText.textContent =
-            "Resume";
+          isPaused = true;
 
           pauseBtn.classList.add(
             "active"
           );
 
+          pauseBtn.querySelector(
+            ".control-text"
+          ).textContent = "Resume";
+
           showToast(
             "Recording paused."
           );
 
-          return;
-
         }
 
+      } else {
 
         if (
-          recorder.state ===
-          "paused"
+          recorder.state === "paused"
         ) {
 
           recorder.resume();
 
-          isPaused =
-            false;
-
-          recordingStartedAt =
-            Date.now();
-
-          pauseText.textContent =
-            "Pause";
+          isPaused = false;
 
           pauseBtn.classList.remove(
             "active"
           );
+
+          pauseBtn.querySelector(
+            ".control-text"
+          ).textContent = "Pause";
 
           showToast(
             "Recording resumed."
@@ -3907,1185 +2181,295 @@
         }
 
       }
-    );
-
-
-    /* =======================================================
-       PREVIEW
-       ======================================================== */
-
-    function closePreview() {
-
-      previewOverlay.classList.remove(
-        "show"
-      );
-
-      previewVideo.pause();
 
     }
+  );
 
 
-    previewClose.addEventListener(
-      "click",
-      closePreview
-    );
+  /* =======================================================
+     FULLSCREEN
+  ======================================================= */
 
+  fullscreenBtn.addEventListener(
+    "click",
+    async function () {
 
-    closePreviewBtn.addEventListener(
-      "click",
-      closePreview
-    );
+      try {
 
+        if (!document.fullscreenElement) {
 
-    previewOverlay.addEventListener(
-      "click",
-      event => {
-
-        if (
-          event.target ===
-          previewOverlay
-        ) {
-
-          closePreview();
-
-        }
-
-      }
-    );
-
-
-    downloadRecordingBtn.addEventListener(
-      "click",
-      () => {
-
-        if (!recordingUrl) {
+          await stage.requestFullscreen();
 
           showToast(
-            "No recording available."
-          );
-
-          return;
-
-        }
-
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-        link.href =
-          recordingUrl;
-
-        const settings =
-          getSettings();
-
-        const safeName =
-          (
-            settings.zoomTitle ||
-            "UshaLiveAI-Class"
-          )
-          .replace(
-            /[^a-z0-9-_]+/gi,
-            "-"
-          )
-          .replace(
-            /^-+|-+$/g,
-            ""
-          );
-
-
-        const now =
-          new Date();
-
-
-        const stamp =
-          [
-            now.getFullYear(),
-            String(
-              now.getMonth() + 1
-            ).padStart(2,"0"),
-            String(
-              now.getDate()
-            ).padStart(2,"0")
-          ].join("");
-
-
-        link.download =
-          `${safeName || "UshaLiveAI-Class"}-${stamp}.webm`;
-
-
-        document.body.appendChild(
-          link
-        );
-
-        link.click();
-
-        link.remove();
-
-        showToast(
-          "Recording download started."
-        );
-
-      }
-    );
-
-
-    /* =======================================================
-       FULLSCREEN
-       ======================================================== */
-
-    fullscreenBtn.addEventListener(
-      "click",
-      async () => {
-
-        try {
-
-          if (
-            !document.fullscreenElement
-          ) {
-
-            await stage.requestFullscreen();
-
-          } else {
-
-            await document.exitFullscreen();
-
-          }
-
-        } catch (error) {
-
-          console.error(error);
-
-          showToast(
-            "Fullscreen is not available."
-          );
-
-        }
-
-      }
-    );
-
-
-    document.addEventListener(
-      "fullscreenchange",
-      () => {
-
-        if (
-          document.fullscreenElement
-        ) {
-
-          fullscreenBtn.querySelector(
-            ".control-icon"
-          ).textContent =
-            "⛶";
-
-          fullscreenBtn.querySelector(
-            ".control-text"
-          ).textContent =
-            "Exit";
-
-          fullscreenBtn.classList.add(
-            "active"
+            "Stage fullscreen enabled."
           );
 
         } else {
 
-          fullscreenBtn.querySelector(
-            ".control-icon"
-          ).textContent =
-            "⛶";
-
-          fullscreenBtn.querySelector(
-            ".control-text"
-          ).textContent =
-            "Fullscreen";
-
-          fullscreenBtn.classList.remove(
-            "active"
-          );
+          await document.exitFullscreen();
 
         }
-
-      }
-    );
-
-
-    /* =======================================================
-       SETTINGS DRAWER
-       ======================================================== */
-
-    function openSettings() {
-
-      applySettings();
-
-      drawerOverlay.classList.add(
-        "show"
-      );
-
-      settingsDrawer.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function closeSettings() {
-
-      drawerOverlay.classList.remove(
-        "show"
-      );
-
-      settingsDrawer.classList.remove(
-        "show"
-      );
-
-    }
-
-
-    settingsBtn.addEventListener(
-      "click",
-      openSettings
-    );
-
-
-    drawerClose.addEventListener(
-      "click",
-      closeSettings
-    );
-
-
-    drawerOverlay.addEventListener(
-      "click",
-      closeSettings
-    );
-
-
-    saveSettingsBtn.addEventListener(
-      "click",
-      () => {
-
-        const settings = {
-
-          studioName:
-            studioNameInput.value.trim() ||
-            defaultSettings.studioName,
-
-          studioSubtitle:
-            studioSubtitleInput.value.trim() ||
-            defaultSettings.studioSubtitle,
-
-          studioLogo:
-            "US",
-
-          selectedBrand:
-            brandInput.value.trim() ||
-            defaultSettings.selectedBrand,
-
-          zoomTitle:
-            stageTitleInput.value.trim() ||
-            defaultSettings.zoomTitle,
-
-          welcomeText:
-            welcomeInput.value.trim() ||
-            defaultSettings.welcomeText
-
-        };
-
-
-        saveLocalSettings(
-          settings
-        );
-
-        applySettings();
-
-        closeSettings();
-
-        showToast(
-          "Studio settings saved."
-        );
-
-      }
-    );
-
-
-    /* =======================================================
-       STUDENTS
-       ======================================================== */
-
-    const STUDENTS_KEY =
-      "personalCourseStudioStudents";
-
-
-    function renderStudents(
-      students
-    ) {
-
-      if (
-        !Array.isArray(students)
-      ) {
-
-        students = [];
-
-      }
-
-
-      studentCount.textContent =
-        students.length;
-
-
-      if (
-        students.length === 0
-      ) {
-
-        studentList.innerHTML = `
-
-          <div class="empty-students">
-
-            <div class="empty-icon">
-              👥
-            </div>
-
-            <div class="empty-title">
-              No students yet
-            </div>
-
-            <div class="empty-desc">
-              Students will appear here when they join your class.
-            </div>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      studentList.innerHTML =
-        students.map(
-          (student, index) => {
-
-            const name =
-              student?.name ||
-              student?.displayName ||
-              `Student ${index + 1}`;
-
-            const status =
-              student?.status ||
-              "Active";
-
-
-            const initial =
-              name
-                .trim()
-                .charAt(0)
-                .toUpperCase();
-
-
-            return `
-
-              <div class="student-item">
-
-                <div class="student-avatar">
-                  ${initial}
-                </div>
-
-                <div class="student-info">
-
-                  <div class="student-name">
-                    ${escapeHtml(name)}
-                  </div>
-
-                  <div class="student-status">
-
-                    <span class="student-status-dot"></span>
-
-                    ${escapeHtml(status)}
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("");
-
-    }
-
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(value)
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
-
-
-    function loadLocalStudents() {
-
-      try {
-
-        const saved =
-          JSON.parse(
-            localStorage.getItem(
-              STUDENTS_KEY
-            )
-          );
-
-        renderStudents(
-          saved || []
-        );
-
-      } catch {
-
-        renderStudents(
-          []
-        );
-
-      }
-
-    }
-
-
-    function listenStudents() {
-
-      try {
-
-        const studentsRef =
-          collection(
-            db,
-            "students"
-          );
-
-
-        onSnapshot(
-          studentsRef,
-          snapshot => {
-
-            const students =
-              snapshot.docs.map(
-                doc => ({
-                  id: doc.id,
-                  ...doc.data()
-                })
-              );
-
-
-            localStorage.setItem(
-              STUDENTS_KEY,
-              JSON.stringify(
-                students
-              )
-            );
-
-
-            renderStudents(
-              students
-            );
-
-
-            syncStatus.classList.add(
-              "online"
-            );
-
-            syncText.textContent =
-              "LIVE SYNC";
-
-          },
-          error => {
-
-            console.warn(
-              "Student sync unavailable:",
-              error
-            );
-
-            syncStatus.classList.remove(
-              "online"
-            );
-
-            syncText.textContent =
-              "LOCAL MODE";
-
-            loadLocalStudents();
-
-          }
-        );
 
       } catch (error) {
 
-        console.warn(
-          error
+        console.error(error);
+
+        showToast(
+          "Fullscreen is not available."
         );
-
-        syncText.textContent =
-          "LOCAL MODE";
-
-        loadLocalStudents();
 
       }
 
     }
+  );
 
 
-    /* =======================================================
-       VOICE PREVIEW
-       ======================================================== */
+  document.addEventListener(
+    "fullscreenchange",
+    function () {
 
-    voiceInput.addEventListener(
-      "change",
-      event => {
+      fullscreenBtn.classList.toggle(
+        "active",
+        !!document.fullscreenElement
+      );
 
-        const file =
-          event.target.files?.[0];
-
-        if (!file) return;
-
-
-        if (voiceObjectUrl) {
-
-          URL.revokeObjectURL(
-            voiceObjectUrl
-          );
-
-        }
+    }
+  );
 
 
-        voiceObjectUrl =
-          URL.createObjectURL(
-            file
-          );
+  /* =======================================================
+     STUDENTS PANEL
+  ======================================================= */
+
+  studentsToggle.addEventListener(
+    "click",
+    function () {
+
+      studentsPanel.classList.toggle(
+        "show"
+      );
+
+    }
+  );
 
 
-        voiceStatus.textContent =
-          `Selected: ${file.name}`;
+  /* =======================================================
+     SETTINGS
+  ======================================================= */
 
-      }
+  settingsBtn.addEventListener(
+    "click",
+    function () {
+
+      settingsPanel.classList.add(
+        "show"
+      );
+
+      classNameInput.value =
+        localStorage.getItem(
+          "ushaLiveClassName"
+        ) || "My Live Class";
+
+
+      voiceApiInput.value =
+        localStorage.getItem(
+          "ushaLiveVoiceApi"
+        ) || "";
+
+    }
+  );
+
+
+  closeSettings.addEventListener(
+    "click",
+    function () {
+
+      settingsPanel.classList.remove(
+        "show"
+      );
+
+    }
+  );
+
+
+  saveSettings.addEventListener(
+    "click",
+    function () {
+
+      const name =
+        classNameInput.value.trim() ||
+        "My Live Class";
+
+
+      localStorage.setItem(
+        "ushaLiveClassName",
+        name
+      );
+
+
+      localStorage.setItem(
+        "ushaLiveVoiceApi",
+        voiceApiInput.value.trim()
+      );
+
+
+      className.textContent =
+        name;
+
+
+      settingsPanel.classList.remove(
+        "show"
+      );
+
+
+      showToast(
+        "Settings saved."
+      );
+
+    }
+  );
+
+
+  className.textContent =
+    localStorage.getItem(
+      "ushaLiveClassName"
+    ) || "My Live Class";
+
+
+  /* =======================================================
+     PREVIEW
+  ======================================================= */
+
+  function closePreviewModal() {
+
+    previewModal.classList.remove(
+      "show"
     );
 
+    previewVideo.pause();
 
-    voicePreviewBtn.addEventListener(
-      "click",
-      () => {
-
-        if (!voiceObjectUrl) {
-
-          showToast(
-            "First choose a voice sample."
-          );
-
-          return;
-
-        }
+  }
 
 
-        if (voiceAudio) {
-
-          voiceAudio.pause();
-
-        }
-
-
-        voiceAudio =
-          new Audio(
-            voiceObjectUrl
-          );
+  closePreview.addEventListener(
+    "click",
+    closePreviewModal
+  );
 
 
-        voiceAudio.play()
-          .then(() => {
+  closePreview2.addEventListener(
+    "click",
+    closePreviewModal
+  );
 
-            voiceStatus.textContent =
-              "Playing voice sample...";
 
-          })
-          .catch(() => {
+  previewModal.addEventListener(
+    "click",
+    function (event) {
 
-            showToast(
-              "Voice preview failed."
-            );
+      if (
+        event.target === previewModal
+      ) {
 
-          });
+        closePreviewModal();
 
       }
-    );
+
+    }
+  );
 
 
-    /* =======================================================
-       VOICE CLONE
-       ======================================================== */
+  /* =======================================================
+     DOWNLOAD
+  ======================================================= */
 
-    voiceCloneBtn.addEventListener(
-      "click",
-      async () => {
+  downloadRecording.addEventListener(
+    "click",
+    function () {
 
-        const file =
-          voiceInput.files?.[0];
+      if (!recordedUrl) {
 
+        showToast(
+          "No recording available."
+        );
 
-        if (!file) {
-
-          showToast(
-            "First choose a voice sample."
-          );
-
-          return;
-
-        }
+        return;
+      }
 
 
-        const apiUrl =
+      const link =
+        document.createElement("a");
+
+
+      const safeName =
+        (
           localStorage.getItem(
-            "personalCourseStudioVoiceCloneApi"
-          );
-
-
-        if (!apiUrl) {
-
-          voiceStatus.textContent =
-            "Voice Clone API is not connected yet.";
-
-          showToast(
-            "Voice Clone API is not connected."
-          );
-
-          return;
-
-        }
-
-
-        try {
-
-          voiceCloneBtn.disabled =
-            true;
-
-          voiceCloneBtn.textContent =
-            "Processing...";
-
-
-          const formData =
-            new FormData();
-
-
-          formData.append(
-            "voiceSample",
-            file
-          );
-
-
-          if (
-            currentVideoFile
-          ) {
-
-            formData.append(
-              "sourceVideo",
-              currentVideoFile
-            );
-
-          }
-
-
-          formData.append(
-            "mode",
-            "voice-clone"
-          );
-
-
-          formData.append(
-            "preserveTiming",
-            "true"
-          );
-
-
-          const response =
-            await fetch(
-              apiUrl,
-              {
-                method: "POST",
-                body: formData
-              }
-            );
-
-
-          if (!response.ok) {
-
-            throw new Error(
-              `HTTP ${response.status}`
-            );
-
-          }
-
-
-          const contentType =
-            response.headers.get(
-              "content-type"
-            ) || "";
-
-
-          if (
-            contentType.includes(
-              "application/json"
-            )
-          ) {
-
-            const data =
-              await response.json();
-
-
-            if (
-              data.audioUrl
-            ) {
-
-              voiceAudio =
-                new Audio(
-                  data.audioUrl
-                );
-
-              await voiceAudio.play();
-
-            }
-
-
-            if (
-              data.videoUrl
-            ) {
-
-              mainVideo.src =
-                data.videoUrl;
-
-              mainVideo.style.display =
-                "block";
-
-              mainImage.style.display =
-                "none";
-
-              updateStageState();
-
-            }
-
-
-            voiceStatus.textContent =
-              "Voice Clone completed.";
-
-          } else {
-
-            const blob =
-              await response.blob();
-
-
-            const url =
-              URL.createObjectURL(
-                blob
-              );
-
-
-            voiceAudio =
-              new Audio(
-                url
-              );
-
-
-            await voiceAudio.play();
-
-
-            voiceStatus.textContent =
-              "Voice Clone audio received.";
-
-          }
-
-
-        } catch (error) {
-
-          console.error(error);
-
-          voiceStatus.textContent =
-            "Voice Clone failed.";
-
-          showToast(
-            "Voice Clone processing failed."
-          );
-
-        } finally {
-
-          voiceCloneBtn.disabled =
-            false;
-
-          voiceCloneBtn.textContent =
-            "Clone Voice";
-
-        }
-
-      }
-    );
-
-
-    /* =======================================================
-       DRAGGABLE STAGE ELEMENTS
-       ======================================================== */
-
-    function makeDraggable(
-      element,
-      container
-    ) {
-
-      let dragging = false;
-
-      let startX = 0;
-
-      let startY = 0;
-
-      let initialLeft = 0;
-
-      let initialTop = 0;
-
-
-      element.addEventListener(
-        "pointerdown",
-        event => {
-
-          if (
-            event.button !== 0
-          ) return;
-
-
-          dragging = true;
-
-          element.setPointerCapture(
-            event.pointerId
-          );
-
-
-          const rect =
-            element.getBoundingClientRect();
-
-          const parentRect =
-            container.getBoundingClientRect();
-
-
-          startX =
-            event.clientX;
-
-          startY =
-            event.clientY;
-
-          initialLeft =
-            rect.left -
-            parentRect.left;
-
-          initialTop =
-            rect.top -
-            parentRect.top;
-
-
-          element.style.right =
-            "auto";
-
-          element.style.bottom =
-            "auto";
-
-          element.style.left =
-            `${initialLeft}px`;
-
-          element.style.top =
-            `${initialTop}px`;
-
-        }
+            "ushaLiveClassName"
+          ) || "UshaLiveAI-Class"
+        )
+        .replace(
+          /[^a-z0-9-_]+/gi,
+          "-"
+        )
+        .replace(
+          /-+/g,
+          "-"
+        )
+        .replace(
+          /^-|$/g,
+          ""
+        );
+
+
+      link.href =
+        recordedUrl;
+
+
+      link.download =
+        safeName +
+        "-" +
+        new Date()
+          .toISOString()
+          .slice(0,19)
+          .replace(
+            /[:T]/g,
+            "-"
+          ) +
+        ".webm";
+
+
+      document.body.appendChild(
+        link
       );
 
 
-      element.addEventListener(
-        "pointermove",
-        event => {
-
-          if (!dragging) return;
+      link.click();
 
 
-          const parentRect =
-            container.getBoundingClientRect();
-
-          const elementRect =
-            element.getBoundingClientRect();
+      link.remove();
 
 
-          let left =
-            initialLeft +
-            (
-              event.clientX -
-              startX
-            );
-
-
-          let top =
-            initialTop +
-            (
-              event.clientY -
-              startY
-            );
-
-
-          const maxLeft =
-            parentRect.width -
-            elementRect.width;
-
-          const maxTop =
-            parentRect.height -
-            elementRect.height;
-
-
-          left =
-            Math.max(
-              0,
-              Math.min(
-                left,
-                maxLeft
-              )
-            );
-
-
-          top =
-            Math.max(
-              0,
-              Math.min(
-                top,
-                maxTop
-              )
-            );
-
-
-          element.style.left =
-            `${left}px`;
-
-          element.style.top =
-            `${top}px`;
-
-        }
-      );
-
-
-      element.addEventListener(
-        "pointerup",
-        () => {
-
-          dragging = false;
-
-        }
-      );
-
-
-      element.addEventListener(
-        "pointercancel",
-        () => {
-
-          dragging = false;
-
-        }
+      showToast(
+        "Download started."
       );
 
     }
+  );
 
 
-    makeDraggable(
-      stageLabel,
-      stage
-    );
+  /* =======================================================
+     END STUDIO
+  ======================================================= */
 
+  endBtn.addEventListener(
+    "click",
+    function () {
 
-    makeDraggable(
-      mentorCameraBox,
-      stage
-    );
-
-
-    /* =======================================================
-       MOBILE STUDENTS
-       ======================================================== */
-
-    studentsMobileBtn.addEventListener(
-      "click",
-      () => {
-
-        studentsPanel.classList.toggle(
-          "mobile-show"
-        );
-
-      }
-    );
-
-
-    /* =======================================================
-       KEYBOARD SHORTCUTS
-       ======================================================== */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        const tag =
-          document.activeElement?.tagName;
-
-
-        if (
-          tag === "INPUT" ||
-          tag === "TEXTAREA" ||
-          tag === "SELECT" ||
-          document.activeElement?.isContentEditable
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          event.key === "Escape"
-        ) {
-
-          closeSettings();
-
-          closePreview();
-
-          studentsPanel.classList.remove(
-            "mobile-show"
-          );
-
-          return;
-
-        }
-
-
-        if (
-          event.key.toLowerCase() === "r"
-        ) {
-
-          event.preventDefault();
-
-          recordBtn.click();
-
-        }
-
-
-        if (
-          event.code === "Space"
-        ) {
-
-          event.preventDefault();
-
-          if (
-            isRecording
-          ) {
-
-            pauseBtn.click();
-
-          } else {
-
-            playBtn.click();
-
-          }
-
-        }
-
-
-        if (
-          event.key.toLowerCase() === "f"
-        ) {
-
-          event.preventDefault();
-
-          fullscreenBtn.click();
-
-        }
-
-
-        if (
-          event.key.toLowerCase() === "m"
-        ) {
-
-          event.preventDefault();
-
-          micBtn.click();
-
-        }
-
-
-        if (
-          event.key.toLowerCase() === "c"
-        ) {
-
-          event.preventDefault();
-
-          cameraBtn.click();
-
-        }
-
-
-        if (
-          event.key.toLowerCase() === "s"
-        ) {
-
-          event.preventDefault();
-
-          shareBtn.click();
-
-        }
-
-      }
-    );
-
-
-    /* =======================================================
-       END STUDIO
-       ======================================================== */
-
-    endBtn.addEventListener(
-      "click",
-      () => {
-
-        if (isRecording) {
-
-          const confirmed =
-            confirm(
-              "Recording is still running. End Studio and stop the recording?"
-            );
-
-          if (!confirmed) {
-
-            return;
-
-          }
-
-          stopRecording();
-
-        }
-
+      if (isRecording) {
 
         const confirmed =
           confirm(
-            "End Mentor Studio?"
+            "Recording is still running. End the studio and stop recording?"
           );
 
 
@@ -5096,140 +2480,95 @@
         }
 
 
-        stopCamera();
+        stopRecording();
 
-        stopScreenShare();
+      } else {
 
-        if (micStream) {
-
-          micStream
-            .getTracks()
-            .forEach(track =>
-              track.stop()
-            );
-
-          micStream =
-            null;
-
-        }
-
-
-        window.location.href =
-          "../dashboard/";
-
-      }
-    );
-
-
-    /* =======================================================
-       PAGE LEAVE WARNING
-       ======================================================== */
-
-    window.addEventListener(
-      "beforeunload",
-      event => {
-
-        if (
-          isRecording
-        ) {
-
-          event.preventDefault();
-
-          event.returnValue =
-            "";
-
-        }
-
-      }
-    );
-
-
-    /* =======================================================
-       LOGOUT
-       ======================================================== */
-
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (isRecording) {
-
-          const confirmed =
-            confirm(
-              "Recording is running. Logout and stop recording?"
-            );
-
-          if (!confirmed) {
-
-            return;
-
-          }
-
-          stopRecording();
-
-        }
-
-
-        logoutBtn.disabled =
-          true;
-
-        logoutBtn.innerHTML =
-          "Logging out...";
-
-
-        try {
-
-          await logoutStudio();
-
-        } catch (error) {
-
-          console.error(error);
-
-          logoutBtn.disabled =
-            false;
-
-          logoutBtn.innerHTML =
-            "↪ <span>Logout</span>";
-
-          showToast(
-            "Logout failed."
+        const confirmed =
+          confirm(
+            "Are you sure you want to end the studio?"
           );
 
+
+        if (!confirmed) {
+
+          return;
+
         }
 
       }
-    );
 
 
-    /* =======================================================
-       AUTH + INITIALIZATION
-       ======================================================== */
+      cleanup();
 
-    async function initializeStudio() {
+
+      window.location.href =
+        "../dashboard/";
+
+    }
+  );
+
+
+  /* =======================================================
+     LOGOUT
+  ======================================================= */
+
+  logoutBtn.addEventListener(
+    "click",
+    function () {
+
+      if (isRecording) {
+
+        const confirmed =
+          confirm(
+            "A recording is running. Logout anyway?"
+          );
+
+
+        if (!confirmed) {
+
+          return;
+
+        }
+
+        stopRecording();
+
+      }
+
+
+      cleanup();
+
 
       /*
-       * Authentication is handled silently by auth-guard.js.
-       * No visible "Checking authentication..." screen.
+       * Firebase auth logout will be attempted
+       * separately. If unavailable, dashboard
+       * navigation still happens.
        */
 
       try {
 
-        await protectMentor();
+        import("../firebase.js")
+          .then(({ auth }) => {
 
-        applySettings();
+            return import(
+              "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js"
+            )
+            .then(({ signOut }) => {
 
-        loadLocalStudents();
+              return signOut(auth);
 
-        listenStudents();
+            });
 
-        updateStageState();
+          })
+          .catch(() => {})
+          .finally(() => {
 
-      } catch (error) {
+            window.location.href =
+              "../login/";
 
-        console.error(
-          "Mentor authentication failed:",
-          error
-        );
+          });
+
+      } catch (_) {
 
         window.location.href =
           "../login/";
@@ -5237,88 +2576,379 @@
       }
 
     }
+  );
 
 
-    /* =======================================================
-       SERVICE WORKER
-       ======================================================== */
+  /* =======================================================
+     KEYBOARD SHORTCUTS
+  ======================================================= */
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      const target =
+        event.target;
+
+
+      const typing =
+        target &&
+        (
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable
+        );
+
+
+      if (typing) return;
+
+
+      if (
+        event.key.toLowerCase() === "r"
+      ) {
+
+        recordBtn.click();
+
+      }
+
+
+      if (
+        event.code === "Space"
+      ) {
+
+        event.preventDefault();
+
+        pauseBtn.click();
+
+      }
+
+
+      if (
+        event.key.toLowerCase() === "f"
+      ) {
+
+        fullscreenBtn.click();
+
+      }
+
+
+      if (
+        event.key.toLowerCase() === "m"
+      ) {
+
+        micBtn.click();
+
+      }
+
+
+      if (
+        event.key.toLowerCase() === "c"
+      ) {
+
+        cameraBtn.click();
+
+      }
+
+
+      if (
+        event.key.toLowerCase() === "s"
+      ) {
+
+        shareBtn.click();
+
+      }
+
+
+      if (
+        event.key === "Escape"
+      ) {
+
+        settingsPanel.classList.remove(
+          "show"
+        );
+
+        previewModal.classList.remove(
+          "show"
+        );
+
+        studentsPanel.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     BEFORE UNLOAD
+  ======================================================= */
+
+  window.addEventListener(
+    "beforeunload",
+    function (event) {
+
+      if (isRecording) {
+
+        event.preventDefault();
+
+        event.returnValue = "";
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     CLEANUP
+  ======================================================= */
+
+  function cleanup() {
+
+    stopCamera();
+    stopMic();
+    stopScreenShare();
+
 
     if (
-      "serviceWorker" in navigator
+      recorder &&
+      recorder.state !== "inactive"
     ) {
 
-      window.addEventListener(
-        "load",
-        () => {
+      try {
 
-          navigator.serviceWorker
-            .register("../sw.js")
-            .catch(
-              error =>
-                console.warn(
-                  "Service worker:",
-                  error
-                )
-            );
+        recorder.stop();
 
-        }
-      );
+      } catch (_) {}
 
     }
 
 
-    /* =======================================================
-       CLEANUP
-       ======================================================== */
+    clearInterval(
+      recordingInterval
+    );
 
-    window.addEventListener(
-      "pagehide",
-      () => {
-
-        stopCamera();
-
-        stopScreenShare();
-
-        if (micStream) {
-
-          micStream
-            .getTracks()
-            .forEach(track =>
-              track.stop()
-            );
-
-        }
+    clearInterval(
+      sessionInterval
+    );
 
 
-        if (voiceAudio) {
+    if (videoObjectUrl) {
 
-          voiceAudio.pause();
+      URL.revokeObjectURL(
+        videoObjectUrl
+      );
 
-        }
+      videoObjectUrl = null;
+
+    }
 
 
-        if (voiceObjectUrl) {
+    if (slideObjectUrl) {
 
-          URL.revokeObjectURL(
-            voiceObjectUrl
+      URL.revokeObjectURL(
+        slideObjectUrl
+      );
+
+      slideObjectUrl = null;
+
+    }
+
+
+    if (recordedUrl) {
+
+      URL.revokeObjectURL(
+        recordedUrl
+      );
+
+      recordedUrl = null;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     MOBILE STUDENTS
+  ======================================================= */
+
+  document.addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        window.innerWidth > 900
+      ) return;
+
+
+      if (
+        studentsPanel.classList.contains(
+          "show"
+        )
+      ) {
+
+        const clickedPanel =
+          studentsPanel.contains(
+            event.target
+          );
+
+        const clickedButton =
+          studentsToggle.contains(
+            event.target
+          );
+
+
+        if (
+          !clickedPanel &&
+          !clickedButton
+        ) {
+
+          studentsPanel.classList.remove(
+            "show"
           );
 
         }
 
+      }
 
-        if (selectedImageUrl) {
+    }
+  );
 
-          URL.revokeObjectURL(
-            selectedImageUrl
+
+  /* =======================================================
+     DEFAULT STUDENT DEMO
+  ======================================================= */
+
+  function loadDemoStudents() {
+
+    const students = [
+      {
+        name: "Student One",
+        status: "Online"
+      },
+      {
+        name: "Student Two",
+        status: "Online"
+      },
+      {
+        name: "Student Three",
+        status: "Online"
+      }
+    ];
+
+
+    const list =
+      $("studentsList");
+
+
+    list.innerHTML = "";
+
+
+    students.forEach(
+      function (student) {
+
+        const item =
+          document.createElement("div");
+
+        item.className =
+          "student";
+
+
+        item.innerHTML = `
+          <div class="avatar">👤</div>
+          <div class="student-info">
+            <strong>${student.name}</strong>
+            <span>${student.status}</span>
+          </div>
+          <span class="online-dot"></span>
+        `;
+
+
+        list.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+    $("studentCount").textContent =
+      students.length;
+
+  }
+
+
+  loadDemoStudents();
+
+
+  /* =======================================================
+     INITIAL MESSAGE
+  ======================================================= */
+
+  setTimeout(
+    function () {
+
+      showToast(
+        "Mentor Studio ready."
+      );
+
+    },
+    500
+  );
+
+
+  console.log(
+    "UshaLiveAI Mentor Studio initialized successfully."
+  );
+
+})();
+</script>
+
+
+<!-- =======================================================
+     OPTIONAL FIREBASE AUTH
+     Runs separately so Firebase failure cannot break UI
+======================================================= -->
+
+<script type="module">
+
+  try {
+
+    const firebase =
+      await import("../firebase.js");
+
+    const authModule =
+      await import(
+        "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js"
+      );
+
+    const {
+      onAuthStateChanged
+    } = authModule;
+
+
+    onAuthStateChanged(
+      firebase.auth,
+      function (user) {
+
+        if (!user) {
+
+          /*
+           * During local testing, this redirect can
+           * be commented if needed.
+           */
+
+          console.log(
+            "No Firebase user detected."
           );
 
-        }
+        } else {
 
-
-        if (selectedVideoUrl) {
-
-          URL.revokeObjectURL(
-            selectedVideoUrl
+          console.log(
+            "Mentor logged in:",
+            user.email
           );
 
         }
@@ -5326,14 +2956,16 @@
       }
     );
 
+  } catch (error) {
 
-    /* =======================================================
-       START
-       ======================================================== */
+    console.warn(
+      "Firebase authentication layer unavailable. Core studio remains active.",
+      error
+    );
 
-    initializeStudio();
+  }
 
-  </script>
+</script>
 
 </body>
 </html>
