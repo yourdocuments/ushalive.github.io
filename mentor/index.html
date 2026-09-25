@@ -1,2610 +1,3322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#05070c">
-
-<title>UshaLiveAI — Mentor Studio</title>
-
-<style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#05070c;
-  --panel:#0b1018;
-  --panel2:#111823;
-  --border:rgba(255,255,255,.09);
-  --text:#f5f7fb;
-  --muted:#8994a7;
-  --blue:#5b8cff;
-  --green:#20d68b;
-  --red:#ff465c;
-}
-
-html,
-body{
-  width:100%;
-  height:100%;
-}
-
-body{
-  font-family:Inter,Arial,sans-serif;
-  background:
-    radial-gradient(
-      circle at 20% 10%,
-      rgba(80,100,190,.12),
-      transparent 32%
-    ),
-    #05070c;
-  color:var(--text);
-  overflow:hidden;
-}
-
-button,
-input,
-textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-  border:0;
-}
-
-/* =========================================================
-   APP
-========================================================= */
-
-.app{
-  width:100%;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar{
-  height:64px;
-  min-height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  background:rgba(6,9,15,.96);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(18px);
-  position:relative;
-  z-index:100;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.brand-logo{
-  width:39px;
-  height:39px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  background:linear-gradient(
-    135deg,
-    #5b8cff,
-    #8b5cff
-  );
-  font-weight:900;
-}
-
-.brand-info strong{
-  display:block;
-  font-size:14px;
-}
-
-.brand-info span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted);
-  font-size:10px;
-}
-
-.top-center{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.class-name{
-  font-size:12px;
-  color:#dce3ee;
-}
-
-.live-badge{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 10px;
-  border-radius:999px;
-  color:#ff6b7b;
-  background:rgba(255,70,92,.09);
-  border:1px solid rgba(255,70,92,.22);
-  font-size:9px;
-  font-weight:800;
-}
-
-.live-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 12px var(--red);
-}
-
-.top-actions{
-  display:flex;
-  gap:7px;
-}
-
-.top-btn{
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  color:#dce4ef;
-  background:rgba(255,255,255,.045);
-  border:1px solid var(--border);
-}
-
-/* =========================================================
-   WORKSPACE
-========================================================= */
-
-.workspace{
-  flex:1;
-  min-height:0;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 285px;
-}
-
-/* =========================================================
-   STAGE AREA
-========================================================= */
-
-.stage-wrap{
-  min-width:0;
-  min-height:0;
-  padding:13px;
-  display:flex;
-}
-
-.stage{
-  width:100%;
-  height:100%;
-  min-height:0;
-  position:relative;
-  overflow:hidden;
-  border-radius:17px;
-  background:#080b11;
-  border:1px solid var(--border);
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.45);
-}
-
-.stage-grid{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.18;
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,.03) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.03) 1px,
-      transparent 1px
-    );
-  background-size:40px 40px;
-}
-
-/* =========================================================
-   MAIN VIDEO
-========================================================= */
-
-#mainVideo{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:none;
-
-  /*
-     IMPORTANT:
-     Full stage fill
-  */
-  object-fit:cover;
-
-  background:#000;
-  z-index:2;
-}
-
-#mainImage{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:none;
-  object-fit:contain;
-  background:#000;
-  z-index:2;
-}
-
-#screenVideo{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:none;
-  object-fit:contain;
-  background:#000;
-  z-index:2;
-}
-
-/* =========================================================
-   EMPTY STAGE
-========================================================= */
-
-.stage-placeholder{
-  position:absolute;
-  inset:0;
-  z-index:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-
-.placeholder-content{
-  max-width:420px;
-  padding:30px;
-}
-
-.placeholder-icon{
-  width:78px;
-  height:78px;
-  margin:0 auto 17px;
-  display:grid;
-  place-items:center;
-  border-radius:22px;
-  background:rgba(255,255,255,.045);
-  border:1px solid var(--border);
-  font-size:33px;
-}
-
-.placeholder-content h2{
-  font-size:21px;
-  margin-bottom:8px;
-}
-
-.placeholder-content p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-/* =========================================================
-   DRAGGABLE MAIN STAGE LABEL
-========================================================= */
-
-.stage-brand{
-  position:absolute;
-  top:16px;
-  left:16px;
-  z-index:20;
-
-  padding:8px 12px;
-
-  border-radius:9px;
-
-  color:#fff;
-  background:rgba(0,0,0,.56);
-
-  border:1px solid rgba(255,255,255,.13);
-
-  backdrop-filter:blur(12px);
-
-  font-size:11px;
-  font-weight:800;
-
-  cursor:move;
-
-  user-select:none;
-  touch-action:none;
-}
-
-/* =========================================================
-   RECORD STATUS
-========================================================= */
-
-.record-status{
-  position:absolute;
-  top:16px;
-  right:16px;
-  z-index:25;
-
-  display:none;
-  align-items:center;
-  gap:8px;
-
-  padding:8px 12px;
-
-  border-radius:999px;
-
-  background:rgba(255,50,70,.12);
-  border:1px solid rgba(255,50,70,.25);
-
-  color:#ff7281;
-
-  font-size:10px;
-  font-weight:800;
-}
-
-.record-status.show{
-  display:flex;
-}
-
-.record-pulse{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--red);
-  animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-  50%{
-    opacity:.35;
-    transform:scale(.7);
-  }
-}
-
-/* =========================================================
-   MENTOR CAMERA
-========================================================= */
-
-.mentor-pip{
-  position:absolute;
-
-  width:220px;
-  height:135px;
-
-  right:24px;
-  bottom:24px;
-
-  z-index:30;
-
-  display:none;
-
-  overflow:hidden;
-
-  border-radius:15px;
-
-  background:#111721;
-
-  border:1px solid rgba(255,255,255,.16);
-
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.55);
-
-  cursor:move;
-
-  user-select:none;
-  touch-action:none;
-}
-
-#cameraVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transform:scaleX(-1);
-  display:block;
-}
-
-.mentor-name{
-  position:absolute;
-  left:9px;
-  bottom:8px;
-
-  padding:5px 8px;
-
-  border-radius:6px;
-
-  background:rgba(0,0,0,.62);
-
-  color:#fff;
-
-  font-size:10px;
-  font-weight:700;
-
-  pointer-events:none;
-}
-
-/* =========================================================
-   TELEPROMPTER / VOICE TEXT
-========================================================= */
-
-.teleprompter{
-  position:absolute;
-
-  left:50%;
-  transform:translateX(-50%);
-
-  bottom:18px;
-
-  width:min(720px,78%);
-
-  z-index:45;
-
-  display:none;
-
-  background:rgba(5,8,13,.90);
-
-  border:1px solid rgba(255,255,255,.12);
-
-  border-radius:15px;
-
-  backdrop-filter:blur(15px);
-
-  box-shadow:
-    0 15px 45px rgba(0,0,0,.4);
-
-  padding:13px;
-}
-
-.teleprompter.show{
-  display:block;
-}
-
-.teleprompter-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-
-  margin-bottom:8px;
-}
-
-.teleprompter-head strong{
-  font-size:10px;
-  color:#9eb5ff;
-}
-
-.teleprompter-head span{
-  color:#697587;
-  font-size:9px;
-}
-
-#voiceText{
-  width:100%;
-  min-height:80px;
-  max-height:150px;
-
-  resize:vertical;
-
-  border:0;
-  outline:none;
-
-  background:transparent;
-
-  color:#f5f7fb;
-
-  font-size:15px;
-  line-height:1.65;
-
-  padding:4px;
-}
-
-#voiceText::placeholder{
-  color:#667286;
-}
-
-.teleprompter-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:6px;
-  margin-top:6px;
-}
-
-.small-btn{
-  padding:7px 10px;
-  border-radius:7px;
-
-  color:#dfe6f2;
-  background:rgba(255,255,255,.06);
-
-  border:1px solid var(--border);
-
-  font-size:9px;
-  font-weight:700;
-}
-
-/*
- IMPORTANT:
- Teleprompter is mentor-only.
- It is NOT part of the Main Video.
- It stays outside the video element.
-*/
-
-/* =========================================================
-   STUDENTS
-========================================================= */
-
-.students-panel{
-  min-height:0;
-
-  display:flex;
-  flex-direction:column;
-
-  background:rgba(9,13,20,.97);
-
-  border-left:1px solid var(--border);
-}
-
-.students-head{
-  padding:17px;
-  border-bottom:1px solid var(--border);
-}
-
-.students-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.students-title strong{
-  font-size:13px;
-}
-
-.student-count{
-  min-width:24px;
-  height:24px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:999px;
-
-  background:rgba(91,140,255,.12);
-
-  color:#9bb0ff;
-
-  font-size:10px;
-  font-weight:800;
-}
-
-.students-list{
-  flex:1;
-  min-height:0;
-
-  overflow-y:auto;
-
-  padding:9px;
-}
-
-.student{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:10px;
-
-  border-radius:10px;
-}
-
-.avatar{
-  width:35px;
-  height:35px;
-
-  flex:0 0 35px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #29344b,
-      #172033
-    );
-}
-
-.student-info{
-  min-width:0;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>UshaLiveAI — Mentor Studio</title>
+
+  <style>
+    :root {
+      --bg: #050806;
+      --panel: rgba(12, 20, 15, 0.78);
+      --panel-2: rgba(18, 30, 21, 0.88);
+      --border: rgba(255, 255, 255, 0.1);
+
+      --green: #22c55e;
+      --green-2: #16a34a;
+      --green-soft: rgba(34, 197, 94, 0.15);
+
+      --text: #f5f7f6;
+      --muted: #9ca8a0;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .studio {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 620px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(34,197,94,.08), transparent 35%),
+        #050806;
+      overflow: hidden;
+    }
+
+    /* =====================================================
+       TOP BAR
+    ===================================================== */
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+
+      background: rgba(5, 8, 6, 0.76);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo-dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+
+      background: linear-gradient(
+        135deg,
+        var(--green),
+        var(--green-2)
+      );
+
+      color: #031008;
+      font-weight: 900;
+      box-shadow: 0 8px 25px rgba(34,197,94,.22);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .class-info {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      white-space: nowrap;
+    }
+
+    .class-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      padding: 6px 10px;
+      border-radius: 999px;
+
+      color: #86efac;
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.25);
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 12px;
+
+      border-radius: 12px;
+
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+
+      transition: .2s;
+    }
+
+    .top-btn:hover {
+      background: rgba(255,255,255,.1);
+    }
+
+    /* =====================================================
+       MAIN STAGE
+    ===================================================== */
+
+    .stage {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 82px;
+      bottom: 96px;
+
+      overflow: hidden;
+
+      border-radius: 24px;
+      background: #000;
+
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow:
+        0 25px 80px rgba(0,0,0,.5),
+        inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+
+    #mainVideo {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      background: #000;
+    }
+
+    .stage-empty {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(34,197,94,.08),
+          transparent 45%
+        );
+    }
+
+    .stage-empty-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+
+      display: grid;
+      place-items: center;
+
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.22);
+
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .stage-empty h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .stage-empty p {
+      margin: 8px 0 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .select-video-btn {
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      background: var(--green);
+      color: #041008;
+
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       STAGE BRAND
+    ===================================================== */
+
+    .stage-brand {
+      position: absolute;
+      z-index: 15;
+
+      left: 25px;
+      top: 25px;
+
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      padding: 9px 13px;
+
+      border-radius: 12px;
+
+      background: rgba(5,8,6,.62);
+      border: 1px solid rgba(255,255,255,.14);
 
-.student-info strong{
-  display:block;
-
-  font-size:11px;
-
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.student-info span{
-  color:var(--muted);
-  font-size:9px;
-}
-
-.online-dot{
-  margin-left:auto;
-
-  width:6px;
-  height:6px;
-
-  border-radius:50%;
-
-  background:var(--green);
-
-  box-shadow:
-    0 0 9px rgba(32,214,139,.7);
-}
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
+      user-select: none;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .stage-brand:active {
+      cursor: grabbing;
+    }
 
-/* =========================================================
-   CONTROLS
-========================================================= */
+    .stage-brand-logo {
+      width: 24px;
+      height: 24px;
 
-.controls{
-  min-height:103px;
+      border-radius: 7px;
 
-  padding:12px 15px;
-
-  border-top:1px solid var(--border);
+      display: grid;
+      place-items: center;
 
-  background:rgba(6,9,15,.98);
+      background: var(--green);
+      color: #031008;
 
-  z-index:100;
-}
+      font-size: 11px;
+      font-weight: 900;
+    }
 
-.control-row{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:7px;
-}
+    .stage-brand-text {
+      font-size: 12px;
+      font-weight: 800;
+    }
 
-.control-btn{
-  min-width:70px;
-  height:57px;
+    /* =====================================================
+       MENTOR CAMERA
+    ===================================================== */
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+    .mentor-pip {
+      position: absolute;
+      z-index: 20;
 
-  gap:5px;
+      right: 28px;
+      bottom: 28px;
 
-  border-radius:11px;
+      width: 250px;
+      aspect-ratio: 16 / 10;
 
-  color:#dce3ee;
+      overflow: hidden;
 
-  background:rgba(255,255,255,.045);
+      border-radius: 18px;
 
-  border:1px solid var(--border);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(34,197,94,.12),
+          rgba(0,0,0,.9)
+        );
 
-  transition:.18s;
-}
+      border: 2px solid rgba(255,255,255,.15);
 
-.control-btn:hover{
-  background:rgba(255,255,255,.08);
-  transform:translateY(-1px);
-}
+      box-shadow:
+        0 18px 45px rgba(0,0,0,.5);
 
-.control-btn.active{
-  color:#a8bcff;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
 
-  background:rgba(91,140,255,.12);
+    .mentor-pip.dragging {
+      cursor: grabbing;
+    }
 
-  border-color:rgba(91,140,255,.45);
-}
+    #mentorVideo {
+      width: 100%;
+      height: 100%;
+      display: block;
 
-.control-btn.danger{
-  color:#ff7180;
+      object-fit: cover;
 
-  background:rgba(255,70,92,.07);
+      background:
+        radial-gradient(
+          circle at center,
+          #173a24,
+          #050806 70%
+        );
+    }
 
-  border-color:rgba(255,70,92,.25);
-}
+    .mentor-name {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
 
-.control-btn.primary{
-  color:#fff;
+      padding: 6px 9px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(91,140,255,.24),
-      rgba(118,84,255,.18)
-    );
-}
+      border-radius: 8px;
 
-.control-icon{
-  font-size:17px;
-}
+      background: rgba(0,0,0,.65);
+      border: 1px solid rgba(255,255,255,.1);
 
-.control-text{
-  font-size:8px;
-  font-weight:800;
-  white-space:nowrap;
-}
+      font-size: 11px;
+      font-weight: 800;
+    }
 
-.timer{
-  min-width:65px;
-  height:57px;
+    .camera-state {
+      position: absolute;
+      right: 10px;
+      top: 10px;
 
-  display:grid;
-  place-items:center;
+      width: 26px;
+      height: 26px;
 
-  color:#aeb9ca;
+      display: grid;
+      place-items: center;
 
-  font-size:10px;
+      border-radius: 8px;
 
-  font-variant-numeric:tabular-nums;
-}
+      background: rgba(0,0,0,.55);
+      color: #86efac;
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+      font-size: 13px;
+    }
 
-.settings-panel{
-  position:fixed;
+    /* =====================================================
+       TELEPROMPTER
+    ===================================================== */
 
-  top:0;
-  right:-370px;
+    .teleprompter {
+      position: absolute;
 
-  width:min(370px,92vw);
-  height:100vh;
+      z-index: 80;
 
-  z-index:300;
+      right: 25px;
+      top: 90px;
 
-  padding:22px;
+      width: 360px;
+      height: 300px;
 
-  background:#0b1018;
+      display: flex;
+      flex-direction: column;
 
-  border-left:1px solid var(--border);
+      background: rgba(5,10,7,.82);
 
-  box-shadow:
-    -20px 0 60px rgba(0,0,0,.45);
+      border: 1px solid rgba(34,197,94,.22);
 
-  transition:right .25s ease;
+      border-radius: 18px;
 
-  overflow-y:auto;
-}
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
 
-.settings-panel.show{
-  right:0;
-}
+      box-shadow:
+        0 25px 60px rgba(0,0,0,.4);
+    }
 
-.modal-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+    .tele-header {
+      height: 48px;
+      flex-shrink: 0;
 
-  margin-bottom:20px;
-}
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.modal-head h3{
-  font-size:16px;
-}
+      padding: 0 14px;
 
-.close-btn{
-  width:35px;
-  height:35px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
 
-  border-radius:9px;
+    .tele-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-  color:#dbe3ef;
+      font-size: 12px;
+      font-weight: 800;
+    }
 
-  background:rgba(255,255,255,.06);
-}
+    .tele-status {
+      color: #86efac;
+      font-size: 10px;
+    }
 
-.setting{
-  margin-bottom:18px;
-}
+    .tele-content {
+      flex: 1;
 
-.setting label{
-  display:block;
+      overflow-y: auto;
 
-  margin-bottom:7px;
+      padding: 20px;
 
-  color:#c6cfdd;
+      scroll-behavior: smooth;
 
-  font-size:10px;
-  font-weight:700;
-}
+      font-size: 18px;
+      line-height: 1.75;
 
-.setting input{
-  width:100%;
-  height:42px;
+      color: #f0fdf4;
+    }
 
-  border-radius:9px;
+    .tele-content::-webkit-scrollbar {
+      width: 5px;
+    }
 
-  outline:none;
+    .tele-content::-webkit-scrollbar-thumb {
+      background: rgba(34,197,94,.4);
+      border-radius: 999px;
+    }
 
-  border:1px solid var(--border);
+    .tele-placeholder {
+      color: #64746a;
+      text-align: center;
+      padding-top: 55px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
 
-  background:rgba(255,255,255,.045);
+    .transcript-final {
+      color: #f0fdf4;
+    }
 
-  color:#fff;
+    .transcript-interim {
+      color: #86efac;
+      opacity: .7;
+    }
 
-  padding:0 11px;
-}
+    /* =====================================================
+       SIDE STUDENTS
+    ===================================================== */
 
-.action-btn{
-  padding:10px 14px;
+    .students-panel {
+      position: absolute;
+      z-index: 50;
 
-  border-radius:8px;
+      right: 25px;
+      bottom: 28px;
 
-  color:#e9edf5;
+      width: 190px;
 
-  background:rgba(255,255,255,.07);
+      padding: 14px;
 
-  border:1px solid var(--border);
+      border-radius: 16px;
 
-  font-size:10px;
-  font-weight:700;
-}
+      background: rgba(5,8,6,.72);
+      border: 1px solid rgba(255,255,255,.1);
 
-.action-btn.primary{
-  background:var(--blue);
-  border-color:var(--blue);
-  color:#fff;
-}
+      backdrop-filter: blur(16px);
 
-/* =========================================================
-   PREVIEW
-========================================================= */
+      display: none;
+    }
 
-.modal-backdrop{
-  position:fixed;
-  inset:0;
+    .students-panel.show {
+      display: block;
+    }
 
-  z-index:400;
+    .students-title {
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
 
-  display:none;
+    .student {
+      display: flex;
+      align-items: center;
+      gap: 9px;
 
-  align-items:center;
-  justify-content:center;
+      margin-bottom: 9px;
 
-  padding:20px;
+      color: #d7ded9;
+      font-size: 11px;
+    }
 
-  background:rgba(0,0,0,.76);
+    .student-avatar {
+      width: 27px;
+      height: 27px;
 
-  backdrop-filter:blur(10px);
-}
+      border-radius: 50%;
 
-.modal-backdrop.show{
-  display:flex;
-}
+      display: grid;
+      place-items: center;
 
-.modal{
-  width:min(720px,100%);
+      background: rgba(34,197,94,.14);
 
-  padding:20px;
+      font-size: 12px;
+    }
 
-  border-radius:18px;
+    /* =====================================================
+       BOTTOM CONTROLS
+    ===================================================== */
 
-  background:#0d121b;
+    .controlbar {
+      position: absolute;
 
-  border:1px solid var(--border);
+      left: 50%;
+      transform: translateX(-50%);
 
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.55);
-}
+      bottom: 15px;
 
-.preview-video{
-  width:100%;
+      z-index: 120;
 
-  max-height:60vh;
+      display: flex;
+      align-items: center;
+      gap: 7px;
 
-  border-radius:12px;
+      padding: 10px;
 
-  background:#000;
-}
+      border-radius: 18px;
 
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:12px;
-}
+      background: rgba(10,15,12,.82);
+      border: 1px solid rgba(255,255,255,.1);
 
-/* =========================================================
-   TOAST
-========================================================= */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
 
-.toast{
-  position:fixed;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
 
-  left:50%;
-  bottom:125px;
+    .control {
+      min-width: 46px;
+      height: 46px;
 
-  z-index:500;
+      padding: 0 12px;
 
-  transform:
-    translate(-50%,20px);
+      border-radius: 12px;
 
-  opacity:0;
+      color: #dce5df;
 
-  pointer-events:none;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.07);
 
-  padding:10px 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
 
-  border-radius:9px;
+      font-size: 13px;
+      font-weight: 700;
 
-  color:#eef2f8;
+      transition: .2s;
+    }
 
-  background:rgba(15,20,29,.96);
+    .control:hover {
+      background: rgba(255,255,255,.1);
+    }
 
-  border:1px solid var(--border);
+    .control.active {
+      color: #05200d;
+      background: var(--green);
+      border-color: var(--green);
+    }
 
-  font-size:10px;
+    .control.record {
+      color: white;
+      background: #dc2626;
+    }
 
-  transition:.25s;
-}
+    .control.record.recording {
+      background: #991b1b;
+      animation: recordPulse 1.2s infinite;
+    }
 
-.toast.show{
-  opacity:1;
+    @keyframes recordPulse {
+      0%,100% {
+        box-shadow: 0 0 0 0 rgba(239,68,68,.25);
+      }
 
-  transform:
-    translate(-50%,0);
-}
+      50% {
+        box-shadow: 0 0 0 8px rgba(239,68,68,0);
+      }
+    }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+    .control.pause {
+      background: rgba(245,158,11,.16);
+      color: #fbbf24;
+    }
 
-@media(max-width:900px){
+    .control.end {
+      background: rgba(239,68,68,.12);
+      color: #f87171;
+    }
 
-  .workspace{
-    grid-template-columns:1fr;
-  }
+    .divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,.1);
+      margin: 0 3px;
+    }
 
-  .students-panel{
-    position:fixed;
+    /* =====================================================
+       STATUS
+    ===================================================== */
 
-    top:64px;
-    right:-310px;
-    bottom:103px;
+    .status-box {
+      position: absolute;
+      z-index: 200;
 
-    width:300px;
+      left: 20px;
+      bottom: 105px;
 
-    z-index:200;
+      max-width: 330px;
 
-    transition:right .25s ease;
+      padding: 11px 14px;
 
-    box-shadow:
-      -20px 0 50px rgba(0,0,0,.55);
-  }
+      border-radius: 12px;
 
-  .students-panel.show{
-    right:0;
-  }
+      background: rgba(5,8,6,.82);
+      border: 1px solid rgba(255,255,255,.1);
 
-  .stage-wrap{
-    min-height:480px;
-  }
+      backdrop-filter: blur(14px);
 
-  .top-center{
-    display:none;
-  }
+      font-size: 11px;
+      color: var(--muted);
 
-  .mentor-pip{
-    width:160px;
-    height:100px;
-  }
+      pointer-events: none;
+    }
 
-  .teleprompter{
-    width:calc(100% - 28px);
-    bottom:12px;
-  }
+    .status-box strong {
+      color: #dce5df;
+    }
 
-  .control-btn{
-    min-width:58px;
-    height:51px;
-  }
-}
+    .status-success {
+      color: #86efac !important;
+    }
 
-@media(max-width:540px){
+    .status-error {
+      color: #fca5a5 !important;
+    }
 
-  .brand-info{
-    display:none;
-  }
+    /* =====================================================
+       MODAL
+    ===================================================== */
 
-  .topbar{
-    padding:0 10px;
-  }
+    .modal {
+      position: fixed;
+      inset: 0;
 
-  .stage-wrap{
-    padding:7px;
-  }
+      z-index: 500;
 
-  .stage{
-    border-radius:12px;
-  }
+      display: none;
+      place-items: center;
 
-  .mentor-pip{
-    width:135px;
-    height:85px;
-  }
+      background: rgba(0,0,0,.75);
 
-  .teleprompter{
-    width:calc(100% - 18px);
-  }
+      backdrop-filter: blur(10px);
+    }
 
-  #voiceText{
-    font-size:14px;
-  }
+    .modal.show {
+      display: grid;
+    }
 
-  .control-row{
-    gap:4px;
-  }
+    .modal-card {
+      width: min(900px, calc(100% - 30px));
+      max-height: calc(100% - 40px);
 
-  .control-btn{
-    min-width:53px;
-  }
+      overflow: auto;
 
-  .control-text{
-    font-size:7px;
-  }
+      padding: 22px;
 
-}
+      border-radius: 20px;
 
-</style>
+      background: #0b110d;
+      border: 1px solid rgba(255,255,255,.1);
+
+      box-shadow: 0 30px 100px rgba(0,0,0,.6);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 16px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+    }
+
+    .close-modal {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.07);
+      color: white;
+    }
+
+    #previewVideo {
+      width: 100%;
+      border-radius: 14px;
+      background: black;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .modal-action {
+      padding: 11px 16px;
+      border-radius: 11px;
+
+      background: var(--green);
+      color: #031008;
+
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       FILE INPUT
+    ===================================================== */
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 900px) {
+
+      .class-info {
+        display: none;
+      }
+
+      .stage {
+        left: 7px;
+        right: 7px;
+        top: 75px;
+        bottom: 150px;
+
+        border-radius: 18px;
+      }
+
+      .mentor-pip {
+        width: 155px;
+        right: 14px;
+        bottom: 14px;
+        border-radius: 13px;
+      }
+
+      .teleprompter {
+        left: 14px;
+        right: 14px;
+
+        top: 78px;
+
+        width: auto;
+        height: 210px;
+      }
+
+      .tele-content {
+        font-size: 16px;
+      }
+
+      .controlbar {
+        left: 8px;
+        right: 8px;
+        transform: none;
+
+        bottom: 10px;
+
+        justify-content: center;
+
+        overflow-x: auto;
+        max-width: calc(100% - 16px);
+      }
+
+      .control {
+        flex-shrink: 0;
+      }
+
+      .control span.label {
+        display: none;
+      }
+
+      .status-box {
+        left: 10px;
+        right: 10px;
+        bottom: 76px;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .topbar {
+        height: 60px;
+        padding: 0 10px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .logo-dot {
+        width: 34px;
+        height: 34px;
+      }
+
+      .top-btn {
+        padding: 0 9px;
+      }
+
+      .stage {
+        top: 68px;
+        bottom: 135px;
+      }
+
+      .mentor-pip {
+        width: 130px;
+      }
+
+      .teleprompter {
+        height: 180px;
+      }
+
+      .controlbar {
+        padding: 7px;
+      }
+
+      .control {
+        min-width: 42px;
+        height: 42px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="studio" id="studio">
 
-<!-- =======================================================
-     TOP BAR
-======================================================= -->
+  <!-- =====================================================
+       TOP BAR
+  ====================================================== -->
 
-<header class="topbar">
+  <header class="topbar">
 
-  <div class="brand">
+    <div class="brand-area">
 
-    <div class="brand-logo">
-      U
+      <div class="logo-dot">
+        U
+      </div>
+
+      <div>
+        <div class="brand-title">
+          UshaLiveAI
+        </div>
+
+        <div class="brand-subtitle">
+          Mentor Recording Studio
+        </div>
+      </div>
+
     </div>
 
-    <div class="brand-info">
+    <div class="class-info">
 
-      <strong>
-        UshaLiveAI
-      </strong>
+      <span class="class-name" id="className">
+        New Class
+      </span>
 
-      <span>
-        Mentor Studio
+      <span class="live-badge">
+        <span class="live-dot"></span>
+        <span id="liveText">READY</span>
       </span>
 
     </div>
 
-  </div>
-
-
-  <div class="top-center">
-
-    <div
-      class="class-name"
-      id="className">
-      My Live Class
-    </div>
-
-    <div class="live-badge">
-
-      <span class="live-dot"></span>
-
-      LIVE STUDIO
-
-    </div>
-
-  </div>
-
-
-  <div class="top-actions">
-
-    <button
-      class="top-btn"
-      id="studentsToggle">
-      👥
-    </button>
-
-    <button
-      class="top-btn"
-      id="settingsBtn">
-      ⚙️
-    </button>
-
-    <button
-      class="top-btn"
-      id="logoutBtn">
-      ↪
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =======================================================
-     WORKSPACE
-======================================================= -->
-
-<main class="workspace">
-
-
-<section class="stage-wrap">
-
-<div
-  class="stage"
-  id="stage">
-
-
-<div class="stage-grid"></div>
-
-
-<!-- =====================================================
-     DRAGGABLE BRAND LABEL
-===================================================== -->
-
-<div
-  class="stage-brand"
-  id="stageBrand">
-
-  UshaLiveAI
-
-</div>
-
-
-<!-- =====================================================
-     RECORD STATUS
-===================================================== -->
-
-<div
-  class="record-status"
-  id="recordStatus">
-
-  <span class="record-pulse"></span>
-
-  <span>
-    RECORDING
-  </span>
-
-  <span id="recordTimer">
-    00:00
-  </span>
-
-</div>
-
-
-<!-- =====================================================
-     EMPTY STAGE
-===================================================== -->
-
-<div
-  class="stage-placeholder"
-  id="stagePlaceholder">
-
-  <div class="placeholder-content">
-
-    <div class="placeholder-icon">
-      🎬
-    </div>
-
-    <h2>
-      Your Class Stage
-    </h2>
-
-    <p>
-      Select Main Video, Camera,
-      Slide or Share Screen to start.
-    </p>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     MAIN VIDEO
-===================================================== -->
-
-<video
-  id="mainVideo"
-  controls
-  playsinline>
-</video>
-
-
-<!-- =====================================================
-     SLIDE
-===================================================== -->
-
-<img
-  id="mainImage"
-  alt="Selected slide">
-
-
-<!-- =====================================================
-     SCREEN SHARE
-===================================================== -->
-
-<video
-  id="screenVideo"
-  autoplay
-  muted
-  playsinline>
-</video>
-
-
-<!-- =====================================================
-     MENTOR CAMERA
-===================================================== -->
-
-<div
-  class="mentor-pip"
-  id="mentorPip">
-
-  <video
-    id="cameraVideo"
-    autoplay
-    muted
-    playsinline>
-  </video>
-
-  <div class="mentor-name">
-    Shah Neil Khan
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     TELEPROMPTER
-===================================================== -->
-
-<div
-  class="teleprompter"
-  id="teleprompter">
-
-  <div class="teleprompter-head">
-
-    <strong>
-      📝 Mentor Voice Text
-    </strong>
-
-    <span>
-      Only you can read this
-    </span>
-
-  </div>
-
-
-  <textarea
-    id="voiceText"
-    placeholder="এখানে আপনার কথা/স্ক্রিপ্ট লিখুন। আপনি দেখে দেখে বলবেন..."></textarea>
-
-
-  <div class="teleprompter-actions">
-
-    <button
-      class="small-btn"
-      id="hideVoiceText">
-      Hide
-    </button>
-
-    <button
-      class="small-btn"
-      id="clearVoiceText">
-      Clear
-    </button>
-
-  </div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- =======================================================
-     STUDENTS
-======================================================= -->
-
-<aside
-  class="students-panel"
-  id="studentsPanel">
-
-  <div class="students-head">
-
-    <div class="students-title">
-
-      <strong>
-        Students
-      </strong>
-
-      <span
-        class="student-count"
-        id="studentCount">
-        0
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="students-list"
-    id="studentsList">
-
-  </div>
-
-</aside>
-
-
-</main>
-
-
-<!-- =======================================================
-     CONTROLS
-======================================================= -->
-
-<footer class="controls">
-
-<div class="control-row">
-
-
-<button
-  class="control-btn"
-  id="slideBtn">
-
-  <span class="control-icon">
-    🖼️
-  </span>
-
-  <span class="control-text">
-    Slide
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="mainVideoBtn">
-
-  <span class="control-icon">
-    🎬
-  </span>
-
-  <span class="control-text">
-    Main Video
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="cameraBtn">
-
-  <span class="control-icon">
-    📷
-  </span>
-
-  <span class="control-text">
-    Camera
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="micBtn">
-
-  <span class="control-icon">
-    🎙️
-  </span>
-
-  <span class="control-text">
-    Mic
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="shareBtn">
-
-  <span class="control-icon">
-    🖥️
-  </span>
-
-  <span class="control-text">
-    Share Screen
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="voiceTextBtn">
-
-  <span class="control-icon">
-    📝
-  </span>
-
-  <span class="control-text">
-    Voice Text
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="playBtn">
-
-  <span class="control-icon">
-    ▶️
-  </span>
-
-  <span class="control-text">
-    Play
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="clearBtn">
-
-  <span class="control-icon">
-    🧹
-  </span>
-
-  <span class="control-text">
-    Clear
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn primary"
-  id="recordBtn">
-
-  <span class="control-icon">
-    🔴
-  </span>
-
-  <span class="control-text">
-    Record
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn"
-  id="pauseBtn">
-
-  <span class="control-icon">
-    ⏸️
-  </span>
-
-  <span class="control-text">
-    Pause
-  </span>
-
-</button>
-
-
-<div
-  class="timer"
-  id="sessionTimer">
-  00:00
-</div>
-
-
-<button
-  class="control-btn"
-  id="fullscreenBtn">
-
-  <span class="control-icon">
-    ⛶
-  </span>
-
-  <span class="control-text">
-    Fullscreen
-  </span>
-
-</button>
-
-
-<button
-  class="control-btn danger"
-  id="endBtn">
-
-  <span class="control-icon">
-    ⏹
-  </span>
-
-  <span class="control-text">
-    End Studio
-  </span>
-
-</button>
-
-
-</div>
-
-</footer>
-
-</div>
-
-
-<!-- FILE INPUT -->
-
-<input
-  type="file"
-  id="videoInput"
-  accept="video/*"
-  hidden>
-
-<input
-  type="file"
-  id="slideInput"
-  accept="image/*"
-  hidden>
-
-
-<!-- =======================================================
-     SETTINGS
-======================================================= -->
-
-<aside
-  class="settings-panel"
-  id="settingsPanel">
-
-  <div class="modal-head">
-
-    <h3>
-      Studio Settings
-    </h3>
-
-    <button
-      class="close-btn"
-      id="closeSettings">
-      ✕
-    </button>
-
-  </div>
-
-
-  <div class="setting">
-
-    <label>
-      Class Name
-    </label>
-
-    <input
-      id="classNameInput"
-      type="text"
-      placeholder="My Live Class">
-
-  </div>
-
-
-  <div class="setting">
-
-    <label>
-      Voice Clone API URL
-    </label>
-
-    <input
-      id="voiceApiInput"
-      type="url"
-      placeholder="Optional">
-
-  </div>
-
-
-  <button
-    class="action-btn primary"
-    id="saveSettings">
-
-    Save Settings
-
-  </button>
-
-</aside>
-
-
-<!-- =======================================================
-     RECORDING PREVIEW
-======================================================= -->
-
-<div
-  class="modal-backdrop"
-  id="previewModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <h3>
-        Recording Preview
-      </h3>
+    <div class="top-actions">
 
       <button
-        class="close-btn"
-        id="closePreview">
-        ✕
+        class="top-btn"
+        id="loadVideoTop"
+        title="Load Main Video"
+      >
+        🎬
+      </button>
+
+      <button
+        class="top-btn"
+        id="fullscreenBtn"
+        title="Fullscreen"
+      >
+        ⛶
       </button>
 
     </div>
 
+  </header>
+
+
+  <!-- =====================================================
+       MAIN VIDEO STAGE
+  ====================================================== -->
+
+  <main class="stage" id="stage">
 
     <video
-      class="preview-video"
-      id="previewVideo"
-      controls
-      playsinline>
-    </video>
+      id="mainVideo"
+      playsinline
+      muted
+      preload="metadata"
+    ></video>
 
 
-    <div class="modal-actions">
+    <div
+      class="stage-empty"
+      id="stageEmpty"
+    >
+
+      <div class="stage-empty-icon">
+        🎬
+      </div>
+
+      <h2>
+        Main Video
+      </h2>
+
+      <p>
+        Load the reference video for your class.
+      </p>
 
       <button
-        class="action-btn"
-        id="closePreview2">
-        Close
+        class="select-video-btn"
+        id="selectVideoBtn"
+      >
+        Select Video
       </button>
 
-      <button
-        class="action-btn primary"
-        id="downloadRecording">
-        Download
-      </button>
+    </div>
+
+
+    <!-- ===================================================
+         DRAGGABLE BRAND
+    ==================================================== -->
+
+    <div
+      class="stage-brand"
+      id="stageBrand"
+    >
+
+      <div class="stage-brand-logo">
+        U
+      </div>
+
+      <div class="stage-brand-text">
+        UshaLiveAI
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         MENTOR CAMERA
+    ==================================================== -->
+
+    <div
+      class="mentor-pip"
+      id="mentorPip"
+    >
+
+      <video
+        id="mentorVideo"
+        autoplay
+        playsinline
+        muted
+      ></video>
+
+      <div
+        class="camera-state"
+        id="cameraState"
+      >
+        📷
+      </div>
+
+      <div class="mentor-name">
+        Shah Neil Khan
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         TELEPROMPTER
+    ==================================================== -->
+
+    <section
+      class="teleprompter"
+      id="teleprompter"
+    >
+
+      <div class="tele-header">
+
+        <div class="tele-title">
+          📝 Voice Text
+        </div>
+
+        <div
+          class="tele-status"
+          id="teleStatus"
+        >
+          Waiting
+        </div>
+
+      </div>
+
+      <div
+        class="tele-content"
+        id="teleContent"
+      >
+
+        <div
+          class="tele-placeholder"
+          id="telePlaceholder"
+        >
+          Main Video-এর voice থেকে text তৈরি হলে
+          এখানে Teleprompter হিসেবে দেখা যাবে।
+          <br><br>
+          তারপর text automatically নিচে scroll করবে।
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         STUDENTS
+    ==================================================== -->
+
+    <aside
+      class="students-panel"
+      id="studentsPanel"
+    >
+
+      <div class="students-title">
+        Students
+      </div>
+
+      <div class="student">
+        <div class="student-avatar">
+          👤
+        </div>
+        Student 01
+      </div>
+
+      <div class="student">
+        <div class="student-avatar">
+          👤
+        </div>
+        Student 02
+      </div>
+
+      <div class="student">
+        <div class="student-avatar">
+          👤
+        </div>
+        Student 03
+      </div>
+
+    </aside>
+
+  </main>
+
+
+  <!-- =====================================================
+       STATUS
+  ====================================================== -->
+
+  <div
+    class="status-box"
+    id="statusBox"
+  >
+    <strong>Status:</strong>
+    <span id="statusText">
+      Studio ready.
+    </span>
+  </div>
+
+
+  <!-- =====================================================
+       CONTROL BAR
+  ====================================================== -->
+
+  <div class="controlbar">
+
+    <button
+      class="control"
+      id="micBtn"
+      title="Microphone"
+    >
+      🎙
+      <span class="label">Mic</span>
+    </button>
+
+    <button
+      class="control"
+      id="cameraBtn"
+      title="Camera"
+    >
+      📷
+      <span class="label">Camera</span>
+    </button>
+
+    <button
+      class="control"
+      id="transcribeBtn"
+      title="Transcribe Main Video"
+    >
+      📝
+      <span class="label">Voice Text</span>
+    </button>
+
+    <button
+      class="control"
+      id="teleBtn"
+      title="Show/Hide Teleprompter"
+    >
+      📜
+      <span class="label">Teleprompter</span>
+    </button>
+
+    <button
+      class="control"
+      id="backgroundBtn"
+      title="Background"
+    >
+      🖼
+      <span class="label">Background</span>
+    </button>
+
+    <button
+      class="control"
+      id="blurBtn"
+      title="Blur Camera"
+    >
+      🌫
+      <span class="label">Blur</span>
+    </button>
+
+    <button
+      class="control"
+      id="studentsBtn"
+      title="Students"
+    >
+      👥
+      <span class="label">Students</span>
+    </button>
+
+    <div class="divider"></div>
+
+    <button
+      class="control record"
+      id="recordBtn"
+      title="Start Recording"
+    >
+      🔴
+      <span class="label">Record</span>
+    </button>
+
+    <button
+      class="control pause"
+      id="pauseBtn"
+      title="Pause Recording"
+      style="display:none"
+    >
+      ⏸
+      <span class="label">Pause</span>
+    </button>
+
+    <button
+      class="control"
+      id="previewBtn"
+      title="Preview Recording"
+    >
+      ▶
+      <span class="label">Preview</span>
+    </button>
+
+    <button
+      class="control"
+      id="downloadBtn"
+      title="Download Recording"
+    >
+      ⬇
+      <span class="label">Download</span>
+    </button>
+
+    <button
+      class="control end"
+      id="endBtn"
+      title="End Studio"
+    >
+      ⏹
+      <span class="label">End</span>
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       HIDDEN FILE INPUTS
+  ====================================================== -->
+
+  <input
+    type="file"
+    id="mainVideoInput"
+    accept="video/*"
+  />
+
+  <input
+    type="file"
+    id="backgroundInput"
+    accept="image/*"
+  />
+
+
+  <!-- =====================================================
+       PREVIEW MODAL
+  ====================================================== -->
+
+  <div
+    class="modal"
+    id="previewModal"
+  >
+
+    <div class="modal-card">
+
+      <div class="modal-head">
+
+        <h3>
+          Recording Preview
+        </h3>
+
+        <button
+          class="close-modal"
+          id="closePreview"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <video
+        id="previewVideo"
+        controls
+        playsinline
+      ></video>
+
+      <div class="modal-actions">
+
+        <button
+          class="modal-action"
+          id="modalDownload"
+        >
+          ⬇ Download Recording
+        </button>
+
+      </div>
 
     </div>
 
   </div>
 
+
 </div>
 
 
-<!-- TOAST -->
+<!-- =========================================================
+     WHISPER TRANSCRIPTION ENGINE
+========================================================= -->
 
-<div
-  class="toast"
-  id="toast">
-</div>
+<script type="module">
 
+  /*
+   * =========================================================
+   * UshaLiveAI Mentor Studio
+   *
+   * IMPORTANT AUDIO ARCHITECTURE
+   *
+   * Main Video Audio
+   *       ↓
+   * Whisper Speech-to-Text
+   *       ↓
+   * Teleprompter
+   *
+   * BUT
+   *
+   * Main Video Audio
+   *       X
+   *       ↓
+   * Final Recording
+   *
+   * Microphone
+   *       ↓
+   * Final Recording Audio
+   *
+   * =========================================================
+   */
 
-<script>
+  import {
+    pipeline,
+    env
+  } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2/+esm";
 
-(function(){
 
-"use strict";
+  /* ========================================================
+     DOM
+  ======================================================== */
 
+  const studio = document.getElementById("studio");
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+  const stage = document.getElementById("stage");
 
-const $ = id =>
-  document.getElementById(id);
+  const mainVideo = document.getElementById("mainVideo");
 
+  const mentorVideo = document.getElementById("mentorVideo");
 
-const stage =
-  $("stage");
+  const mentorPip = document.getElementById("mentorPip");
 
-const stagePlaceholder =
-  $("stagePlaceholder");
+  const stageBrand = document.getElementById("stageBrand");
 
-const mainVideo =
-  $("mainVideo");
+  const teleprompter = document.getElementById("teleprompter");
 
-const mainImage =
-  $("mainImage");
+  const teleContent = document.getElementById("teleContent");
 
-const screenVideo =
-  $("screenVideo");
+  const telePlaceholder = document.getElementById("telePlaceholder");
 
-const cameraVideo =
-  $("cameraVideo");
+  const teleStatus = document.getElementById("teleStatus");
 
-const mentorPip =
-  $("mentorPip");
+  const stageEmpty = document.getElementById("stageEmpty");
 
-const stageBrand =
-  $("stageBrand");
+  const statusText = document.getElementById("statusText");
 
-const videoInput =
-  $("videoInput");
+  const statusBox = document.getElementById("statusBox");
 
-const slideInput =
-  $("slideInput");
+  const liveText = document.getElementById("liveText");
 
-const slideBtn =
-  $("slideBtn");
+  const className = document.getElementById("className");
 
-const mainVideoBtn =
-  $("mainVideoBtn");
+  const studentsPanel = document.getElementById("studentsPanel");
 
-const cameraBtn =
-  $("cameraBtn");
+  const previewModal = document.getElementById("previewModal");
 
-const micBtn =
-  $("micBtn");
+  const previewVideo = document.getElementById("previewVideo");
 
-const shareBtn =
-  $("shareBtn");
+  const mainVideoInput = document.getElementById("mainVideoInput");
 
-const voiceTextBtn =
-  $("voiceTextBtn");
+  const backgroundInput = document.getElementById("backgroundInput");
 
-const playBtn =
-  $("playBtn");
 
-const clearBtn =
-  $("clearBtn");
+  /* ========================================================
+     BUTTONS
+  ======================================================== */
 
-const recordBtn =
-  $("recordBtn");
+  const selectVideoBtn =
+    document.getElementById("selectVideoBtn");
 
-const pauseBtn =
-  $("pauseBtn");
+  const loadVideoTop =
+    document.getElementById("loadVideoTop");
 
-const fullscreenBtn =
-  $("fullscreenBtn");
+  const fullscreenBtn =
+    document.getElementById("fullscreenBtn");
 
-const endBtn =
-  $("endBtn");
+  const micBtn =
+    document.getElementById("micBtn");
 
-const studentsToggle =
-  $("studentsToggle");
+  const cameraBtn =
+    document.getElementById("cameraBtn");
 
-const studentsPanel =
-  $("studentsPanel");
+  const transcribeBtn =
+    document.getElementById("transcribeBtn");
 
-const settingsBtn =
-  $("settingsBtn");
+  const teleBtn =
+    document.getElementById("teleBtn");
 
-const settingsPanel =
-  $("settingsPanel");
+  const backgroundBtn =
+    document.getElementById("backgroundBtn");
 
-const closeSettings =
-  $("closeSettings");
+  const blurBtn =
+    document.getElementById("blurBtn");
 
-const saveSettings =
-  $("saveSettings");
+  const studentsBtn =
+    document.getElementById("studentsBtn");
 
-const logoutBtn =
-  $("logoutBtn");
+  const recordBtn =
+    document.getElementById("recordBtn");
 
-const className =
-  $("className");
+  const pauseBtn =
+    document.getElementById("pauseBtn");
 
-const classNameInput =
-  $("classNameInput");
+  const previewBtn =
+    document.getElementById("previewBtn");
 
-const voiceApiInput =
-  $("voiceApiInput");
+  const downloadBtn =
+    document.getElementById("downloadBtn");
 
-const toast =
-  $("toast");
+  const endBtn =
+    document.getElementById("endBtn");
 
-const teleprompter =
-  $("teleprompter");
+  const closePreview =
+    document.getElementById("closePreview");
 
-const voiceText =
-  $("voiceText");
+  const modalDownload =
+    document.getElementById("modalDownload");
 
-const hideVoiceText =
-  $("hideVoiceText");
 
-const clearVoiceText =
-  $("clearVoiceText");
+  /* ========================================================
+     STATE
+  ======================================================== */
 
-const recordStatus =
-  $("recordStatus");
+  let mainVideoURL = null;
 
-const recordTimer =
-  $("recordTimer");
+  let backgroundURL = null;
 
-const sessionTimer =
-  $("sessionTimer");
+  let micStream = null;
 
-const previewModal =
-  $("previewModal");
+  let cameraStream = null;
 
-const previewVideo =
-  $("previewVideo");
+  let recordingStream = null;
 
-const closePreview =
-  $("closePreview");
+  let mediaRecorder = null;
 
-const closePreview2 =
-  $("closePreview2");
+  let recordedChunks = [];
 
-const downloadRecording =
-  $("downloadRecording");
+  let recordedBlob = null;
 
+  let recordedURL = null;
 
-/* =========================================================
-   STATE
-========================================================= */
+  let isRecording = false;
 
-let cameraStream = null;
-let micStream = null;
-let screenStream = null;
+  let isPaused = false;
 
-let recorder = null;
+  let micEnabled = false;
 
-let recordedChunks = [];
+  let cameraEnabled = false;
 
-let recordedBlob = null;
-let recordedUrl = null;
+  let blurEnabled = false;
 
-let videoObjectUrl = null;
-let slideObjectUrl = null;
+  let backgroundEnabled = false;
 
-let isRecording = false;
-let isPaused = false;
+  let transcriptionEngine = null;
 
-let recordingSeconds = 0;
-let sessionSeconds = 0;
+  let transcriptionRunning = false;
 
-let recordingTimerInterval = null;
-let sessionTimerInterval = null;
+  let transcriptionText = "";
 
 
-/* =========================================================
-   TOAST
-========================================================= */
+  /* ========================================================
+     STATUS
+  ======================================================== */
 
-let toastTimer;
+  function setStatus(
+    message,
+    type = "normal"
+  ) {
 
-function showToast(message){
+    statusText.textContent = message;
 
-  toast.textContent =
-    message;
+    statusText.className = "";
 
-  toast.classList.add(
-    "show"
+    if (type === "success") {
+      statusText.classList.add("status-success");
+    }
+
+    if (type === "error") {
+      statusText.classList.add("status-error");
+    }
+  }
+
+
+  /* ========================================================
+     MAIN VIDEO
+  ======================================================== */
+
+  function openVideoPicker() {
+
+    mainVideoInput.click();
+
+  }
+
+
+  selectVideoBtn.addEventListener(
+    "click",
+    openVideoPicker
   );
 
-  clearTimeout(
-    toastTimer
+  loadVideoTop.addEventListener(
+    "click",
+    openVideoPicker
   );
 
-  toastTimer =
-    setTimeout(() => {
 
-      toast.classList.remove(
-        "show"
+  mainVideoInput.addEventListener(
+    "change",
+    async () => {
+
+      const file =
+        mainVideoInput.files?.[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (mainVideoURL) {
+        URL.revokeObjectURL(mainVideoURL);
+      }
+
+      mainVideoURL =
+        URL.createObjectURL(file);
+
+      mainVideo.src =
+        mainVideoURL;
+
+      mainVideo.muted = true;
+
+      mainVideo.volume = 0;
+
+      stageEmpty.style.display = "none";
+
+      className.textContent =
+        file.name.replace(/\.[^/.]+$/, "");
+
+      setStatus(
+        "Main Video loaded. Its audio will NOT be recorded.",
+        "success"
       );
 
-    },2500);
+      try {
 
-}
+        await mainVideo.play();
 
+      } catch (error) {
 
-/* =========================================================
-   TIME
-========================================================= */
-
-function formatTime(seconds){
-
-  const min =
-    Math.floor(
-      seconds / 60
-    )
-    .toString()
-    .padStart(2,"0");
-
-  const sec =
-    Math.floor(
-      seconds % 60
-    )
-    .toString()
-    .padStart(2,"0");
-
-  return min + ":" + sec;
-
-}
-
-
-/* =========================================================
-   SESSION TIMER
-========================================================= */
-
-sessionTimerInterval =
-  setInterval(() => {
-
-    sessionSeconds++;
-
-    sessionTimer.textContent =
-      formatTime(
-        sessionSeconds
-      );
-
-  },1000);
-
-
-/* =========================================================
-   STAGE STATE
-========================================================= */
-
-function updateStage(){
-
-  const hasVideo =
-    mainVideo.style.display ===
-    "block";
-
-  const hasImage =
-    mainImage.style.display ===
-    "block";
-
-  const hasScreen =
-    screenVideo.style.display ===
-    "block";
-
-  const hasCamera =
-    mentorPip.style.display ===
-    "block";
-
-  stagePlaceholder.style.display =
-    (
-      hasVideo ||
-      hasImage ||
-      hasScreen ||
-      hasCamera
-    )
-    ? "none"
-    : "flex";
-
-}
-
-
-/* =========================================================
-   MAIN VIDEO
-========================================================= */
-
-mainVideoBtn.addEventListener(
-  "click",
-  () => {
-
-    if(isRecording){
-
-      showToast(
-        "Stop recording before changing video."
-      );
-
-      return;
-
-    }
-
-    videoInput.value =
-      "";
-
-    videoInput.click();
-
-  }
-);
-
-
-videoInput.addEventListener(
-  "change",
-  event => {
-
-    const file =
-      event.target.files?.[0];
-
-    if(!file)
-      return;
-
-
-    if(videoObjectUrl){
-
-      URL.revokeObjectURL(
-        videoObjectUrl
-      );
-
-    }
-
-
-    videoObjectUrl =
-      URL.createObjectURL(
-        file
-      );
-
-
-    mainVideo.src =
-      videoObjectUrl;
-
-
-    mainVideo.style.display =
-      "block";
-
-
-    mainImage.style.display =
-      "none";
-
-
-    screenVideo.style.display =
-      "none";
-
-
-    updateStage();
-
-
-    showToast(
-      "Main Video loaded."
-    );
-
-  }
-);
-
-
-/* =========================================================
-   SLIDE
-========================================================= */
-
-slideBtn.addEventListener(
-  "click",
-  () => {
-
-    if(isRecording){
-
-      showToast(
-        "Stop recording before changing slide."
-      );
-
-      return;
-
-    }
-
-    slideInput.value =
-      "";
-
-    slideInput.click();
-
-  }
-);
-
-
-slideInput.addEventListener(
-  "change",
-  event => {
-
-    const file =
-      event.target.files?.[0];
-
-    if(!file)
-      return;
-
-
-    if(slideObjectUrl){
-
-      URL.revokeObjectURL(
-        slideObjectUrl
-      );
-
-    }
-
-
-    slideObjectUrl =
-      URL.createObjectURL(
-        file
-      );
-
-
-    mainImage.src =
-      slideObjectUrl;
-
-
-    mainImage.style.display =
-      "block";
-
-
-    mainVideo.style.display =
-      "none";
-
-
-    screenVideo.style.display =
-      "none";
-
-
-    updateStage();
-
-
-    showToast(
-      "Slide loaded."
-    );
-
-  }
-);
-
-
-/* =========================================================
-   PLAY
-========================================================= */
-
-playBtn.addEventListener(
-  "click",
-  async () => {
-
-    if(
-      mainVideo.style.display ===
-      "block"
-    ){
-
-      try{
-
-        if(
-          mainVideo.paused
-        ){
-
-          await mainVideo.play();
-
-          playBtn.classList.add(
-            "active"
-          );
-
-        }else{
-
-          mainVideo.pause();
-
-          playBtn.classList.remove(
-            "active"
-          );
-
-        }
-
-      }catch(error){
-
-        showToast(
-          "Video play failed."
+        console.log(
+          "Autoplay blocked.",
+          error
         );
 
       }
 
-      return;
-
     }
-
-    showToast(
-      "Select Main Video first."
-    );
-
-  }
-);
-
-
-/* =========================================================
-   CAMERA
-========================================================= */
-
-cameraBtn.addEventListener(
-  "click",
-  async () => {
-
-    if(cameraStream){
-
-      stopCamera();
-
-      return;
-
-    }
-
-
-    try{
-
-      cameraStream =
-        await navigator.mediaDevices
-        .getUserMedia({
-          video:true,
-          audio:false
-        });
-
-
-      cameraVideo.srcObject =
-        cameraStream;
-
-
-      mentorPip.style.display =
-        "block";
-
-
-      cameraBtn.classList.add(
-        "active"
-      );
-
-
-      updateStage();
-
-
-      showToast(
-        "Camera ON."
-      );
-
-    }catch(error){
-
-      console.error(error);
-
-      showToast(
-        "Camera permission denied."
-      );
-
-    }
-
-  }
-);
-
-
-function stopCamera(){
-
-  if(cameraStream){
-
-    cameraStream
-      .getTracks()
-      .forEach(
-        track =>
-          track.stop()
-      );
-
-  }
-
-
-  cameraStream =
-    null;
-
-  cameraVideo.srcObject =
-    null;
-
-  mentorPip.style.display =
-    "none";
-
-  cameraBtn.classList.remove(
-    "active"
   );
 
-  updateStage();
 
-  showToast(
-    "Camera OFF."
-  );
+  /* ========================================================
+     FORCE MAIN VIDEO AUDIO OFF
+  ======================================================== */
 
-}
+  mainVideo.muted = true;
 
+  mainVideo.volume = 0;
 
-/* =========================================================
-   MICROPHONE
-========================================================= */
+  mainVideo.addEventListener(
+    "play",
+    () => {
 
-micBtn.addEventListener(
-  "click",
-  async () => {
+      mainVideo.muted = true;
 
-    if(micStream){
-
-      stopMic();
-
-      return;
+      mainVideo.volume = 0;
 
     }
+  );
 
 
-    try{
+  /* ========================================================
+     MICROPHONE
+  ======================================================== */
+
+  async function enableMicrophone() {
+
+    try {
+
+      if (micStream) {
+
+        micStream
+          .getTracks()
+          .forEach(track => track.stop());
+
+      }
 
       micStream =
-        await navigator.mediaDevices
-        .getUserMedia({
-          audio:true
+        await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          },
+          video: false
         });
 
+      micEnabled = true;
 
-      micBtn.classList.add(
-        "active"
+      micBtn.classList.add("active");
+
+      setStatus(
+        "Microphone ON — this voice will be used in the final recording.",
+        "success"
       );
 
-
-      showToast(
-        "Microphone ON."
-      );
-
-    }catch(error){
+    } catch (error) {
 
       console.error(error);
 
-      showToast(
-        "Microphone permission denied."
+      micEnabled = false;
+
+      micBtn.classList.remove("active");
+
+      setStatus(
+        "Microphone permission was not granted.",
+        "error"
       );
 
     }
 
   }
-);
 
 
-function stopMic(){
+  function disableMicrophone() {
 
-  if(micStream){
+    if (micStream) {
 
-    micStream
-      .getTracks()
-      .forEach(
-        track =>
-          track.stop()
-      );
+      micStream
+        .getTracks()
+        .forEach(track => track.stop());
+
+      micStream = null;
+
+    }
+
+    micEnabled = false;
+
+    micBtn.classList.remove("active");
+
+    setStatus(
+      "Microphone OFF."
+    );
 
   }
 
 
-  micStream =
-    null;
+  micBtn.addEventListener(
+    "click",
+    async () => {
 
-  micBtn.classList.remove(
-    "active"
+      if (micEnabled) {
+
+        disableMicrophone();
+
+      } else {
+
+        await enableMicrophone();
+
+      }
+
+    }
   );
 
-  showToast(
-    "Microphone OFF."
+
+  /* ========================================================
+     CAMERA
+  ======================================================== */
+
+  async function enableCamera() {
+
+    try {
+
+      if (cameraStream) {
+
+        cameraStream
+          .getTracks()
+          .forEach(track => track.stop());
+
+      }
+
+      cameraStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: {
+              ideal: 1280
+            },
+            height: {
+              ideal: 720
+            },
+            facingMode: "user"
+          },
+          audio: false
+        });
+
+      mentorVideo.srcObject =
+        cameraStream;
+
+      cameraEnabled = true;
+
+      cameraBtn.classList.add("active");
+
+      setStatus(
+        "Mentor Camera ON.",
+        "success"
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      setStatus(
+        "Camera permission was not granted.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  function disableCamera() {
+
+    if (cameraStream) {
+
+      cameraStream
+        .getTracks()
+        .forEach(track => track.stop());
+
+      cameraStream = null;
+
+    }
+
+    mentorVideo.srcObject = null;
+
+    cameraEnabled = false;
+
+    cameraBtn.classList.remove("active");
+
+    setStatus(
+      "Mentor Camera OFF."
+    );
+
+  }
+
+
+  cameraBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (cameraEnabled) {
+
+        disableCamera();
+
+      } else {
+
+        await enableCamera();
+
+      }
+
+    }
   );
 
-}
+
+  /* ========================================================
+     TELEPROMPTER
+  ======================================================== */
+
+  function addTranscriptText(text) {
+
+    if (!text || !text.trim()) {
+      return;
+    }
+
+    telePlaceholder.style.display =
+      "none";
+
+    const paragraph =
+      document.createElement("span");
+
+    paragraph.className =
+      "transcript-final";
+
+    paragraph.textContent =
+      text.trim() + " ";
+
+    teleContent.appendChild(
+      paragraph
+    );
+
+    transcriptionText +=
+      text.trim() + " ";
+
+    requestAnimationFrame(
+      () => {
+
+        teleContent.scrollTo({
+          top: teleContent.scrollHeight,
+          behavior: "smooth"
+        });
+
+      }
+    );
+
+  }
 
 
-/* =========================================================
-   SCREEN SHARE
-========================================================= */
+  function clearTeleprompter() {
 
-shareBtn.addEventListener(
-  "click",
-  async () => {
+    teleContent.innerHTML = "";
 
-    if(screenStream){
+    const placeholder =
+      document.createElement("div");
 
-      stopScreen();
+    placeholder.className =
+      "tele-placeholder";
+
+    placeholder.id =
+      "telePlaceholder";
+
+    placeholder.innerHTML =
+      `
+        Main Video-এর voice থেকে text তৈরি হলে
+        এখানে Teleprompter হিসেবে দেখা যাবে।
+        <br><br>
+        তারপর text automatically নিচে scroll করবে।
+      `;
+
+    teleContent.appendChild(
+      placeholder
+    );
+
+    transcriptionText = "";
+
+  }
+
+
+  /* ========================================================
+     LOAD WHISPER
+  ======================================================== */
+
+  async function loadWhisper() {
+
+    if (transcriptionEngine) {
+      return transcriptionEngine;
+    }
+
+    teleStatus.textContent =
+      "Loading AI...";
+
+    transcribeBtn.disabled = true;
+
+    setStatus(
+      "Main Video Voice-to-Text AI loading. First load may take some time..."
+    );
+
+    try {
+
+      env.allowLocalModels = false;
+
+      env.useBrowserCache = true;
+
+      transcriptionEngine =
+        await pipeline(
+          "automatic-speech-recognition",
+          "Xenova/whisper-tiny",
+          {
+            progress_callback: progress => {
+
+              if (
+                progress &&
+                typeof progress.progress === "number"
+              ) {
+
+                const percent =
+                  Math.round(
+                    progress.progress
+                  );
+
+                teleStatus.textContent =
+                  `AI ${percent}%`;
+
+              }
+
+            }
+          }
+        );
+
+      teleStatus.textContent =
+        "AI Ready";
+
+      transcribeBtn.disabled = false;
+
+      setStatus(
+        "Voice-to-Text AI is ready.",
+        "success"
+      );
+
+      return transcriptionEngine;
+
+    } catch (error) {
+
+      console.error(
+        "Whisper loading failed:",
+        error
+      );
+
+      teleStatus.textContent =
+        "AI Error";
+
+      transcribeBtn.disabled = false;
+
+      setStatus(
+        "Voice-to-Text AI could not load. Check internet connection.",
+        "error"
+      );
+
+      throw error;
+
+    }
+
+  }
+
+
+  /* ========================================================
+     EXTRACT MAIN VIDEO AUDIO
+  ======================================================== */
+
+  async function extractMainVideoAudio() {
+
+    if (!mainVideo.src) {
+
+      throw new Error(
+        "Please load a Main Video first."
+      );
+
+    }
+
+    setStatus(
+      "Reading Main Video audio..."
+    );
+
+    const response =
+      await fetch(mainVideo.src);
+
+    const arrayBuffer =
+      await response.arrayBuffer();
+
+    const audioContext =
+      new AudioContext();
+
+    const audioBuffer =
+      await audioContext.decodeAudioData(
+        arrayBuffer
+      );
+
+    await audioContext.close();
+
+    return audioBuffer;
+
+  }
+
+
+  /* ========================================================
+     AUDIO BUFFER → WAV
+  ======================================================== */
+
+  function audioBufferToWav(
+    audioBuffer
+  ) {
+
+    const numChannels =
+      audioBuffer.numberOfChannels;
+
+    const sampleRate =
+      audioBuffer.sampleRate;
+
+    const format = 1;
+
+    const bitDepth = 16;
+
+    const channelData = [];
+
+    for (
+      let channel = 0;
+      channel < numChannels;
+      channel++
+    ) {
+
+      channelData.push(
+        audioBuffer.getChannelData(
+          channel
+        )
+      );
+
+    }
+
+    const length =
+      channelData[0].length;
+
+    const interleaved =
+      new Float32Array(
+        length * numChannels
+      );
+
+    let index = 0;
+
+    for (
+      let i = 0;
+      i < length;
+      i++
+    ) {
+
+      for (
+        let channel = 0;
+        channel < numChannels;
+        channel++
+      ) {
+
+        interleaved[index++] =
+          channelData[channel][i];
+
+      }
+
+    }
+
+    const bytesPerSample =
+      bitDepth / 8;
+
+    const blockAlign =
+      numChannels *
+      bytesPerSample;
+
+    const buffer =
+      new ArrayBuffer(
+        44 +
+        interleaved.length *
+        bytesPerSample
+      );
+
+    const view =
+      new DataView(buffer);
+
+    function writeString(
+      offset,
+      string
+    ) {
+
+      for (
+        let i = 0;
+        i < string.length;
+        i++
+      ) {
+
+        view.setUint8(
+          offset + i,
+          string.charCodeAt(i)
+        );
+
+      }
+
+    }
+
+    let offset = 0;
+
+    writeString(offset, "RIFF");
+    offset += 4;
+
+    view.setUint32(
+      offset,
+      36 +
+      interleaved.length *
+      bytesPerSample,
+      true
+    );
+
+    offset += 4;
+
+    writeString(offset, "WAVE");
+    offset += 4;
+
+    writeString(offset, "fmt ");
+    offset += 4;
+
+    view.setUint32(
+      offset,
+      16,
+      true
+    );
+
+    offset += 4;
+
+    view.setUint16(
+      offset,
+      format,
+      true
+    );
+
+    offset += 2;
+
+    view.setUint16(
+      offset,
+      numChannels,
+      true
+    );
+
+    offset += 2;
+
+    view.setUint32(
+      offset,
+      sampleRate,
+      true
+    );
+
+    offset += 4;
+
+    view.setUint32(
+      offset,
+      sampleRate *
+      blockAlign,
+      true
+    );
+
+    offset += 4;
+
+    view.setUint16(
+      offset,
+      blockAlign,
+      true
+    );
+
+    offset += 2;
+
+    view.setUint16(
+      offset,
+      bitDepth,
+      true
+    );
+
+    offset += 2;
+
+    writeString(offset, "data");
+    offset += 4;
+
+    view.setUint32(
+      offset,
+      interleaved.length *
+      bytesPerSample,
+      true
+    );
+
+    offset += 4;
+
+    for (
+      let i = 0;
+      i < interleaved.length;
+      i++
+    ) {
+
+      let sample =
+        Math.max(
+          -1,
+          Math.min(
+            1,
+            interleaved[i]
+          )
+        );
+
+      sample =
+        sample < 0
+          ? sample * 0x8000
+          : sample * 0x7FFF;
+
+      view.setInt16(
+        offset,
+        sample,
+        true
+      );
+
+      offset += 2;
+
+    }
+
+    return new Blob(
+      [view],
+      {
+        type: "audio/wav"
+      }
+    );
+
+  }
+
+
+  /* ========================================================
+     MAIN VIDEO → TEXT
+  ======================================================== */
+
+  async function transcribeMainVideo() {
+
+    if (!mainVideo.src) {
+
+      setStatus(
+        "First load a Main Video.",
+        "error"
+      );
 
       return;
 
     }
 
-
-    try{
-
-      screenStream =
-        await navigator.mediaDevices
-        .getDisplayMedia({
-          video:true,
-          audio:true
-        });
-
-
-      screenVideo.srcObject =
-        screenStream;
-
-
-      screenVideo.style.display =
-        "block";
-
-
-      mainVideo.style.display =
-        "none";
-
-
-      mainImage.style.display =
-        "none";
-
-
-      screenVideo.play()
-        .catch(
-          () => {}
-        );
-
-
-      shareBtn.classList.add(
-        "active"
-      );
-
-
-      updateStage();
-
-
-      const track =
-        screenStream
-        .getVideoTracks()[0];
-
-
-      if(track){
-
-        track.addEventListener(
-          "ended",
-          stopScreen
-        );
-
-      }
-
-
-      showToast(
-        "Screen sharing started."
-      );
-
-    }catch(error){
-
-      console.error(error);
-
-      showToast(
-        "Screen sharing cancelled."
-      );
-
+    if (transcriptionRunning) {
+      return;
     }
 
-  }
-);
+    transcriptionRunning = true;
 
-
-function stopScreen(){
-
-  if(screenStream){
-
-    screenStream
-      .getTracks()
-      .forEach(
-        track =>
-          track.stop()
-      );
-
-  }
-
-
-  screenStream =
-    null;
-
-  screenVideo.srcObject =
-    null;
-
-  screenVideo.style.display =
-    "none";
-
-  shareBtn.classList.remove(
-    "active"
-  );
-
-  updateStage();
-
-}
-
-
-/* =========================================================
-   VOICE TEXT / TELEPROMPTER
-========================================================= */
-
-voiceTextBtn.addEventListener(
-  "click",
-  () => {
-
-    teleprompter.classList.toggle(
-      "show"
-    );
-
-
-    if(
-      teleprompter.classList.contains(
-        "show"
-      )
-    ){
-
-      voiceText.focus();
-
-      voiceTextBtn.classList.add(
-        "active"
-      );
-
-      showToast(
-        "Mentor Voice Text opened."
-      );
-
-    }else{
-
-      voiceTextBtn.classList.remove(
-        "active"
-      );
-
-    }
-
-  }
-);
-
-
-hideVoiceText.addEventListener(
-  "click",
-  () => {
-
-    teleprompter.classList.remove(
-      "show"
-    );
-
-    voiceTextBtn.classList.remove(
+    transcribeBtn.classList.add(
       "active"
     );
 
+    clearTeleprompter();
+
+    teleStatus.textContent =
+      "Preparing...";
+
+    try {
+
+      const recognizer =
+        await loadWhisper();
+
+      const audioBuffer =
+        await extractMainVideoAudio();
+
+      const wavBlob =
+        audioBufferToWav(
+          audioBuffer
+        );
+
+      setStatus(
+        "Main Video Voice → Text processing..."
+      );
+
+      teleStatus.textContent =
+        "Transcribing...";
+
+      const result =
+        await recognizer(
+          wavBlob,
+          {
+            chunk_length_s: 30,
+            stride_length_s: 5,
+            return_timestamps: false
+          }
+        );
+
+      const text =
+        typeof result?.text === "string"
+          ? result.text.trim()
+          : "";
+
+      if (!text) {
+
+        throw new Error(
+          "No speech was detected."
+        );
+
+      }
+
+      clearTeleprompter();
+
+      addTranscriptText(
+        text
+      );
+
+      teleStatus.textContent =
+        "Completed";
+
+      setStatus(
+        "Main Video Voice → Text → Teleprompter completed.",
+        "success"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Transcription error:",
+        error
+      );
+
+      teleStatus.textContent =
+        "Failed";
+
+      setStatus(
+        "Main Video voice transcription failed.",
+        "error"
+      );
+
+    } finally {
+
+      transcriptionRunning = false;
+
+      transcribeBtn.classList.remove(
+        "active"
+      );
+
+    }
+
   }
-);
 
 
-clearVoiceText.addEventListener(
-  "click",
-  () => {
+  transcribeBtn.addEventListener(
+    "click",
+    transcribeMainVideo
+  );
 
-    voiceText.value =
-      "";
 
-    voiceText.focus();
+  /* ========================================================
+     TELEPROMPTER SHOW / HIDE
+  ======================================================== */
+
+  teleBtn.addEventListener(
+    "click",
+    () => {
+
+      const hidden =
+        teleprompter.style.display ===
+        "none";
+
+      teleprompter.style.display =
+        hidden
+          ? "flex"
+          : "none";
+
+      teleBtn.classList.toggle(
+        "active",
+        hidden
+      );
+
+    }
+  );
+
+
+  /* ========================================================
+     BACKGROUND IMAGE
+  ======================================================== */
+
+  backgroundBtn.addEventListener(
+    "click",
+    () => {
+
+      backgroundInput.click();
+
+    }
+  );
+
+
+  backgroundInput.addEventListener(
+    "change",
+    () => {
+
+      const file =
+        backgroundInput.files?.[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (backgroundURL) {
+        URL.revokeObjectURL(
+          backgroundURL
+        );
+      }
+
+      backgroundURL =
+        URL.createObjectURL(file);
+
+      mentorVideo.style.backgroundImage =
+        `url("${backgroundURL}")`;
+
+      mentorVideo.style.backgroundSize =
+        "cover";
+
+      mentorVideo.style.backgroundPosition =
+        "center";
+
+      backgroundEnabled = true;
+
+      backgroundBtn.classList.add(
+        "active"
+      );
+
+      setStatus(
+        "Mentor background image applied.",
+        "success"
+      );
+
+    }
+  );
+
+
+  /* ========================================================
+     BLUR
+  ======================================================== */
+
+  blurBtn.addEventListener(
+    "click",
+    () => {
+
+      blurEnabled =
+        !blurEnabled;
+
+      if (blurEnabled) {
+
+        mentorVideo.style.filter =
+          "blur(9px)";
+
+        blurBtn.classList.add(
+          "active"
+        );
+
+        setStatus(
+          "Mentor camera blur ON."
+        );
+
+      } else {
+
+        mentorVideo.style.filter =
+          "none";
+
+        blurBtn.classList.remove(
+          "active"
+        );
+
+        setStatus(
+          "Mentor camera blur OFF."
+        );
+
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     STUDENTS
+  ======================================================== */
+
+  studentsBtn.addEventListener(
+    "click",
+    () => {
+
+      studentsPanel.classList.toggle(
+        "show"
+      );
+
+      studentsBtn.classList.toggle(
+        "active"
+      );
+
+    }
+  );
+
+
+  /* ========================================================
+     DRAG FUNCTION
+  ======================================================== */
+
+  function makeDraggable(
+    element,
+    container
+  ) {
+
+    let dragging = false;
+
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+
+    let elementStartX = 0;
+    let elementStartY = 0;
+
+
+    function pointerDown(event) {
+
+      dragging = true;
+
+      element.classList.add(
+        "dragging"
+      );
+
+      pointerStartX =
+        event.clientX;
+
+      pointerStartY =
+        event.clientY;
+
+      const elementRect =
+        element.getBoundingClientRect();
+
+      const containerRect =
+        container.getBoundingClientRect();
+
+      elementStartX =
+        elementRect.left -
+        containerRect.left;
+
+      elementStartY =
+        elementRect.top -
+        containerRect.top;
+
+      element.setPointerCapture(
+        event.pointerId
+      );
+
+    }
+
+
+    function pointerMove(event) {
+
+      if (!dragging) {
+        return;
+      }
+
+      const containerRect =
+        container.getBoundingClientRect();
+
+      const deltaX =
+        event.clientX -
+        pointerStartX;
+
+      const deltaY =
+        event.clientY -
+        pointerStartY;
+
+      let newX =
+        elementStartX +
+        deltaX;
+
+      let newY =
+        elementStartY +
+        deltaY;
+
+      const maxX =
+        containerRect.width -
+        element.offsetWidth;
+
+      const maxY =
+        containerRect.height -
+        element.offsetHeight;
+
+      newX =
+        Math.max(
+          0,
+          Math.min(
+            newX,
+            maxX
+          )
+        );
+
+      newY =
+        Math.max(
+          0,
+          Math.min(
+            newY,
+            maxY
+          )
+        );
+
+      element.style.left =
+        `${newX}px`;
+
+      element.style.top =
+        `${newY}px`;
+
+      element.style.right =
+        "auto";
+
+      element.style.bottom =
+        "auto";
+
+    }
+
+
+    function pointerUp(event) {
+
+      dragging = false;
+
+      element.classList.remove(
+        "dragging"
+      );
+
+      try {
+
+        element.releasePointerCapture(
+          event.pointerId
+        );
+
+      } catch {}
+
+    }
+
+
+    element.addEventListener(
+      "pointerdown",
+      pointerDown
+    );
+
+    element.addEventListener(
+      "pointermove",
+      pointerMove
+    );
+
+    element.addEventListener(
+      "pointerup",
+      pointerUp
+    );
+
+    element.addEventListener(
+      "pointercancel",
+      pointerUp
+    );
 
   }
-);
 
 
-/*
-  IMPORTANT:
-  Voice text is only a mentor reading tool.
-  It is NOT inserted inside the selected video file.
-*/
+  makeDraggable(
+    mentorPip,
+    stage
+  );
+
+  makeDraggable(
+    stageBrand,
+    stage
+  );
 
 
-/* =========================================================
-   CLEAR
-========================================================= */
+  /* ========================================================
+     CANVAS RECORDING
+  ======================================================== */
 
-clearBtn.addEventListener(
-  "click",
-  () => {
+  const recordingCanvas =
+    document.createElement("canvas");
 
-    if(isRecording){
+  recordingCanvas.width =
+    1920;
 
-      showToast(
-        "Stop recording first."
+  recordingCanvas.height =
+    1080;
+
+  const recordingContext =
+    recordingCanvas.getContext(
+      "2d"
+    );
+
+
+  function drawCoverVideo(
+    video,
+    ctx,
+    width,
+    height
+  ) {
+
+    if (
+      !video ||
+      video.readyState <
+      2
+    ) {
+
+      ctx.fillStyle =
+        "#050806";
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      return;
+
+    }
+
+    const videoWidth =
+      video.videoWidth ||
+      width;
+
+    const videoHeight =
+      video.videoHeight ||
+      height;
+
+    const videoRatio =
+      videoWidth /
+      videoHeight;
+
+    const canvasRatio =
+      width /
+      height;
+
+    let drawWidth;
+    let drawHeight;
+
+    let x;
+    let y;
+
+    if (
+      videoRatio >
+      canvasRatio
+    ) {
+
+      drawHeight =
+        height;
+
+      drawWidth =
+        height *
+        videoRatio;
+
+      x =
+        (width -
+          drawWidth) /
+        2;
+
+      y = 0;
+
+    } else {
+
+      drawWidth =
+        width;
+
+      drawHeight =
+        width /
+        videoRatio;
+
+      x = 0;
+
+      y =
+        (height -
+          drawHeight) /
+        2;
+
+    }
+
+    ctx.drawImage(
+      video,
+      x,
+      y,
+      drawWidth,
+      drawHeight
+    );
+
+  }
+
+
+  function drawRoundedRect(
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    radius
+  ) {
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+      x,
+      y,
+      width,
+      height,
+      radius
+    );
+
+    ctx.closePath();
+
+  }
+
+
+  function drawRecordingFrame() {
+
+    const ctx =
+      recordingContext;
+
+    const width =
+      recordingCanvas.width;
+
+    const height =
+      recordingCanvas.height;
+
+
+    /* ---------------------------------------------
+       MAIN VIDEO VISUAL
+       --------------------------------------------- */
+
+    drawCoverVideo(
+      mainVideo,
+      ctx,
+      width,
+      height
+    );
+
+
+    /* ---------------------------------------------
+       BRAND
+       --------------------------------------------- */
+
+    const stageRect =
+      stage.getBoundingClientRect();
+
+    const brandRect =
+      stageBrand.getBoundingClientRect();
+
+    const brandX =
+      (
+        (brandRect.left -
+          stageRect.left) /
+        stageRect.width
+      ) *
+      width;
+
+    const brandY =
+      (
+        (brandRect.top -
+          stageRect.top) /
+        stageRect.height
+      ) *
+      height;
+
+    const brandScale =
+      width /
+      stageRect.width;
+
+    const brandWidth =
+      brandRect.width *
+      brandScale;
+
+    const brandHeight =
+      brandRect.height *
+      brandScale;
+
+
+    ctx.save();
+
+    drawRoundedRect(
+      ctx,
+      brandX,
+      brandY,
+      brandWidth,
+      brandHeight,
+      14 * brandScale
+    );
+
+    ctx.fillStyle =
+      "rgba(5,8,6,.72)";
+
+    ctx.fill();
+
+    ctx.strokeStyle =
+      "rgba(255,255,255,.18)";
+
+    ctx.lineWidth =
+      1 * brandScale;
+
+    ctx.stroke();
+
+
+    ctx.fillStyle =
+      "#22c55e";
+
+    drawRoundedRect(
+      ctx,
+      brandX +
+        10 * brandScale,
+      brandY +
+        8 * brandScale,
+      24 * brandScale,
+      24 * brandScale,
+      7 * brandScale
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+      "#031008";
+
+    ctx.font =
+      `900 ${12 * brandScale}px Arial`;
+
+    ctx.textAlign =
+      "center";
+
+    ctx.textBaseline =
+      "middle";
+
+    ctx.fillText(
+      "U",
+      brandX +
+        22 * brandScale,
+      brandY +
+        20 * brandScale
+    );
+
+
+    ctx.fillStyle =
+      "#ffffff";
+
+    ctx.font =
+      `800 ${12 * brandScale}px Arial`;
+
+    ctx.textAlign =
+      "left";
+
+    ctx.fillText(
+      "UshaLiveAI",
+      brandX +
+        42 * brandScale,
+      brandY +
+        20 * brandScale
+    );
+
+    ctx.restore();
+
+
+    /* ---------------------------------------------
+       MENTOR CAMERA
+       --------------------------------------------- */
+
+    if (
+      cameraEnabled &&
+      mentorVideo.readyState >= 2
+    ) {
+
+      const pipRect =
+        mentorPip.getBoundingClientRect();
+
+      const pipX =
+        (
+          (pipRect.left -
+            stageRect.left) /
+          stageRect.width
+        ) *
+        width;
+
+      const pipY =
+        (
+          (pipRect.top -
+            stageRect.top) /
+          stageRect.height
+        ) *
+        height;
+
+      const pipWidth =
+        pipRect.width *
+        brandScale;
+
+      const pipHeight =
+        pipRect.height *
+        brandScale;
+
+
+      ctx.save();
+
+      drawRoundedRect(
+        ctx,
+        pipX,
+        pipY,
+        pipWidth,
+        pipHeight,
+        18 * brandScale
+      );
+
+      ctx.clip();
+
+
+      if (
+        backgroundEnabled &&
+        backgroundURL
+      ) {
+
+        ctx.fillStyle =
+          "#13251a";
+
+        ctx.fillRect(
+          pipX,
+          pipY,
+          pipWidth,
+          pipHeight
+        );
+
+      } else {
+
+        drawCoverVideo(
+          mentorVideo,
+          ctx,
+          pipWidth,
+          pipHeight
+        );
+
+      }
+
+
+      ctx.restore();
+
+
+      /* Mentor border */
+
+      ctx.save();
+
+      drawRoundedRect(
+        ctx,
+        pipX,
+        pipY,
+        pipWidth,
+        pipHeight,
+        18 * brandScale
+      );
+
+      ctx.strokeStyle =
+        "rgba(255,255,255,.22)";
+
+      ctx.lineWidth =
+        2 * brandScale;
+
+      ctx.stroke();
+
+
+      /* Mentor label */
+
+      const labelHeight =
+        30 * brandScale;
+
+      const labelWidth =
+        125 * brandScale;
+
+      const labelX =
+        pipX +
+        10 * brandScale;
+
+      const labelY =
+        pipY +
+        pipHeight -
+        10 * brandScale -
+        labelHeight;
+
+
+      drawRoundedRect(
+        ctx,
+        labelX,
+        labelY,
+        labelWidth,
+        labelHeight,
+        8 * brandScale
+      );
+
+      ctx.fillStyle =
+        "rgba(0,0,0,.68)";
+
+      ctx.fill();
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+      ctx.font =
+        `800 ${11 * brandScale}px Arial`;
+
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "middle";
+
+      ctx.fillText(
+        "Shah Neil Khan",
+        labelX +
+          labelWidth / 2,
+        labelY +
+          labelHeight / 2
+      );
+
+      ctx.restore();
+
+    }
+
+  }
+
+
+  let drawLoopRunning =
+    false;
+
+
+  function recordingDrawLoop() {
+
+    if (!drawLoopRunning) {
+      return;
+    }
+
+    drawRecordingFrame();
+
+    requestAnimationFrame(
+      recordingDrawLoop
+    );
+
+  }
+
+
+  /* ========================================================
+     CREATE RECORDING STREAM
+  ======================================================== */
+
+  function createRecordingStream() {
+
+    const canvasStream =
+      recordingCanvas.captureStream(
+        30
+      );
+
+    /*
+     * IMPORTANT:
+     *
+     * Canvas contains:
+     * Main Video visual
+     * Mentor Camera
+     * Brand
+     *
+     * Canvas does NOT contain:
+     * Teleprompter
+     * Main Video audio
+     */
+
+
+    if (
+      !micStream ||
+      !micEnabled
+    ) {
+
+      throw new Error(
+        "Microphone must be enabled before recording."
+      );
+
+    }
+
+
+    const finalStream =
+      new MediaStream();
+
+
+    /* Video tracks */
+
+    canvasStream
+      .getVideoTracks()
+      .forEach(
+        track => {
+          finalStream.addTrack(track);
+        }
+      );
+
+
+    /* Microphone audio ONLY */
+
+    micStream
+      .getAudioTracks()
+      .forEach(
+        track => {
+          finalStream.addTrack(track);
+        }
+      );
+
+
+    return finalStream;
+
+  }
+
+
+  /* ========================================================
+     MEDIA RECORDER
+  ======================================================== */
+
+  function getSupportedMimeType() {
+
+    const types = [
+
+      "video/webm;codecs=vp9,opus",
+
+      "video/webm;codecs=vp8,opus",
+
+      "video/webm"
+
+    ];
+
+    for (
+      const type of types
+    ) {
+
+      if (
+        MediaRecorder.isTypeSupported(
+          type
+        )
+      ) {
+
+        return type;
+
+      }
+
+    }
+
+    return "";
+
+  }
+
+
+  /* ========================================================
+     START RECORDING
+  ======================================================== */
+
+  async function startRecording() {
+
+    if (!mainVideo.src) {
+
+      setStatus(
+        "Load a Main Video first.",
+        "error"
       );
 
       return;
@@ -2612,134 +3324,87 @@ clearBtn.addEventListener(
     }
 
 
-    mainVideo.pause();
+    if (!micEnabled) {
 
-    mainVideo.removeAttribute(
-      "src"
-    );
+      await enableMicrophone();
 
-    mainVideo.load();
+      if (!micEnabled) {
 
+        return;
 
-    mainImage.removeAttribute(
-      "src"
-    );
-
-
-    mainVideo.style.display =
-      "none";
-
-    mainImage.style.display =
-      "none";
-
-
-    if(screenStream){
-
-      stopScreen();
+      }
 
     }
 
 
-    updateStage();
+    if (!cameraEnabled) {
 
-
-    showToast(
-      "Stage cleared."
-    );
-
-  }
-);
-
-
-/* =========================================================
-   RECORD
-========================================================= */
-
-recordBtn.addEventListener(
-  "click",
-  () => {
-
-    if(isRecording){
-
-      stopRecording();
-
-    }else{
-
-      startRecording();
+      await enableCamera();
 
     }
 
-  }
-);
 
+    try {
 
-async function startRecording(){
+      recordingStream =
+        createRecordingStream();
 
-  try{
+    } catch (error) {
 
-    const displayStream =
-      await navigator.mediaDevices
-      .getDisplayMedia({
-        video:true,
-        audio:true
-      });
-
-
-    let tracks = [
-      ...displayStream.getVideoTracks(),
-      ...displayStream.getAudioTracks()
-    ];
-
-
-    if(micStream){
-
-      tracks.push(
-        ...micStream.getAudioTracks()
+      setStatus(
+        error.message,
+        "error"
       );
 
-    }
-
-
-    const recordingStream =
-      new MediaStream(
-        tracks
-      );
-
-
-    let mimeType =
-      "video/webm";
-
-
-    if(
-      MediaRecorder.isTypeSupported(
-        "video/webm;codecs=vp9,opus"
-      )
-    ){
-
-      mimeType =
-        "video/webm;codecs=vp9,opus";
+      return;
 
     }
 
 
-    recorder =
-      new MediaRecorder(
-        recordingStream,
-        {mimeType}
+    recordedChunks = [];
+
+    recordedBlob = null;
+
+
+    const mimeType =
+      getSupportedMimeType();
+
+
+    try {
+
+      mediaRecorder =
+        mimeType
+          ? new MediaRecorder(
+              recordingStream,
+              {
+                mimeType
+              }
+            )
+          : new MediaRecorder(
+              recordingStream
+            );
+
+    } catch (error) {
+
+      console.error(error);
+
+      setStatus(
+        "This browser does not support video recording.",
+        "error"
       );
 
+      return;
 
-    recordedChunks =
-      [];
+    }
 
 
-    recorder.ondataavailable =
+    mediaRecorder.ondataavailable =
       event => {
 
-        if(
+        if (
           event.data &&
-          event.data.size
-        ){
+          event.data.size > 0
+        ) {
 
           recordedChunks.push(
             event.data
@@ -2750,441 +3415,330 @@ async function startRecording(){
       };
 
 
-    recorder.onstop =
+    mediaRecorder.onstop =
       () => {
 
         recordedBlob =
           new Blob(
             recordedChunks,
             {
-              type:mimeType
+              type:
+                mimeType ||
+                "video/webm"
             }
           );
 
 
-        if(recordedUrl){
+        if (recordedURL) {
 
           URL.revokeObjectURL(
-            recordedUrl
+            recordedURL
           );
 
         }
 
-
-        recordedUrl =
+        recordedURL =
           URL.createObjectURL(
             recordedBlob
           );
 
 
         previewVideo.src =
-          recordedUrl;
+          recordedURL;
 
 
-        previewModal.classList.add(
-          "show"
-        );
-
-
-        displayStream
-          .getTracks()
-          .forEach(
-            track =>
-              track.stop()
-          );
-
-
-        showToast(
-          "Recording ready."
+        setStatus(
+          "Recording finished. Preview or download it.",
+          "success"
         );
 
       };
 
 
-    recorder.start(1000);
+    mediaRecorder.onerror =
+      event => {
+
+        console.error(
+          event
+        );
+
+        setStatus(
+          "Recording error occurred.",
+          "error"
+        );
+
+      };
 
 
-    isRecording =
-      true;
-
-    isPaused =
-      false;
-
-
-    recordingSeconds =
-      0;
-
-
-    recordTimer.textContent =
-      "00:00";
-
-
-    recordStatus.classList.add(
-      "show"
+    mediaRecorder.start(
+      1000
     );
+
+
+    isRecording = true;
+
+    isPaused = false;
+
+    drawLoopRunning = true;
+
+    recordingDrawLoop();
 
 
     recordBtn.classList.add(
-      "active"
+      "recording"
     );
 
+    recordBtn.innerHTML =
+      `
+        ⏹
+        <span class="label">
+          Stop
+        </span>
+      `;
 
-    recordBtn.querySelector(
-      ".control-text"
-    ).textContent =
-      "Stop";
+    pauseBtn.style.display =
+      "inline-flex";
 
+    liveText.textContent =
+      "RECORDING";
 
-    recordingTimerInterval =
-      setInterval(
-        () => {
-
-          if(!isPaused){
-
-            recordingSeconds++;
-
-            recordTimer.textContent =
-              formatTime(
-                recordingSeconds
-              );
-
-          }
-
-        },
-        1000
-      );
-
-
-    showToast(
-      "Recording started."
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Recording cancelled."
+    setStatus(
+      "Recording started. Microphone is the final voice.",
+      "success"
     );
 
   }
 
-}
 
+  /* ========================================================
+     STOP RECORDING
+  ======================================================== */
 
-/* =========================================================
-   STOP RECORDING
-========================================================= */
+  function stopRecording() {
 
-function stopRecording(){
-
-  if(
-    !recorder ||
-    recorder.state ===
-    "inactive"
-  ){
-
-    return;
-
-  }
-
-
-  recorder.stop();
-
-
-  isRecording =
-    false;
-
-  isPaused =
-    false;
-
-
-  clearInterval(
-    recordingTimerInterval
-  );
-
-
-  recordingTimerInterval =
-    null;
-
-
-  recordStatus.classList.remove(
-    "show"
-  );
-
-
-  recordBtn.classList.remove(
-    "active"
-  );
-
-
-  recordBtn.querySelector(
-    ".control-text"
-  ).textContent =
-    "Record";
-
-
-  pauseBtn.querySelector(
-    ".control-text"
-  ).textContent =
-    "Pause";
-
-
-}
-
-
-/* =========================================================
-   PAUSE
-========================================================= */
-
-pauseBtn.addEventListener(
-  "click",
-  () => {
-
-    if(
-      !recorder ||
-      recorder.state ===
+    if (
+      !mediaRecorder ||
+      mediaRecorder.state ===
       "inactive"
-    ){
-
-      showToast(
-        "Start recording first."
-      );
+    ) {
 
       return;
 
     }
 
 
-    if(!isPaused){
+    mediaRecorder.stop();
 
-      if(
-        recorder.state ===
-        "recording"
-      ){
+    drawLoopRunning =
+      false;
 
-        recorder.pause();
+    isRecording = false;
 
-        isPaused =
-          true;
+    isPaused = false;
 
-        pauseBtn.classList.add(
-          "active"
+
+    if (recordingStream) {
+
+      recordingStream
+        .getTracks()
+        .forEach(
+          track => {
+            track.stop();
+          }
         );
 
-        pauseBtn.querySelector(
-          ".control-text"
-        ).textContent =
-          "Resume";
+      recordingStream = null;
 
-      }
+    }
 
-    }else{
 
-      if(
-        recorder.state ===
-        "paused"
-      ){
+    recordBtn.classList.remove(
+      "recording"
+    );
 
-        recorder.resume();
+    recordBtn.innerHTML =
+      `
+        🔴
+        <span class="label">
+          Record
+        </span>
+      `;
 
-        isPaused =
-          false;
+    pauseBtn.style.display =
+      "none";
 
-        pauseBtn.classList.remove(
-          "active"
-        );
+    liveText.textContent =
+      "READY";
 
-        pauseBtn.querySelector(
-          ".control-text"
-        ).textContent =
-          "Pause";
+  }
+
+
+  recordBtn.addEventListener(
+    "click",
+    () => {
+
+      if (!isRecording) {
+
+        startRecording();
+
+      } else {
+
+        stopRecording();
 
       }
 
     }
-
-  }
-);
+  );
 
 
-/* =========================================================
-   FULLSCREEN
-========================================================= */
+  /* ========================================================
+     PAUSE / RESUME
+  ======================================================== */
 
-fullscreenBtn.addEventListener(
-  "click",
-  async () => {
+  pauseBtn.addEventListener(
+    "click",
+    () => {
 
-    try{
+      if (
+        !mediaRecorder ||
+        !isRecording
+      ) {
 
-      if(
-        !document.fullscreenElement
-      ){
-
-        await stage.requestFullscreen();
-
-      }else{
-
-        await document.exitFullscreen();
+        return;
 
       }
 
-    }catch(error){
 
-      showToast(
-        "Fullscreen unavailable."
+      if (
+        mediaRecorder.state ===
+        "recording"
+      ) {
+
+        mediaRecorder.pause();
+
+        isPaused = true;
+
+        pauseBtn.innerHTML =
+          `
+            ▶
+            <span class="label">
+              Resume
+            </span>
+          `;
+
+        liveText.textContent =
+          "PAUSED";
+
+        setStatus(
+          "Recording paused."
+        );
+
+      } else if (
+        mediaRecorder.state ===
+        "paused"
+      ) {
+
+        mediaRecorder.resume();
+
+        isPaused = false;
+
+        pauseBtn.innerHTML =
+          `
+            ⏸
+            <span class="label">
+              Pause
+            </span>
+          `;
+
+        liveText.textContent =
+          "RECORDING";
+
+        setStatus(
+          "Recording resumed.",
+          "success"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     PREVIEW
+  ======================================================== */
+
+  function openPreview() {
+
+    if (!recordedURL) {
+
+      setStatus(
+        "No recording is available yet.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    previewVideo.src =
+      recordedURL;
+
+    previewModal.classList.add(
+      "show"
+    );
+
+  }
+
+
+  previewBtn.addEventListener(
+    "click",
+    openPreview
+  );
+
+
+  closePreview.addEventListener(
+    "click",
+    () => {
+
+      previewModal.classList.remove(
+        "show"
       );
 
     }
-
-  }
-);
-
-
-/* =========================================================
-   STUDENTS
-========================================================= */
-
-studentsToggle.addEventListener(
-  "click",
-  () => {
-
-    studentsPanel.classList.toggle(
-      "show"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-settingsBtn.addEventListener(
-  "click",
-  () => {
-
-    settingsPanel.classList.add(
-      "show"
-    );
-
-
-    classNameInput.value =
-      localStorage.getItem(
-        "ushaLiveClassName"
-      ) ||
-      "My Live Class";
-
-
-    voiceApiInput.value =
-      localStorage.getItem(
-        "ushaLiveVoiceApi"
-      ) ||
-      "";
-
-  }
-);
-
-
-closeSettings.addEventListener(
-  "click",
-  () => {
-
-    settingsPanel.classList.remove(
-      "show"
-    );
-
-  }
-);
-
-
-saveSettings.addEventListener(
-  "click",
-  () => {
-
-    const name =
-      classNameInput.value.trim() ||
-      "My Live Class";
-
-
-    localStorage.setItem(
-      "ushaLiveClassName",
-      name
-    );
-
-
-    localStorage.setItem(
-      "ushaLiveVoiceApi",
-      voiceApiInput.value.trim()
-    );
-
-
-    className.textContent =
-      name;
-
-
-    settingsPanel.classList.remove(
-      "show"
-    );
-
-
-    showToast(
-      "Settings saved."
-    );
-
-  }
-);
-
-
-className.textContent =
-  localStorage.getItem(
-    "ushaLiveClassName"
-  ) ||
-  "My Live Class";
-
-
-/* =========================================================
-   PREVIEW
-========================================================= */
-
-function closePreviewModal(){
-
-  previewModal.classList.remove(
-    "show"
   );
 
-  previewVideo.pause();
 
-}
+  previewModal.addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        previewModal
+      ) {
+
+        previewModal.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+  );
 
 
-closePreview.addEventListener(
-  "click",
-  closePreviewModal
-);
+  /* ========================================================
+     DOWNLOAD
+  ======================================================== */
 
+  function downloadRecording() {
 
-closePreview2.addEventListener(
-  "click",
-  closePreviewModal
-);
+    if (!recordedURL) {
 
-
-/* =========================================================
-   DOWNLOAD
-========================================================= */
-
-downloadRecording.addEventListener(
-  "click",
-  () => {
-
-    if(!recordedUrl){
-
-      showToast(
-        "No recording available."
+      setStatus(
+        "No recording available.",
+        "error"
       );
 
       return;
@@ -3197,462 +3751,239 @@ downloadRecording.addEventListener(
         "a"
       );
 
-
     link.href =
-      recordedUrl;
-
+      recordedURL;
 
     link.download =
-      "UshaLiveAI-Class-" +
-      Date.now() +
-      ".webm";
-
+      `UshaLiveAI-${Date.now()}.webm`;
 
     document.body.appendChild(
       link
     );
 
-
     link.click();
 
     link.remove();
 
-
-    showToast(
-      "Download started."
+    setStatus(
+      "Recording download started.",
+      "success"
     );
 
   }
-);
 
 
-/* =========================================================
-   END STUDIO
-========================================================= */
+  downloadBtn.addEventListener(
+    "click",
+    downloadRecording
+  );
 
-endBtn.addEventListener(
-  "click",
-  () => {
 
-    if(isRecording){
+  modalDownload.addEventListener(
+    "click",
+    downloadRecording
+  );
 
-      const ok =
-        confirm(
-          "Recording চলছে। Studio বন্ধ করবেন?"
-        );
 
-      if(!ok)
+  /* ========================================================
+     FULLSCREEN
+  ======================================================== */
+
+  fullscreenBtn.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        if (
+          !document.fullscreenElement
+        ) {
+
+          await studio.requestFullscreen();
+
+        } else {
+
+          await document.exitFullscreen();
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     END STUDIO
+  ======================================================== */
+
+  endBtn.addEventListener(
+    "click",
+    () => {
+
+      if (isRecording) {
+
+        const shouldStop =
+          confirm(
+            "Recording is active. Stop the recording and end the studio?"
+          );
+
+        if (!shouldStop) {
+          return;
+        }
+
+        stopRecording();
+
+      }
+
+
+      if (cameraStream) {
+
+        cameraStream
+          .getTracks()
+          .forEach(
+            track => {
+              track.stop();
+            }
+          );
+
+        cameraStream = null;
+
+      }
+
+
+      if (micStream) {
+
+        micStream
+          .getTracks()
+          .forEach(
+            track => {
+              track.stop();
+            }
+          );
+
+        micStream = null;
+
+      }
+
+
+      cameraEnabled = false;
+
+      micEnabled = false;
+
+      cameraBtn.classList.remove(
+        "active"
+      );
+
+      micBtn.classList.remove(
+        "active"
+      );
+
+
+      mainVideo.pause();
+
+      mainVideo.removeAttribute(
+        "src"
+      );
+
+      mainVideo.load();
+
+      stageEmpty.style.display =
+        "flex";
+
+      className.textContent =
+        "New Class";
+
+      liveText.textContent =
+        "READY";
+
+      clearTeleprompter();
+
+      setStatus(
+        "Studio ended. Ready for a new class."
+      );
+
+    }
+  );
+
+
+  /* ========================================================
+     KEYBOARD SHORTCUTS
+  ======================================================== */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      const tag =
+        event.target?.tagName;
+
+      if (
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT"
+      ) {
+
         return;
 
-      stopRecording();
+      }
+
+
+      if (
+        event.key.toLowerCase() ===
+        "r"
+      ) {
+
+        recordBtn.click();
+
+      }
+
+
+      if (
+        event.code ===
+        "Space"
+      ) {
+
+        event.preventDefault();
+
+        if (isRecording) {
+          pauseBtn.click();
+        }
+
+      }
+
+
+      if (
+        event.key.toLowerCase() ===
+        "f"
+      ) {
+
+        fullscreenBtn.click();
+
+      }
 
     }
-
-
-    stopCamera();
-    stopMic();
-    stopScreen();
-
-
-    window.location.href =
-      "../dashboard/";
-
-  }
-);
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-logoutBtn.addEventListener(
-  "click",
-  async () => {
-
-    if(isRecording){
-
-      const ok =
-        confirm(
-          "Recording চলছে। Logout করবেন?"
-        );
-
-      if(!ok)
-        return;
-
-      stopRecording();
-
-    }
-
-
-    try{
-
-      const firebase =
-        await import(
-          "../firebase.js"
-        );
-
-
-      const authModule =
-        await import(
-          "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js"
-        );
-
-
-      await authModule.signOut(
-        firebase.auth
-      );
-
-    }catch(error){
-
-      console.warn(
-        error
-      );
-
-    }
-
-
-    window.location.href =
-      "../login/";
-
-  }
-);
-
-
-/* =========================================================
-   DRAG SYSTEM
-   Mouse + Touch
-========================================================= */
-
-function makeDraggable(
-  element,
-  container
-){
-
-  let dragging =
-    false;
-
-  let startX = 0;
-  let startY = 0;
-
-  let startLeft = 0;
-  let startTop = 0;
-
-
-  function pointerDown(event){
-
-    dragging =
-      true;
-
-
-    element.setPointerCapture?.(
-      event.pointerId
-    );
-
-
-    const rect =
-      element.getBoundingClientRect();
-
-
-    const parentRect =
-      container.getBoundingClientRect();
-
-
-    startX =
-      event.clientX;
-
-    startY =
-      event.clientY;
-
-
-    startLeft =
-      rect.left -
-      parentRect.left;
-
-
-    startTop =
-      rect.top -
-      parentRect.top;
-
-
-    element.style.right =
-      "auto";
-
-    element.style.bottom =
-      "auto";
-
-  }
-
-
-  function pointerMove(event){
-
-    if(!dragging)
-      return;
-
-
-    const parentRect =
-      container.getBoundingClientRect();
-
-
-    let newLeft =
-      startLeft +
-      (
-        event.clientX -
-        startX
-      );
-
-
-    let newTop =
-      startTop +
-      (
-        event.clientY -
-        startY
-      );
-
-
-    const maxLeft =
-      parentRect.width -
-      element.offsetWidth;
-
-
-    const maxTop =
-      parentRect.height -
-      element.offsetHeight;
-
-
-    newLeft =
-      Math.max(
-        0,
-        Math.min(
-          newLeft,
-          maxLeft
-        )
-      );
-
-
-    newTop =
-      Math.max(
-        0,
-        Math.min(
-          newTop,
-          maxTop
-        )
-      );
-
-
-    element.style.left =
-      newLeft + "px";
-
-
-    element.style.top =
-      newTop + "px";
-
-  }
-
-
-  function pointerUp(){
-
-    dragging =
-      false;
-
-  }
-
-
-  element.addEventListener(
-    "pointerdown",
-    pointerDown
   );
 
 
-  element.addEventListener(
-    "pointermove",
-    pointerMove
+  /* ========================================================
+     INITIAL STATE
+  ======================================================== */
+
+  teleprompter.style.display =
+    "flex";
+
+  teleBtn.classList.add(
+    "active"
   );
 
-
-  element.addEventListener(
-    "pointerup",
-    pointerUp
+  setStatus(
+    "Load a Main Video. Then click Voice Text to extract its voice into the Teleprompter."
   );
-
-
-  element.addEventListener(
-    "pointercancel",
-    pointerUp
-  );
-
-}
-
-
-/* =========================================================
-   ENABLE DRAG
-========================================================= */
-
-makeDraggable(
-  mentorPip,
-  stage
-);
-
-
-makeDraggable(
-  stageBrand,
-  stage
-);
-
-
-/* =========================================================
-   DEMO STUDENTS
-========================================================= */
-
-const demoStudents = [
-  "Student One",
-  "Student Two",
-  "Student Three"
-];
-
-
-const studentsList =
-  $("studentsList");
-
-
-demoStudents.forEach(
-  name => {
-
-    const item =
-      document.createElement(
-        "div"
-      );
-
-
-    item.className =
-      "student";
-
-
-    item.innerHTML = `
-      <div class="avatar">
-        👤
-      </div>
-
-      <div class="student-info">
-        <strong>${name}</strong>
-        <span>Online</span>
-      </div>
-
-      <span class="online-dot"></span>
-    `;
-
-
-    studentsList.appendChild(
-      item
-    );
-
-  }
-);
-
-
-$("studentCount").textContent =
-  demoStudents.length;
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    const tag =
-      event.target?.tagName;
-
-
-    if(
-      tag === "INPUT" ||
-      tag === "TEXTAREA"
-    ){
-
-      return;
-
-    }
-
-
-    if(
-      event.key.toLowerCase() ===
-      "r"
-    ){
-
-      recordBtn.click();
-
-    }
-
-
-    if(
-      event.key.toLowerCase() ===
-      "m"
-    ){
-
-      micBtn.click();
-
-    }
-
-
-    if(
-      event.key.toLowerCase() ===
-      "c"
-    ){
-
-      cameraBtn.click();
-
-    }
-
-
-    if(
-      event.key.toLowerCase() ===
-      "s"
-    ){
-
-      shareBtn.click();
-
-    }
-
-
-    if(
-      event.key.toLowerCase() ===
-      "f"
-    ){
-
-      fullscreenBtn.click();
-
-    }
-
-
-    if(
-      event.code ===
-      "Space"
-    ){
-
-      event.preventDefault();
-
-      pauseBtn.click();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   INITIAL
-========================================================= */
-
-showToast(
-  "Mentor Studio ready."
-);
-
-console.log(
-  "UshaLiveAI Mentor Studio ready."
-);
-
-})();
 
 </script>
 
