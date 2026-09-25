@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#06070a"
+  >
+
+  <title>Login — USHA Live</title>
+
+  <style>
+
+    /* =========================================================
+       USHA LIVE
+       STEP 2 — LOGIN PAGE
+       ========================================================= */
+
+    :root {
+      --bg: #06070a;
+      --card: rgba(255,255,255,0.055);
+      --card-strong: rgba(255,255,255,0.075);
+
+      --text: #ffffff;
+      --muted: #9297a4;
+
+      --border: rgba(255,255,255,0.10);
+
+      --purple: #8b5cf6;
+      --purple-light: #c4b5fd;
+      --blue: #3b82f6;
+
+      --danger: #fb7185;
+      --success: #4ade80;
+    }
+
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 15% 15%,
+          rgba(139,92,246,0.18),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 85% 25%,
+          rgba(59,130,246,0.13),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 50% 100%,
+          rgba(139,92,246,0.08),
+          transparent 30%
+        ),
+        var(--bg);
+
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    /* =========================================================
+       BACKGROUND
+       ========================================================= */
+
+    .background {
+      position: fixed;
+      inset: 0;
+
+      overflow: hidden;
+
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+
+      width: 400px;
+      height: 400px;
+
+      border-radius: 50%;
+
+      filter: blur(110px);
+
+      opacity: 0.11;
+    }
+
+    .orb-one {
+      top: -180px;
+      left: -130px;
+
+      background: #8b5cf6;
+    }
+
+    .orb-two {
+      top: 220px;
+      right: -180px;
+
+      background: #2563eb;
+    }
+
+    .orb-three {
+      bottom: -250px;
+      left: 35%;
+
+      background: #7c3aed;
+    }
+
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    .page {
+      min-height: 100vh;
+
+      width: min(
+        1180px,
+        calc(100% - 40px)
+      );
+
+      margin: auto;
+
+      padding:
+        35px 0;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* =========================================================
+       TOP BAR
+       ========================================================= */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+
+    /* =========================================================
+       BRAND
+       ========================================================= */
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #8b5cf6,
+          #6366f1,
+          #3b82f6
+        );
+
+      box-shadow:
+        0 12px 35px rgba(99,102,241,0.30);
+    }
+
+    .brand-icon span {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 850;
+
+      letter-spacing: -0.5px;
+    }
+
+    .brand-name span {
+      color: #a78bfa;
+    }
+
+
+    /* =========================================================
+       HOME BUTTON
+       ========================================================= */
+
+    .home-button {
+      min-height: 41px;
+
+      padding: 0 15px;
+
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      border:
+        1px solid rgba(255,255,255,0.10);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.045);
+
+      color: #c4c7d0;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition: 0.2s ease;
+    }
+
+    .home-button:hover {
+      color: white;
+
+      background:
+        rgba(255,255,255,0.08);
+
+      border-color:
+        rgba(255,255,255,0.18);
+    }
+
+
+    /* =========================================================
+       LOGIN AREA
+       ========================================================= */
+
+    .login-area {
+      flex: 1;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 0.85fr)
+        minmax(380px, 0.75fr);
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 90px;
+
+      padding:
+        55px 0;
+    }
+
+
+    /* =========================================================
+       LEFT SIDE
+       ========================================================= */
+
+    .intro {
+      max-width: 520px;
+    }
+
+    .intro-label {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 7px 11px;
+
+      margin-bottom: 20px;
+
+      border:
+        1px solid rgba(139,92,246,0.18);
+
+      border-radius: 999px;
+
+      background:
+        rgba(139,92,246,0.08);
+
+      color: #c4b5fd;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: 0.4px;
+    }
+
+    .intro-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: #22c55e;
+
+      box-shadow:
+        0 0 10px rgba(34,197,94,0.7);
+    }
+
+    .intro h1 {
+      font-size:
+        clamp(
+          43px,
+          5vw,
+          66px
+        );
+
+      line-height: 1;
+
+      letter-spacing: -4px;
+
+      margin-bottom: 22px;
+    }
+
+    .gradient {
+      background:
+        linear-gradient(
+          100deg,
+          #ffffff,
+          #c4b5fd,
+          #8b5cf6,
+          #60a5fa
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .intro p {
+      color: var(--muted);
+
+      font-size: 15px;
+      line-height: 1.8;
+
+      max-width: 500px;
+    }
+
+
+    /* =========================================================
+       FEATURE MINI LIST
+       ========================================================= */
+
+    .mini-features {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 11px;
+
+      margin-top: 30px;
+    }
+
+    .mini-feature {
+      padding: 14px;
+
+      border:
+        1px solid rgba(255,255,255,0.07);
+
+      border-radius: 15px;
+
+      background:
+        rgba(255,255,255,0.035);
+    }
+
+    .mini-icon {
+      width: 31px;
+      height: 31px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 9px;
+
+      border-radius: 9px;
+
+      background:
+        rgba(139,92,246,0.11);
+
+      font-size: 13px;
+    }
+
+    .mini-feature strong {
+      display: block;
+
+      color: #e5e7eb;
+
+      font-size: 11px;
+
+      margin-bottom: 3px;
+    }
+
+    .mini-feature span {
+      color: #747a86;
+
+      font-size: 9px;
+    }
+
+
+    /* =========================================================
+       LOGIN CARD
+       ========================================================= */
+
+    .login-card {
+      width: 100%;
+
+      padding: 30px;
+
+      border:
+        1px solid rgba(255,255,255,0.11);
+
+      border-radius: 25px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.075),
+          rgba(255,255,255,0.035)
+        );
+
+      box-shadow:
+        0 35px 90px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+
+    /* =========================================================
+       LOGIN HEADER
+       ========================================================= */
+
+    .login-heading {
+      margin-bottom: 25px;
+    }
+
+    .login-heading h2 {
+      font-size: 25px;
+
+      letter-spacing: -1px;
+
+      margin-bottom: 7px;
+    }
+
+    .login-heading p {
+      color: #858b97;
+
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+
+    /* =========================================================
+       ROLE SELECTOR
+       ========================================================= */
+
+    .role-label {
+      display: block;
+
+      color: #b5bac5;
+
+      font-size: 10px;
+      font-weight: 750;
+
+      margin-bottom: 9px;
+    }
+
+    .role-selector {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 9px;
+
+      margin-bottom: 22px;
+    }
+
+    .role-button {
+      min-height: 66px;
+
+      padding: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      gap: 10px;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,0.035);
+
+      color: #8e94a0;
+
+      cursor: pointer;
+
+      text-align: left;
+
+      transition: 0.2s ease;
+    }
+
+    .role-button:hover {
+      background:
+        rgba(255,255,255,0.06);
+
+      color: #dfe2e8;
+    }
+
+    .role-button.active {
+      border-color:
+        rgba(139,92,246,0.45);
+
+      background:
+        rgba(139,92,246,0.10);
+
+      color: white;
+
+      box-shadow:
+        inset 0 0 0 1px rgba(139,92,246,0.05);
+    }
+
+    .role-icon {
+      width: 35px;
+      height: 35px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,0.055);
+
+      font-size: 15px;
+    }
+
+    .role-button.active .role-icon {
+      background:
+        rgba(139,92,246,0.18);
+    }
+
+    .role-text strong {
+      display: block;
+
+      font-size: 11px;
+
+      margin-bottom: 3px;
+    }
+
+    .role-text span {
+      display: block;
+
+      color: #737986;
+
+      font-size: 8px;
+    }
+
+    .role-button.active .role-text span {
+      color: #a9a0c9;
+    }
+
+
+    /* =========================================================
+       FORM
+       ========================================================= */
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-label {
+      display: block;
+
+      color: #b5bac5;
+
+      font-size: 10px;
+      font-weight: 750;
+
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+
+      top: 50%;
+      left: 14px;
+
+      transform:
+        translateY(-50%);
+
+      color: #686e7a;
+
+      font-size: 13px;
+
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+
+      min-height: 48px;
+
+      padding:
+        0 14px 0 40px;
+
+      border:
+        1px solid rgba(255,255,255,0.09);
+
+      border-radius: 12px;
+
+      outline: none;
+
+      background:
+        rgba(0,0,0,0.18);
+
+      color: white;
+
+      font-size: 12px;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .form-input::placeholder {
+      color: #555b67;
+    }
+
+    .form-input:focus {
+      border-color:
+        rgba(139,92,246,0.55);
+
+      background:
+        rgba(0,0,0,0.25);
+
+      box-shadow:
+        0 0 0 3px rgba(139,92,246,0.08);
+    }
+
+
+    /* =========================================================
+       PASSWORD TOGGLE
+       ========================================================= */
+
+    .password-toggle {
+      position: absolute;
+
+      top: 50%;
+      right: 10px;
+
+      width: 34px;
+      height: 34px;
+
+      transform:
+        translateY(-50%);
+
+      display: grid;
+      place-items: center;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background:
+        transparent;
+
+      color: #686e7a;
+
+      cursor: pointer;
+    }
+
+    .password-toggle:hover {
+      color: #c4c7d0;
+
+      background:
+        rgba(255,255,255,0.05);
+    }
+
+
+    /* =========================================================
+       FORM OPTIONS
+       ========================================================= */
+
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin:
+        2px 0 20px;
+    }
+
+    .remember {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
+      color: #737986;
+
+      font-size: 9px;
+
+      cursor: pointer;
+    }
+
+    .remember input {
+      accent-color: var(--purple);
+    }
+
+    .forgot {
+      color: #a78bfa;
+
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .forgot:hover {
+      color: #c4b5fd;
+    }
+
+
+    /* =========================================================
+       LOGIN BUTTON
+       ========================================================= */
+
+    .submit-button {
+      width: 100%;
+
+      min-height: 49px;
+
+      border: 0;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #8b5cf6,
+          #6366f1
+        );
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      box-shadow:
+        0 14px 34px rgba(99,102,241,0.22);
+
+      transition: 0.25s ease;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 18px 40px rgba(99,102,241,0.32);
+    }
+
+    .submit-button:active {
+      transform: translateY(0);
+    }
+
+    .submit-button.loading {
+      opacity: 0.7;
+
+      cursor: wait;
+    }
+
+
+    /* =========================================================
+       STATUS MESSAGE
+       ========================================================= */
+
+    .status-message {
+      display: none;
+
+      padding: 11px 12px;
+
+      margin-top: 13px;
+
+      border-radius: 10px;
+
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    .status-message.show {
+      display: block;
+    }
+
+    .status-message.error {
+      border:
+        1px solid rgba(251,113,133,0.18);
+
+      background:
+        rgba(251,113,133,0.07);
+
+      color: #fda4af;
+    }
+
+    .status-message.success {
+      border:
+        1px solid rgba(74,222,128,0.18);
+
+      background:
+        rgba(74,222,128,0.07);
+
+      color: #86efac;
+    }
+
+
+    /* =========================================================
+       SECURITY NOTE
+       ========================================================= */
+
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 6px;
+
+      margin-top: 18px;
+
+      color: #626874;
+
+      font-size: 8px;
+    }
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .footer {
+      text-align: center;
+
+      padding-top: 15px;
+
+      color: #565c67;
+
+      font-size: 9px;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 900px) {
+
+      .login-area {
+        grid-template-columns: 1fr;
+
+        max-width: 600px;
+
+        margin: auto;
+
+        gap: 45px;
+
+        padding-top: 65px;
+      }
+
+      .intro {
+        text-align: center;
+
+        max-width: 600px;
+      }
+
+      .intro p {
+        margin: auto;
+      }
+
+      .mini-features {
+        max-width: 500px;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        text-align: left;
+      }
+
+      .login-card {
+        max-width: 520px;
+
+        margin: auto;
+      }
+    }
+
+
+    @media (max-width: 600px) {
+
+      .page {
+        width:
+          min(
+            100% - 24px,
+            1180px
+          );
+
+        padding-top: 18px;
+      }
+
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+
+        border-radius: 12px;
+      }
+
+      .brand-name {
+        font-size: 17px;
+      }
+
+      .home-button {
+        padding: 0 12px;
+
+        font-size: 10px;
+      }
+
+      .login-area {
+        padding:
+          50px 0 35px;
+
+        gap: 35px;
+      }
+
+      .intro h1 {
+        font-size:
+          clamp(
+            42px,
+            13vw,
+            58px
+          );
+
+        letter-spacing: -3px;
+      }
+
+      .intro p {
+        font-size: 13px;
+      }
+
+      .mini-features {
+        grid-template-columns: 1fr;
+      }
+
+      .login-card {
+        padding: 22px;
+
+        border-radius: 21px;
+      }
+
+      .role-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .role-button {
+        min-height: 61px;
+      }
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before {
+        transition: none !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =======================================================
+       BACKGROUND
+       ======================================================= -->
+
+  <div class="background" aria-hidden="true">
+
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+
+  </div>
+
+
+  <!-- =======================================================
+       PAGE
+       ======================================================= -->
+
+  <div class="page">
+
+
+    <!-- =====================================================
+         TOP BAR
+         ===================================================== -->
+
+    <div class="topbar">
+
+
+      <a
+        href="../"
+        class="brand"
+        aria-label="USHA Live Home"
+      >
+
+        <div class="brand-icon">
+          <span>U</span>
+        </div>
+
+        <div class="brand-name">
+          USHA<span>Live</span>
+        </div>
+
+      </a>
+
+
+      <a
+        href="../"
+        class="home-button"
+      >
+
+        <span>←</span>
+
+        Back to Home
+
+      </a>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGIN AREA
+         ===================================================== -->
+
+    <main class="login-area">
+
+
+      <!-- ===================================================
+           INTRO
+           =================================================== -->
+
+      <section class="intro">
+
+
+        <div class="intro-label">
+
+          <span class="intro-dot"></span>
+
+          Secure USHA Live Access
+
+        </div>
+
+
+        <h1>
+
+          Welcome
+
+          <br>
+
+          <span class="gradient">
+            Back.
+          </span>
+
+        </h1>
+
+
+        <p>
+
+          Sign in to access your USHA Live workspace.
+          Choose your role and continue to your
+          personal learning environment.
+
+        </p>
+
+
+        <div class="mini-features">
+
+
+          <div class="mini-feature">
+
+            <div class="mini-icon">
+              🤖
+            </div>
+
+            <strong>
+              USHA AI
+            </strong>
+
+            <span>
+              AI-powered support
+            </span>
+
+          </div>
+
+
+          <div class="mini-feature">
+
+            <div class="mini-icon">
+              🎥
+            </div>
+
+            <strong>
+              Live Studio
+            </strong>
+
+            <span>
+              Classes & recording
+            </span>
+
+          </div>
+
+
+          <div class="mini-feature">
+
+            <div class="mini-icon">
+              📚
+            </div>
+
+            <strong>
+              Learning
+            </strong>
+
+            <span>
+              Organized courses
+            </span>
+
+          </div>
+
+
+          <div class="mini-feature">
+
+            <div class="mini-icon">
+              🔐
+            </div>
+
+            <strong>
+              Secure
+            </strong>
+
+            <span>
+              Protected workspace
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+      <!-- ===================================================
+           LOGIN CARD
+           =================================================== -->
+
+      <section class="login-card">
+
+
+        <div class="login-heading">
+
+          <h2>
+            Sign in
+          </h2>
+
+          <p>
+            Select your role and enter your account details.
+          </p>
+
+        </div>
+
+
+        <!-- ROLE -->
+
+        <label class="role-label">
+          Select account type
+        </label>
+
+
+        <div class="role-selector">
+
+
+          <button
+            type="button"
+            class="role-button active"
+            data-role="mentor"
+          >
+
+            <div class="role-icon">
+              👩‍🏫
+            </div>
+
+            <div class="role-text">
+
+              <strong>
+                Mentor
+              </strong>
+
+              <span>
+                Teaching workspace
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="role-button"
+            data-role="admin"
+          >
+
+            <div class="role-icon">
+              👨‍💼
+            </div>
+
+            <div class="role-text">
+
+              <strong>
+                Admin
+              </strong>
+
+              <span>
+                Management panel
+              </span>
+
+            </div>
+
+          </button>
+
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+          id="loginForm"
+          novalidate
+        >
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label
+              class="form-label"
+              for="email"
+            >
+              Email address
+            </label>
+
+
+            <div class="input-wrap">
+
+              <span class="input-icon">
+                ✉
+              </span>
+
+              <input
+                id="email"
+                class="form-input"
+                type="email"
+                autocomplete="email"
+                placeholder="Enter your email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-group">
+
+            <label
+              class="form-label"
+              for="password"
+            >
+              Password
+            </label>
+
+
+            <div class="input-wrap">
+
+              <span class="input-icon">
+                🔒
+              </span>
+
+
+              <input
+                id="password"
+                class="form-input"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                required
+              >
+
+
+              <button
+                type="button"
+                class="password-toggle"
+                id="passwordToggle"
+                aria-label="Show password"
+              >
+                ◉
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- OPTIONS -->
+
+          <div class="form-options">
+
+
+            <label class="remember">
+
+              <input
+                type="checkbox"
+                id="remember"
+              >
+
+              Remember me
+
+            </label>
+
+
+            <a
+              href="#"
+              class="forgot"
+              id="forgotPassword"
+            >
+              Forgot password?
+            </a>
+
+
+          </div>
+
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="loginButton"
+          >
+
+            Continue to USHA Live
+
+          </button>
+
+
+          <!-- STATUS -->
+
+          <div
+            class="status-message"
+            id="statusMessage"
+            aria-live="polite"
+          ></div>
+
+
+        </form>
+
+
+        <!-- SECURITY -->
+
+        <div class="security-note">
+
+          <span>🔒</span>
+
+          Protected USHA Live workspace
+
+        </div>
+
+
+      </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <div class="footer">
+
+      © 2026 USHA Live ·
+      Learn. Create. Connect.
+
+    </div>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const roleButtons =
+      document.querySelectorAll(".role-button");
+
+    const emailInput =
+      document.getElementById("email");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const passwordToggle =
+      document.getElementById("passwordToggle");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const statusMessage =
+      document.getElementById("statusMessage");
+
+    const forgotPassword =
+      document.getElementById("forgotPassword");
+
+
+    let selectedRole = "mentor";
+
+
+    /* =========================================================
+       ROLE SELECTION
+       IMPORTANT:
+       Email field NEVER changes automatically.
+       ========================================================= */
+
+    roleButtons.forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          roleButtons.forEach(function(item) {
+
+            item.classList.remove("active");
+
+          });
+
+
+          button.classList.add("active");
+
+
+          selectedRole =
+            button.dataset.role || "mentor";
+
+
+          showStatus("", "");
+
+        }
+      );
+
+    });
+
+
+    /* =========================================================
+       PASSWORD SHOW / HIDE
+       ========================================================= */
+
+    passwordToggle.addEventListener(
+      "click",
+      function() {
+
+        const isPassword =
+          passwordInput.type === "password";
+
+
+        passwordInput.type =
+          isPassword
+            ? "text"
+            : "password";
+
+
+        passwordToggle.textContent =
+          isPassword
+            ? "◉"
+            : "◉";
+
+
+        passwordToggle.setAttribute(
+          "aria-label",
+          isPassword
+            ? "Hide password"
+            : "Show password"
+        );
+
+      }
+    );
+
+
+    /* =========================================================
+       STATUS
+       ========================================================= */
+
+    function showStatus(message, type) {
+
+      statusMessage.textContent =
+        message || "";
+
+      statusMessage.className =
+        "status-message";
+
+
+      if (!message) {
+        return;
+      }
+
+
+      statusMessage.classList.add("show");
+
+
+      if (type) {
+        statusMessage.classList.add(type);
+      }
+
+    }
+
+
+    /* =========================================================
+       LOGIN FORM
+       ========================================================= */
+
+    loginForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          emailInput.value.trim();
+
+        const password =
+          passwordInput.value;
+
+
+        showStatus("", "");
+
+
+        /* EMAIL */
+
+        if (!email) {
+
+          showStatus(
+            "Please enter your email address.",
+            "error"
+          );
+
+          emailInput.focus();
+
+          return;
+        }
+
+
+        /* EMAIL FORMAT */
+
+        if (!email.includes("@")) {
+
+          showStatus(
+            "Please enter a valid email address.",
+            "error"
+          );
+
+          emailInput.focus();
+
+          return;
+        }
+
+
+        /* PASSWORD */
+
+        if (!password) {
+
+          showStatus(
+            "Please enter your password.",
+            "error"
+          );
+
+          passwordInput.focus();
+
+          return;
+        }
+
+
+        /*
+          Firebase authentication will be connected
+          in the next step.
+        */
+
+        loginButton.classList.add("loading");
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+          "Checking account...";
+
+
+        setTimeout(function() {
+
+          loginButton.classList.remove("loading");
+
+          loginButton.disabled = false;
+
+          loginButton.textContent =
+            "Continue to USHA Live";
+
+
+          showStatus(
+            "Login system will be connected in the next step.",
+            "success"
+          );
+
+        }, 700);
+
+      }
+    );
+
+
+    /* =========================================================
+       FORGOT PASSWORD
+       ========================================================= */
+
+    forgotPassword.addEventListener(
+      "click",
+      function(event) {
+
+        event.preventDefault();
+
+
+        showStatus(
+          "Password recovery will be connected with Firebase.",
+          "success"
+        );
+
+      }
+    );
+
+  </script>
+
+
+</body>
+</html>
